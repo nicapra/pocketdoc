@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PocketDoc — Nick's Health Resource</title>
+  <meta name="description" content="A curated, opinionated guide to functional medicine labs, supplements, and clean products. Made by Nick Capra for friends and family.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🩺</text></svg>">
+</head>
+<body>
+
+  <!-- ── Navigation ── -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="#home" class="nav-logo">Pocket<span>Doc</span></a>
+      <ul class="nav-links" role="list">
+        <li><a href="#start-here">Start Here</a></li>
+        <li><a href="#labs">Labs</a></li>
+        <li><a href="#supplements">Supplements</a></li>
+        <li><a href="#recs">Product Recs</a></li>
+        <li><a href="#where-to-buy">Where to Buy</a></li>
+        <li><a href="#lab-interpreter">Lab Interpreter</a></li>
+      </ul>
+      <button class="nav-hamburger" aria-label="Open menu" aria-expanded="false" id="hamburger">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div class="nav-mobile" id="mobileMenu" role="dialog" aria-label="Navigation menu">
+    <a href="#start-here" class="mobile-nav-link">Start Here</a>
+    <a href="#labs" class="mobile-nav-link">Labs</a>
+    <a href="#supplements" class="mobile-nav-link">Supplements</a>
+    <a href="#recs" class="mobile-nav-link">Product Recs</a>
+    <a href="#where-to-buy" class="mobile-nav-link">Where to Buy</a>
+    <a href="#lab-interpreter" class="mobile-nav-link">Lab Interpreter</a>
+  </div>
+
+  <main>
+
+    <!-- ── Hero ── -->
+    <section class="hero" id="home">
+      <div class="container">
+        <span class="hero-eyebrow">A personal health resource</span>
+        <h1>Everything I tell my friends,<br>in one place.</h1>
+        <p class="hero-sub">I'm not a doctor. But I research obsessively, bring findings to my own physician, and people keep asking me what I know. This is that conversation — organized.</p>
+        <div class="hero-actions">
+          <a href="#start-here" class="btn btn-primary">Start Here</a>
+          <a href="#labs" class="btn btn-secondary">View Lab Panels</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Start Here ── -->
+    <section id="start-here">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Start Here</span>
+          <h2>Who made this and why</h2>
+        </div>
+
+        <div class="disclaimer">
+          <strong>Not medical advice.</strong> I'm not a doctor or licensed healthcare provider. Nothing on this site is a substitute for working with a qualified physician. Use this as a starting point for conversations with your own doctor — not a replacement for one.
+        </div>
+
+        <p style="font-size: 17px; line-height: 1.8; margin-bottom: 20px; color: var(--text-secondary);">
+          <em>[Start Here copy — write this last. Direct, warm, first-person. The "knowledgeable friend" framing.]</em>
+        </p>
+
+        <p style="font-size: 17px; line-height: 1.8; margin-bottom: 32px; color: var(--text-secondary);">
+          <em>[How to navigate the site, what each section is for, how often it's updated.]</em>
+        </p>
+
+        <a href="#labs" class="btn btn-primary">Jump to Lab Panels →</a>
+      </div>
+    </section>
+
+    <!-- ── Labs ── -->
+    <section id="labs">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Labs</span>
+          <h2>What to get tested — and why</h2>
+          <p>These panels are designed through a functional medicine lens. They go beyond a standard annual physical. ICD-10 codes are included so you can give your doctor the exact list.</p>
+        </div>
+
+        <!-- ── MALE PANEL ACCORDION ── -->
+        <div class="lab-accordion" id="accordion-male">
+          <button class="accordion-trigger" data-panel="male" aria-expanded="false">
+            <div class="accordion-trigger-left">
+              <span class="accordion-icon">♂</span>
+              <div>
+                <div class="accordion-title">Male Panel</div>
+                <div class="accordion-subtitle">24 labs · Two fasting draws · Via Labcorp</div>
+              </div>
+            </div>
+            <span class="accordion-chevron">▼</span>
+          </button>
+
+          <div class="accordion-body" id="body-male" hidden>
+
+            <!-- View toggle -->
+            <div class="labs-view-bar">
+              <div class="view-toggle">
+                <span class="view-toggle-label">View:</span>
+                <div class="toggle-btn-group" role="group">
+                  <button class="toggle-btn active" data-target="male" data-view="full">Full Guide</button>
+                  <button class="toggle-btn" data-target="male" data-view="doctor">For Your Doctor</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Full Guide -->
+            <div class="labs-full-view" id="male-full">
+              <p class="labs-context-note">Ask for labs to check that everything is <em>optimal</em>, not just normal — that word matters. Day 1 requires a 12-hour fast. Day 2 does not. Hydrate well.</p>
+
+              <div class="day-group">
+                <div class="day-label">Day 1 — Fasting</div>
+                <div class="labs-table-wrap">
+                  <table class="labs-table">
+                    <thead><tr><th>#</th><th>Lab</th><th>Code</th><th>Why it matters</th></tr></thead>
+                    <tbody>
+                      <tr><td>1</td><td>Comprehensive Metabolic Panel (CMP)</td><td>322000</td><td>Screens kidney function, liver enzymes, electrolytes, and blood sugar in one draw. Your metabolic foundation.</td></tr>
+                      <tr><td>2</td><td>CBC with Differential</td><td>005009</td><td>Checks red and white blood cells and platelets. Flags anemia, infection, and immune abnormalities.</td></tr>
+                      <tr><td>3</td><td>Urinalysis, Complete with Microscopic</td><td>003772</td><td>Kidney and bladder health, plus early metabolic issues that show up in urine before blood markers shift.</td></tr>
+                      <tr><td>4</td><td>NMR LipoProfile with Lipids</td><td>884247</td><td>Goes beyond total cholesterol to measure actual particle count and size — a far better cardiovascular risk predictor.</td></tr>
+                      <tr><td>5</td><td>Apolipoprotein B</td><td>167015</td><td>The most accurate single marker for cardiovascular risk. Each ApoB particle can deposit in artery walls.</td></tr>
+                      <tr><td>6</td><td>Lipoprotein(a)</td><td>120188</td><td>A genetically determined cardiovascular risk factor. Only need to measure it once — it rarely changes.</td></tr>
+                      <tr><td>7</td><td>Hemoglobin A1c</td><td>001453</td><td>Your 3-month average blood sugar. More reliable than a fasting glucose snapshot.</td></tr>
+                      <tr><td>8</td><td>Insulin, Fasting</td><td>004333</td><td>Elevated fasting insulin is one of the earliest signs of metabolic dysfunction — often rises years before glucose does.</td></tr>
+                      <tr><td>9</td><td>C-Reactive Protein, Cardiac (hs-CRP)</td><td>120766</td><td>Measures systemic inflammation. Elevated levels predict cardiovascular events better than cholesterol alone.</td></tr>
+                      <tr><td>10</td><td>Iron and Total Iron Binding Capacity (TIBC)</td><td>001321</td><td>Iron deficiency is the most common nutrient deficiency worldwide. TIBC gives context to your iron level.</td></tr>
+                      <tr><td>11</td><td>Ferritin</td><td>004598</td><td>Your iron storage marker. Both very low and very high ferritin are problematic and often missed on standard panels.</td></tr>
+                      <tr><td>12</td><td>Phosphorus</td><td>001024</td><td>Involved in bone health, energy production, and kidney function. Often depleted in processed food-heavy diets.</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="day-group">
+                <div class="day-label">Day 2 — No fast required</div>
+                <div class="labs-table-wrap">
+                  <table class="labs-table">
+                    <thead><tr><th>#</th><th>Lab</th><th>Code</th><th>Why it matters</th></tr></thead>
+                    <tbody>
+                      <tr><td>13</td><td>Homocysteine</td><td>706994</td><td>Elevated levels indicate B-vitamin deficiency and raise risk for cardiovascular disease and cognitive decline.</td></tr>
+                      <tr><td>14</td><td>Thyroid Panel: TSH and Free T4</td><td>224576</td><td>Standard thyroid check. TSH alone misses a lot — Free T4 shows how much hormone is actually circulating.</td></tr>
+                      <tr><td>15</td><td>Free T3</td><td>010389</td><td>The active thyroid hormone your cells actually use. Often suboptimal even when TSH looks fine.</td></tr>
+                      <tr><td>16</td><td>Thyroid Peroxidase (TPO) Antibody</td><td>006676</td><td>Detects Hashimoto's thyroiditis, the most common cause of hypothyroidism — often missed for years.</td></tr>
+                      <tr><td>17</td><td>Thyroid Stimulating Immunoglobulin (TSI)</td><td>140747</td><td>Detects Graves' disease (autoimmune hyperthyroidism). Rules out the other side of the thyroid autoimmune spectrum.</td></tr>
+                      <tr><td>18</td><td>Testosterone, Free and Total</td><td>140103</td><td>Total testosterone is often normal while free testosterone is low. You need both to get the full picture.</td></tr>
+                      <tr><td>19</td><td>Follicle-Stimulating Hormone (FSH)</td><td>004309</td><td>In men, elevated FSH can indicate testicular dysfunction. Useful context alongside testosterone levels.</td></tr>
+                      <tr><td>20</td><td>Vitamin D, 25-Hydroxy</td><td>081950</td><td>Most people are deficient. Affects immune function, mood, bone health, testosterone production, and more.</td></tr>
+                      <tr><td>21</td><td>Vitamin B12 and Folate</td><td>000810</td><td>Essential for nerve function, DNA synthesis, and methylation. Deficiency is common and consistently underdiagnosed.</td></tr>
+                      <tr><td>22</td><td>Magnesium, RBC</td><td>080283</td><td>Serum magnesium is nearly useless — RBC magnesium shows what's actually inside your cells. Most people are low.</td></tr>
+                      <tr><td>23</td><td>OmegaCheck (Omega-3 and Omega-6 Profile)</td><td>823738</td><td>Measures your omega-3 index and omega-6/omega-3 ratio. Most people are severely omega-3 deficient.</td></tr>
+                      <tr><td>24</td><td>Gamma-Glutamyl Transferase (GGT)</td><td>001958</td><td>An early liver stress marker. Elevated GGT can precede other liver enzymes and correlates with oxidative stress.</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div><!-- /male-full -->
+
+            <!-- For Your Doctor -->
+            <div class="labs-doctor-view" id="male-doctor" hidden>
+              <div class="doctor-header">
+                <h3>Male Lab Panel — 24 Labs</h3>
+                <p>Show this to your doctor or print it out. ICD-10 codes help them order the correct tests through Labcorp.</p>
+              </div>
+              <div class="doctor-list">
+                <div class="doctor-list-item"><strong>1. Comprehensive Metabolic Panel (CMP)</strong><code>322000</code></div>
+                <div class="doctor-list-item"><strong>2. CBC with Differential</strong><code>005009</code></div>
+                <div class="doctor-list-item"><strong>3. Urinalysis, Complete with Microscopic</strong><code>003772</code></div>
+                <div class="doctor-list-item"><strong>4. NMR LipoProfile with Lipids</strong><code>884247</code></div>
+                <div class="doctor-list-item"><strong>5. Apolipoprotein B</strong><code>167015</code></div>
+                <div class="doctor-list-item"><strong>6. Lipoprotein(a)</strong><code>120188</code></div>
+                <div class="doctor-list-item"><strong>7. Hemoglobin A1c</strong><code>001453</code></div>
+                <div class="doctor-list-item"><strong>8. Insulin, Fasting</strong><code>004333</code></div>
+                <div class="doctor-list-item"><strong>9. C-Reactive Protein, Cardiac (hs-CRP)</strong><code>120766</code></div>
+                <div class="doctor-list-item"><strong>10. Iron and Total Iron Binding Capacity (TIBC)</strong><code>001321</code></div>
+                <div class="doctor-list-item"><strong>11. Ferritin</strong><code>004598</code></div>
+                <div class="doctor-list-item"><strong>12. Phosphorus</strong><code>001024</code></div>
+                <div class="doctor-list-item"><strong>13. Homocysteine</strong><code>706994</code></div>
+                <div class="doctor-list-item"><strong>14. Thyroid Panel: TSH and Free T4</strong><code>224576</code></div>
+                <div class="doctor-list-item"><strong>15. Free T3</strong><code>010389</code></div>
+                <div class="doctor-list-item"><strong>16. Thyroid Peroxidase (TPO) Antibody</strong><code>006676</code></div>
+                <div class="doctor-list-item"><strong>17. Thyroid Stimulating Immunoglobulin (TSI)</strong><code>140747</code></div>
+                <div class="doctor-list-item"><strong>18. Testosterone, Free and Total</strong><code>140103</code></div>
+                <div class="doctor-list-item"><strong>19. Follicle-Stimulating Hormone (FSH)</strong><code>004309</code></div>
+                <div class="doctor-list-item"><strong>20. Vitamin D, 25-Hydroxy</strong><code>081950</code></div>
+                <div class="doctor-list-item"><strong>21. Vitamin B12 and Folate</strong><code>000810</code></div>
+                <div class="doctor-list-item"><strong>22. Magnesium, RBC</strong><code>080283</code></div>
+                <div class="doctor-list-item"><strong>23. OmegaCheck (Omega-3 and Omega-6 Profile)</strong><code>823738</code></div>
+                <div class="doctor-list-item"><strong>24. Gamma-Glutamyl Transferase (GGT)</strong><code>001958</code></div>
+              </div>
+              <div class="print-btn-wrap">
+                <button class="btn btn-secondary btn-sm" onclick="window.print()">Print this list</button>
+              </div>
+            </div><!-- /male-doctor -->
+
+          </div><!-- /accordion-body male -->
+        </div><!-- /accordion male -->
+
+        <!-- ── FEMALE PANEL ACCORDION ── -->
+        <div class="lab-accordion" id="accordion-female" style="margin-top: 16px;">
+          <button class="accordion-trigger" data-panel="female" aria-expanded="false">
+            <div class="accordion-trigger-left">
+              <span class="accordion-icon">♀</span>
+              <div>
+                <div class="accordion-title">Female Panel</div>
+                <div class="accordion-subtitle">34 labs · Two fasting draws · Timed to your cycle</div>
+              </div>
+            </div>
+            <span class="accordion-chevron">▼</span>
+          </button>
+
+          <div class="accordion-body" id="body-female" hidden>
+
+            <!-- View toggle -->
+            <div class="labs-view-bar">
+              <div class="view-toggle">
+                <span class="view-toggle-label">View:</span>
+                <div class="toggle-btn-group" role="group">
+                  <button class="toggle-btn active" data-target="female" data-view="full">Full Guide</button>
+                  <button class="toggle-btn" data-target="female" data-view="doctor">For Your Doctor</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Full Guide -->
+            <div class="labs-full-view" id="female-full">
+              <p class="labs-context-note">Hormone levels shift throughout your cycle, so timing is key. <strong>Day 1 (Cycle Day 3):</strong> Book your draw on days 2, 3, or 4 of your cycle. <strong>Day 2 (Cycle Day 19–21):</strong> Count 7 days back from your expected next period — Day 21 for a 28-day cycle, Day 23 for a 30-day cycle. Fast 10–12 hours for both draws. Book the same cycle days each year for consistent comparisons.</p>
+
+              <div class="day-group">
+                <div class="day-label">Day 1 — Cycle Day 3 (Fasting)</div>
+                <div class="labs-table-wrap">
+                  <table class="labs-table">
+                    <thead><tr><th>#</th><th>Lab</th><th>Code</th><th>Why it matters</th></tr></thead>
+                    <tbody>
+                      <tr><td>1</td><td>Follicle-Stimulating Hormone (FSH)</td><td>004309</td><td>On cycle day 3, FSH reflects ovarian reserve. Rising FSH over time can indicate diminishing egg supply.</td></tr>
+                      <tr><td>2</td><td>Luteinizing Hormone (LH)</td><td>004283</td><td>The LH-to-FSH ratio on Day 3 gives important context for hormonal balance and PCOS risk assessment.</td></tr>
+                      <tr><td>3</td><td>Estradiol</td><td>004515</td><td>Baseline estradiol on Day 3 should be low. Elevated levels can suppress FSH and obscure ovarian reserve results.</td></tr>
+                      <tr><td>4</td><td>Anti-Mullerian Hormone (AMH)</td><td>500183</td><td>The best single marker for ovarian reserve. Stable across the cycle — gives a clear picture of remaining egg supply.</td></tr>
+                      <tr><td>5</td><td>Testosterone, Total (Women/Children, LC/MS-MS)</td><td>070001</td><td>Low testosterone in women causes low libido, fatigue, and poor muscle recovery. Frequently overlooked.</td></tr>
+                      <tr><td>6</td><td>Sex Hormone-Binding Globulin (SHBG)</td><td>500848</td><td>High SHBG binds free testosterone and estrogen, leaving less bioavailable for your cells to use.</td></tr>
+                      <tr><td>7</td><td>DHEA-Sulfate</td><td>004020</td><td>An adrenal hormone and testosterone precursor. Low levels correlate with fatigue, low libido, and poor stress response.</td></tr>
+                      <tr><td>8</td><td>Prolactin</td><td>004465</td><td>Elevated prolactin can suppress ovulation. A common hidden cause of irregular cycles and fertility issues.</td></tr>
+                      <tr><td>9</td><td>Insulin, Fasting</td><td>004333</td><td>Elevated fasting insulin is one of the earliest signs of metabolic dysfunction — often rises years before glucose.</td></tr>
+                      <tr><td>10</td><td>Hemoglobin A1c</td><td>001453</td><td>Your 3-month average blood sugar. More reliable than a fasting glucose snapshot for tracking metabolic health.</td></tr>
+                      <tr><td>11</td><td>Thyroid Panel: TSH and Free T4</td><td>224576</td><td>Standard thyroid check. TSH alone misses a lot — Free T4 shows how much hormone is actually circulating.</td></tr>
+                      <tr><td>12</td><td>Free T3</td><td>010389</td><td>The active thyroid hormone your cells actually use. Often suboptimal even when TSH looks fine.</td></tr>
+                      <tr><td>13</td><td>Thyroid Peroxidase (TPO) Antibody</td><td>006676</td><td>Detects Hashimoto's thyroiditis — the most common thyroid condition in women. Often undiagnosed for years.</td></tr>
+                      <tr><td>14</td><td>Thyroid Stimulating Immunoglobulin (TSI)</td><td>140747</td><td>Detects Graves' disease (autoimmune hyperthyroidism). Rules out the other side of the thyroid autoimmune spectrum.</td></tr>
+                      <tr><td>15</td><td>Thyroglobulin Antibody (TgAb)</td><td>006685</td><td>A second thyroid autoimmune marker. Some people make TgAb but not TPO antibodies — you need both to catch all cases.</td></tr>
+                      <tr><td>16</td><td>17-OH Progesterone, LC/MS</td><td>070085</td><td>Screens for congenital adrenal hyperplasia, a common cause of androgen excess and irregular cycles often missed on standard panels.</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="day-group">
+                <div class="day-label">Day 2 — Cycle Day 19–21 (Fasting)</div>
+                <div class="labs-table-wrap">
+                  <table class="labs-table">
+                    <thead><tr><th>#</th><th>Lab</th><th>Code</th><th>Why it matters</th></tr></thead>
+                    <tbody>
+                      <tr><td>17</td><td>Progesterone</td><td>004317</td><td>Peak progesterone mid-luteal phase confirms ovulation occurred. Low levels indicate anovulatory cycles or luteal phase defect.</td></tr>
+                      <tr><td>18</td><td>Comprehensive Metabolic Panel (CMP)</td><td>322000</td><td>Screens kidney function, liver enzymes, electrolytes, and blood sugar in one draw.</td></tr>
+                      <tr><td>19</td><td>CBC with Differential</td><td>005009</td><td>Checks red and white blood cells and platelets. Women are at higher risk for iron-deficiency anemia.</td></tr>
+                      <tr><td>20</td><td>Urinalysis, Complete with Microscopic</td><td>003772</td><td>Kidney and bladder health, plus early metabolic issues that show up in urine before blood markers shift.</td></tr>
+                      <tr><td>21</td><td>NMR LipoProfile with Lipids</td><td>884247</td><td>Particle-level cardiovascular risk assessment. More accurate than a standard cholesterol panel.</td></tr>
+                      <tr><td>22</td><td>Apolipoprotein B</td><td>167015</td><td>The most accurate single marker for cardiovascular risk. Each ApoB particle can deposit in artery walls.</td></tr>
+                      <tr><td>23</td><td>Lipoprotein(a)</td><td>120188</td><td>A genetically determined cardiovascular risk factor. Only need to measure it once — it rarely changes.</td></tr>
+                      <tr><td>24</td><td>C-Reactive Protein, Cardiac (hs-CRP)</td><td>120766</td><td>Systemic inflammation marker. Predicts cardiovascular events better than standard cholesterol panels.</td></tr>
+                      <tr><td>25</td><td>Iron and Total Iron Binding Capacity (TIBC)</td><td>001321</td><td>Women are at much higher risk for iron deficiency due to menstruation. TIBC gives essential context to your iron level.</td></tr>
+                      <tr><td>26</td><td>Ferritin</td><td>004598</td><td>Iron storage marker. The most sensitive indicator of deficiency — often depleted before anemia develops.</td></tr>
+                      <tr><td>27</td><td>Phosphorus</td><td>001024</td><td>Involved in bone health, energy production, and kidney function. Often low in processed food-heavy diets.</td></tr>
+                      <tr><td>28</td><td>Homocysteine</td><td>706994</td><td>Elevated levels indicate B-vitamin deficiency and raise risk for cardiovascular disease and cognitive decline.</td></tr>
+                      <tr><td>29</td><td>Vitamin D, 25-Hydroxy</td><td>081950</td><td>Most people are deficient. Critical for immune function, mood, bone density, and hormonal balance.</td></tr>
+                      <tr><td>30</td><td>Vitamin B12 and Folate</td><td>000810</td><td>Essential for nerve function, DNA synthesis, and fetal development. Deficiency is common and often missed.</td></tr>
+                      <tr><td>31</td><td>Methylmalonic Acid (MMA)</td><td>706961</td><td>A more sensitive marker for functional B12 deficiency than serum B12 alone — catches deficiency that B12 levels miss.</td></tr>
+                      <tr><td>32</td><td>Magnesium, RBC</td><td>080283</td><td>RBC magnesium shows intracellular stores — far more accurate than serum magnesium, which can look normal while cells are depleted.</td></tr>
+                      <tr><td>33</td><td>OmegaCheck (Omega-3 and Omega-6 Profile)</td><td>823738</td><td>Measures your omega-3 index and fatty acid ratios. Most people are severely omega-3 deficient.</td></tr>
+                      <tr><td>34</td><td>Gamma-Glutamyl Transferase (GGT)</td><td>001958</td><td>An early liver stress and oxidative stress marker. Can flag problems before other liver enzymes shift.</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div><!-- /female-full -->
+
+            <!-- For Your Doctor -->
+            <div class="labs-doctor-view" id="female-doctor" hidden>
+              <div class="doctor-header">
+                <h3>Female Lab Panel — 34 Labs</h3>
+                <p>Show this to your doctor or print it out. ICD-10 codes help them order the correct tests through Labcorp. <strong>Day 1 on Cycle Day 3. Day 2 on Cycle Day 19–21.</strong></p>
+              </div>
+              <div class="doctor-list">
+                <div class="doctor-day-divider">Day 1 — Cycle Day 3</div>
+                <div class="doctor-list-item"><strong>1. Follicle-Stimulating Hormone (FSH)</strong><code>004309</code></div>
+                <div class="doctor-list-item"><strong>2. Luteinizing Hormone (LH)</strong><code>004283</code></div>
+                <div class="doctor-list-item"><strong>3. Estradiol</strong><code>004515</code></div>
+                <div class="doctor-list-item"><strong>4. Anti-Mullerian Hormone (AMH)</strong><code>500183</code></div>
+                <div class="doctor-list-item"><strong>5. Testosterone, Total, Women/Children, LC/MS-MS</strong><code>070001</code></div>
+                <div class="doctor-list-item"><strong>6. Sex Hormone-Binding Globulin (SHBG)</strong><code>500848</code></div>
+                <div class="doctor-list-item"><strong>7. DHEA-Sulfate</strong><code>004020</code></div>
+                <div class="doctor-list-item"><strong>8. Prolactin</strong><code>004465</code></div>
+                <div class="doctor-list-item"><strong>9. Insulin, Fasting</strong><code>004333</code></div>
+                <div class="doctor-list-item"><strong>10. Hemoglobin A1c</strong><code>001453</code></div>
+                <div class="doctor-list-item"><strong>11. Thyroid Panel: TSH and Free T4</strong><code>224576</code></div>
+                <div class="doctor-list-item"><strong>12. Free T3</strong><code>010389</code></div>
+                <div class="doctor-list-item"><strong>13. Thyroid Peroxidase (TPO) Antibody</strong><code>006676</code></div>
+                <div class="doctor-list-item"><strong>14. Thyroid Stimulating Immunoglobulin (TSI)</strong><code>140747</code></div>
+                <div class="doctor-list-item"><strong>15. Thyroglobulin Antibody (TgAb)</strong><code>006685</code></div>
+                <div class="doctor-list-item"><strong>16. 17-OH Progesterone, LC/MS</strong><code>070085</code></div>
+                <div class="doctor-day-divider">Day 2 — Cycle Day 19–21</div>
+                <div class="doctor-list-item"><strong>17. Progesterone</strong><code>004317</code></div>
+                <div class="doctor-list-item"><strong>18. Comprehensive Metabolic Panel (CMP)</strong><code>322000</code></div>
+                <div class="doctor-list-item"><strong>19. CBC with Differential</strong><code>005009</code></div>
+                <div class="doctor-list-item"><strong>20. Urinalysis, Complete with Microscopic</strong><code>003772</code></div>
+                <div class="doctor-list-item"><strong>21. NMR LipoProfile with Lipids</strong><code>884247</code></div>
+                <div class="doctor-list-item"><strong>22. Apolipoprotein B</strong><code>167015</code></div>
+                <div class="doctor-list-item"><strong>23. Lipoprotein(a)</strong><code>120188</code></div>
+                <div class="doctor-list-item"><strong>24. C-Reactive Protein, Cardiac (hs-CRP)</strong><code>120766</code></div>
+                <div class="doctor-list-item"><strong>25. Iron and Total Iron Binding Capacity (TIBC)</strong><code>001321</code></div>
+                <div class="doctor-list-item"><strong>26. Ferritin</strong><code>004598</code></div>
+                <div class="doctor-list-item"><strong>27. Phosphorus</strong><code>001024</code></div>
+                <div class="doctor-list-item"><strong>28. Homocysteine</strong><code>706994</code></div>
+                <div class="doctor-list-item"><strong>29. Vitamin D, 25-Hydroxy</strong><code>081950</code></div>
+                <div class="doctor-list-item"><strong>30. Vitamin B12 and Folate</strong><code>000810</code></div>
+                <div class="doctor-list-item"><strong>31. Methylmalonic Acid (MMA)</strong><code>706961</code></div>
+                <div class="doctor-list-item"><strong>32. Magnesium, RBC</strong><code>080283</code></div>
+                <div class="doctor-list-item"><strong>33. OmegaCheck (Omega-3 and Omega-6 Profile)</strong><code>823738</code></div>
+                <div class="doctor-list-item"><strong>34. Gamma-Glutamyl Transferase (GGT)</strong><code>001958</code></div>
+              </div>
+              <div class="print-btn-wrap">
+                <button class="btn btn-secondary btn-sm" onclick="window.print()">Print this list</button>
+              </div>
+            </div><!-- /female-doctor -->
+
+          </div><!-- /accordion-body female -->
+        </div><!-- /accordion female -->
+
+      </div>
+    </section>
+
+    <!-- ── Supplements ── -->
+    <section id="supplements">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Supplements</span>
+          <h2>What I actually take</h2>
+          <p>These are the supplements I've researched, use myself, and recommend to people who ask. Brands and dosing notes coming soon.</p>
+        </div>
+
+        <div class="card-grid">
+          <div class="card supplement-card">
+            <span class="card-icon">💊</span>
+            <h3>Multivitamin</h3>
+            <p>[PLACEHOLDER] Brand, form factor, why I chose this one over others. What to look for and what to avoid.</p>
+          </div>
+          <div class="card supplement-card">
+            <span class="card-icon">🦠</span>
+            <h3>Probiotic</h3>
+            <p>[PLACEHOLDER] Brand, strain info, why strain specificity matters. Refrigerated vs. shelf-stable.</p>
+          </div>
+          <div class="card supplement-card">
+            <span class="card-icon">🥩</span>
+            <h3>Organ Meat / Beef Liver</h3>
+            <p>[PLACEHOLDER] Why beef liver is the most nutrient-dense food on earth. Desiccated capsule option for the squeamish. Brand rec.</p>
+          </div>
+          <div class="card supplement-card">
+            <span class="card-icon">🔋</span>
+            <h3>Magnesium</h3>
+            <p>[PLACEHOLDER] Glycinate vs. oxide vs. threonate. Why most people are deficient. Dosing note and brand rec.</p>
+          </div>
+          <div class="card" style="border: 2px dashed var(--border); box-shadow: none; background: transparent;">
+            <span class="card-icon">⏳</span>
+            <h3>More coming</h3>
+            <p>Additional supplements will be added as I finalize my notes.</p>
+          </div>
+        </div>
+
+        <div class="fullscript-banner">
+          <div class="text">
+            <h4>Buy on Fullscript</h4>
+            <p>I use Fullscript for most supplements — dispensary-grade quality, good pricing, fast shipping. The link gives you a public discount. Not an affiliate link. Amazon can sometimes be cheaper, so worth comparing both before buying.</p>
+          </div>
+          <a href="#" class="btn btn-primary">[Add Fullscript link]</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Product Recs ── -->
+    <section id="recs">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Product Recs</span>
+          <h2>Clean home essentials</h2>
+          <p>Products I've vetted and use at home. Affiliate links are labeled clearly — I only recommend things I actually buy.</p>
+        </div>
+
+        <div class="product-category">
+          <h4>💧 Water Filtration</h4>
+          <div class="card-grid">
+            <a href="#" class="product-card-link">
+              <div class="card">
+                <h3>Cloud Reverse Osmosis System</h3>
+                <p>Under-sink RO system. Removes fluoride, chlorine, heavy metals, and pharmaceuticals. The one I have at home.</p>
+                <div class="card-meta">
+                  <span class="affiliate-badge">Affiliate</span>
+                  <span>$100 off with this link</span>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="product-category">
+          <h4>🧹 Household Cleaners</h4>
+          <div class="card-grid">
+            <a href="#" class="product-card-link">
+              <div class="card">
+                <h3>Branch Basics</h3>
+                <p>[PLACEHOLDER] Concentrate-based, non-toxic, works on everything.</p>
+                <div class="card-meta"><span>No affiliate</span></div>
+              </div>
+            </a>
+            <a href="#" class="product-card-link">
+              <div class="card">
+                <h3>Blueland</h3>
+                <p>[PLACEHOLDER] Tablet-based, zero plastic. Good for surfaces and glass.</p>
+                <div class="card-meta"><span>No affiliate</span></div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="product-category">
+          <h4>🧺 Laundry</h4>
+          <div class="card-grid">
+            <a href="#" class="product-card-link">
+              <div class="card">
+                <h3>Molly's Suds</h3>
+                <p>[PLACEHOLDER] Clean ingredient list, works in cold water, safe for sensitive skin.</p>
+                <div class="card-meta"><span>No affiliate</span></div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="product-category">
+          <h4>🍽 Dishwasher</h4>
+          <div class="card-grid">
+            <a href="#" class="product-card-link">
+              <div class="card">
+                <h3>Blueland Dishwasher Tabs</h3>
+                <p>[PLACEHOLDER] Tablet-based, plastic-free. No phosphates or chlorine bleach.</p>
+                <div class="card-meta"><span>No affiliate</span></div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="product-category">
+          <h4>👶 Baby &amp; Kids</h4>
+          <div class="card-grid">
+            <div class="card" style="border: 2px dashed var(--border); box-shadow: none; background: transparent;">
+              <span class="card-icon">⏳</span>
+              <h3>Coming soon</h3>
+              <p>Sunscreen, clothing, sandals — recs coming once I finalize my notes.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Where to Buy ── -->
+    <section id="where-to-buy">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Where to Buy</span>
+          <h2>Where I actually order from</h2>
+          <p>Short answer: Fullscript first, then Amazon. TrueMed if you have an HSA.</p>
+        </div>
+
+        <div class="buy-list">
+          <div class="buy-item">
+            <div class="buy-item-icon">🏥</div>
+            <div class="buy-item-content">
+              <h3>Fullscript</h3>
+              <p>Dispensary-grade supplements. Authentic products, good pricing, fast shipping. My default first stop. Use the link for a public discount — not affiliate, just a discount for you.</p>
+              <a href="#" class="btn btn-primary btn-sm">[Add Fullscript link]</a>
+            </div>
+          </div>
+          <div class="buy-item">
+            <div class="buy-item-icon">📦</div>
+            <div class="buy-item-content">
+              <h3>Amazon</h3>
+              <p>Sometimes cheaper than Fullscript for the same products — worth checking both before buying. Stick to brands with third-party testing (NSF, USP, or Informed Sport certified).</p>
+            </div>
+          </div>
+          <div class="buy-item">
+            <div class="buy-item-icon">💳</div>
+            <div class="buy-item-content">
+              <h3>TrueMed / HSA</h3>
+              <p>If you have an HSA or FSA, TrueMed lets you use pre-tax dollars on eligible supplements. Legitimate way to save 20–40% depending on your tax bracket. Worth looking into.</p>
+              <a href="#" class="btn btn-secondary btn-sm">[Add TrueMed link]</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Lab Interpreter ── -->
+    <section id="lab-interpreter">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Lab Interpreter</span>
+          <h2>What do your results actually mean?</h2>
+          <p>Upload your lab results PDF. This tool reads them through a functional medicine lens — flagging results that may be suboptimal even if your lab marked them "normal."</p>
+        </div>
+
+        <!-- Password Gate -->
+        <div class="interpreter-gate" id="interpreterGate">
+          <h3>Access required</h3>
+          <p>This feature uses AI and has a usage cost. It's available to people I've shared the access code with directly.</p>
+          <div class="password-input-wrap">
+            <input type="password" id="accessPassword" placeholder="Enter access code" autocomplete="off" aria-label="Access code">
+            <button class="btn btn-primary" id="unlockBtn">Unlock</button>
+          </div>
+          <div class="password-error" id="passwordError">Incorrect code. Ask Nick.</div>
+        </div>
+
+        <!-- Interpreter Form -->
+        <div class="interpreter-form" id="interpreterForm">
+          <div class="privacy-note">
+            <span class="privacy-note-icon">🔒</span>
+            <span>Feel free to black out your name and date of birth before uploading. The AI only needs the lab values — not your identifying information.</span>
+          </div>
+          <div class="upload-area" id="uploadArea">
+            <input type="file" id="labFile" accept=".pdf" aria-label="Upload lab results PDF">
+            <span class="upload-icon">📄</span>
+            <p>Drag your lab results PDF here, or click to select</p>
+            <small>PDF only · Results are not stored</small>
+            <div class="upload-filename" id="uploadFilename"></div>
+          </div>
+          <button class="btn btn-primary" id="interpretBtn" style="width: 100%; justify-content: center; padding: 14px;" disabled>
+            Interpret My Labs
+          </button>
+        </div>
+
+        <!-- Loading State -->
+        <div class="interpreter-loading" id="interpreterLoading">
+          <div class="spinner"></div>
+          <p>Reading your results through a functional medicine lens...<br>This takes 20–40 seconds.</p>
+        </div>
+
+        <!-- Results -->
+        <div class="interpreter-results" id="interpreterResults">
+          <div class="results-header">
+            <h3 style="font-family: var(--font-sans); font-size: 18px; font-weight: 700; font-style: normal;">Your Results</h3>
+            <button class="btn btn-ghost btn-sm" id="resetBtn">Upload new file</button>
+          </div>
+          <div id="urgentFlagsBlock" style="display:none;"></div>
+          <div class="results-grid" id="resultsGrid"></div>
+          <div class="results-footer" id="resultsFooter" style="display:none;"></div>
+          <div class="bring-to-doctor">
+            Bring these findings to your doctor. This interpretation is a starting point for that conversation — not a diagnosis or treatment plan.
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">Pocket<span>Doc</span></div>
+      <p class="footer-note">Made by Nick Capra · Not medical advice<br>Updated periodically — check back.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
