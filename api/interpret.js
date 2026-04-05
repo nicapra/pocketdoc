@@ -63,7 +63,7 @@ Functional medicine ranges to apply (use these, not standard lab ranges, as your
 
 For any markers not listed above, apply general functional medicine principles: flag anything in the bottom or top quartile of the standard range as borderline, flag anything outside standard normal as flagged.`;
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
