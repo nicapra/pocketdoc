@@ -1362,6 +1362,81 @@ footer {
   .doctor-list-item strong {
     font-size: 16px;
   }
+
+  /* Labs table — reflow to stacked cards on mobile */
+  .labs-table-wrap {
+    border: none;
+    box-shadow: none;
+    overflow-x: visible;
+  }
+
+  .labs-table thead {
+    display: none;
+  }
+
+  .labs-table tbody tr {
+    display: block;
+    margin-bottom: 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    background: var(--surface);
+  }
+
+  .labs-table tbody tr:hover {
+    background: var(--surface);
+  }
+
+  .labs-table td {
+    display: block;
+    padding: 0;
+    border: none;
+    white-space: normal;
+    min-width: unset;
+  }
+
+  /* Hide the # column */
+  .labs-table td:first-child {
+    display: none;
+  }
+
+  /* Lab name */
+  .labs-table td:nth-child(2) {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+
+  /* ICD-10 code */
+  .labs-table td:nth-child(3) {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .labs-table td:nth-child(3)::before {
+    content: 'Code: ';
+  }
+
+  /* Why it matters */
+  .labs-table td:nth-child(4) {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* Toggle buttons — stack on very small screens */
+  .toggle-btn-group {
+    flex-wrap: wrap;
+  }
+
+  .toggle-btn {
+    flex: 1;
+    text-align: center;
+    font-size: 12px;
+    padding: 7px 10px;
+  }
 }
 
 @media print {
