@@ -1,5 +1,7 @@
-// Vercel serverless function — proxies the Anthropic API call.
-// The API key lives in Vercel environment variables, never in client code.
+// Vercel Edge Function — runs closer to the user, 30s timeout on hobby plan.
+// API key lives in Vercel environment variables, never in client code.
+
+export const config = { runtime: 'edge' };
 
 const SYSTEM_PROMPT = `You are a functional medicine lab interpreter. Your job is to read lab results and interpret them through a functional medicine lens.
 
@@ -25,60 +27,71 @@ RESPONSE FORMAT — respond with valid JSON only, no markdown, no prose outside 
       "value": "Patient value with units",
       "functionalRange": "Optimal functional medicine range",
       "standardRange": "Standard lab reference range",
-      "status": "optimal" | "borderline" | "flagged",
+      "status": "optimal",
       "explanation": "1-3 sentence explanation of what this means for the patient"
     }
   ],
   "panelCompleteness": {
     "tested": 12,
     "recommended": 24,
-    "missing": ["Lab A", "Lab B", "Lab C"]
+    "missing": ["Lab A", "Lab B"]
   }
 }
 
-For status:
+Status values: "optimal" | "borderline" | "flagged"
 - "optimal": Within functional medicine optimal range
-- "borderline": Outside functional medicine optimal but within standard normal, OR borderline low/high on functional range
+- "borderline": Outside functional medicine optimal but within standard normal, OR borderline low/high
 - "flagged": Outside standard normal range, OR significantly outside functional range
 
-Functional medicine ranges to apply (use these, not standard lab ranges, as your primary benchmark):
-- Fasting glucose: 70–85 mg/dL (standard: 70–99)
+Functional medicine ranges (use as primary benchmark):
+- Fasting glucose: 70-85 mg/dL (standard: 70-99)
 - HbA1c: <5.3% (standard: <5.7%)
-- Fasting insulin: 2–5 uIU/mL (standard: 2–25)
-- TSH: 1.0–2.5 mIU/L (standard: 0.4–4.0)
-- Free T4: 1.1–1.5 ng/dL (standard: 0.8–1.8)
-- Free T3: 3.2–4.2 pg/mL (standard: 2.3–4.2)
-- Vitamin D: 60–80 ng/mL (standard: 30–100)
-- Ferritin (men): 70–150 ng/mL (standard: 24–336)
-- Ferritin (women): 70–100 ng/mL (standard: 11–307)
+- Fasting insulin: 2-5 uIU/mL (standard: 2-25)
+- TSH: 1.0-2.5 mIU/L (standard: 0.4-4.0)
+- Free T4: 1.1-1.5 ng/dL (standard: 0.8-1.8)
+- Free T3: 3.2-4.2 pg/mL (standard: 2.3-4.2)
+- Vitamin D: 60-80 ng/mL (standard: 30-100)
+- Ferritin (men): 70-150 ng/mL (standard: 24-336)
+- Ferritin (women): 70-100 ng/mL (standard: 11-307)
 - hs-CRP: <0.5 mg/L (standard: <3.0)
-- Homocysteine: <7 µmol/L (standard: <15)
-- RBC magnesium: 5.5–7.0 mg/dL (standard: 4.2–6.8)
-- Vitamin B12: 600–900 pg/mL (standard: 200–900)
+- Homocysteine: <7 umol/L (standard: <15)
+- RBC magnesium: 5.5-7.0 mg/dL (standard: 4.2-6.8)
+- Vitamin B12: 600-900 pg/mL (standard: 200-900)
 - ApoB: <80 mg/dL (standard: <100)
-- Testosterone total (men): 600–900 ng/dL (standard: 264–916)
-- Testosterone free (men): 15–25 pg/mL (standard: 8.7–25.1)
-- GGT: <20 U/L (standard: 8–61)
+- Testosterone total (men): 600-900 ng/dL (standard: 264-916)
+- Testosterone free (men): 15-25 pg/mL (standard: 8.7-25.1)
+- GGT: <20 U/L (standard: 8-61)
 - Omega-3 index: >8% (standard varies)
 
-For any markers not listed above, apply general functional medicine principles: flag anything in the bottom or top quartile of the standard range as borderline, flag anything outside standard normal as flagged.`;
+For unlisted markers: flag bottom/top quartile of standard range as borderline, outside standard normal as flagged.`;
 
-module.exports = async function handler(req, res) {
+export default async function handler(req) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+    return new Response(JSON.stringify({ error: 'Method not allowed' }), {
+      status: 405,
+      headers: { 'Content-Type': 'application/json' }
+    });
   }
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
-    return res.status(500).json({ error: 'API key not configured' });
+    return new Response(JSON.stringify({ error: 'API key not configured' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
+    });
   }
 
-  const { pdfBase64 } = req.body;
+  const body = await req.json();
+  const { pdfBase64 } = body;
+
   if (!pdfBase64) {
-    return res.status(400).json({ error: 'No PDF provided' });
+    return new Response(JSON.stringify({ error: 'No PDF provided' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' }
+    });
   }
 
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
+  const anthropicRes = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -102,21 +115,27 @@ module.exports = async function handler(req, res) {
           },
           {
             type: 'text',
-            text: 'Please interpret these lab results through a functional medicine lens. Respond with JSON only as specified.'
+            text: 'Interpret these lab results. Respond with JSON only as specified. Be concise in explanations (1-2 sentences each).'
           }
         ]
       }]
     })
   });
 
-  if (!response.ok) {
-    const err = await response.text();
-    return res.status(502).json({ error: 'Anthropic API error', detail: err });
+  if (!anthropicRes.ok) {
+    const err = await anthropicRes.text();
+    return new Response(JSON.stringify({ error: 'Anthropic API error', detail: err }), {
+      status: 502,
+      headers: { 'Content-Type': 'application/json' }
+    });
   }
 
-  const data = await response.json();
+  const data = await anthropicRes.json();
   const rawText = data.content[0].text.trim();
   const jsonText = rawText.replace(/^```json?\s*/i, '').replace(/\s*```$/i, '');
 
-  res.status(200).json(JSON.parse(jsonText));
+  return new Response(jsonText, {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' }
+  });
 }
