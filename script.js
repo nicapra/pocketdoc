@@ -204,15 +204,21 @@ function renderResults(result) {
     `;
   }
 
-  // Marker cards
-  resultsGrid.innerHTML = result.markers.map(marker => {
+  // Marker cards — store marker data on the element for lazy explanation loading
+  resultsGrid.innerHTML = result.markers.map((marker, i) => {
     const statusClass = marker.status === 'optimal' ? 'green'
       : marker.status === 'borderline' ? 'yellow' : 'red';
     const statusLabel = marker.status === 'optimal' ? 'Optimal'
       : marker.status === 'borderline' ? 'Borderline' : 'Flagged';
 
     return `
-      <div class="result-card" data-status="${statusClass}">
+      <div class="result-card"
+        data-status="${statusClass}"
+        data-name="${escapeHtml(marker.name)}"
+        data-value="${escapeHtml(marker.value)}"
+        data-functional="${escapeHtml(marker.functionalRange)}"
+        data-standard="${escapeHtml(marker.standardRange)}"
+        data-markerstatus="${escapeHtml(marker.status)}">
         <div class="result-card-header" onclick="toggleResultCard(this.parentElement)">
           <div class="status-dot ${statusClass}"></div>
           <div class="result-name">${escapeHtml(marker.name)}</div>
@@ -222,10 +228,12 @@ function renderResults(result) {
           <span class="accordion-arrow">▼</span>
         </div>
         <div class="result-card-body">
-          <p>${escapeHtml(marker.explanation)}</p>
-          <p style="margin-top:8px; font-size:13px; color: var(--text-muted);">
+          <p style="margin-bottom:8px; font-size:13px; color: var(--text-muted);">
             Standard lab range: ${escapeHtml(marker.standardRange)}
           </p>
+          <div class="explanation-slot" data-loaded="false">
+            <p class="explanation-text" style="color: var(--text-muted); font-style: italic; font-size:14px;">Click to load explanation...</p>
+          </div>
         </div>
       </div>
     `;
@@ -246,8 +254,39 @@ function renderResults(result) {
   interpreterResults.classList.add('visible');
 }
 
-function toggleResultCard(card) {
+async function toggleResultCard(card) {
+  const wasOpen = card.classList.contains('open');
   card.classList.toggle('open');
+
+  // Load explanation lazily on first open
+  if (!wasOpen) {
+    const slot = card.querySelector('.explanation-slot');
+    if (slot && slot.dataset.loaded === 'false') {
+      slot.dataset.loaded = 'loading';
+      slot.querySelector('.explanation-text').textContent = 'Loading explanation...';
+
+      try {
+        const res = await fetch('/api/explain', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: card.dataset.name,
+            value: card.dataset.value,
+            functionalRange: card.dataset.functional,
+            standardRange: card.dataset.standard,
+            status: card.dataset.markerstatus
+          })
+        });
+        const data = await res.json();
+        slot.querySelector('.explanation-text').style.cssText = 'color: var(--text-secondary); font-style: normal; font-size: 14px; line-height: 1.7;';
+        slot.querySelector('.explanation-text').textContent = data.explanation;
+        slot.dataset.loaded = 'true';
+      } catch (e) {
+        slot.querySelector('.explanation-text').textContent = 'Could not load explanation.';
+        slot.dataset.loaded = 'false';
+      }
+    }
+  }
 }
 
 // Reset button
