@@ -390,6 +390,40 @@ section:nth-child(even) {
   transform: translateY(-1px);
 }
 
+/* ── Labs intro read-more toggle ── */
+.labs-intro-more {
+  overflow: hidden;
+}
+
+.labs-intro-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+  cursor: pointer;
+  letter-spacing: 0.01em;
+}
+
+.labs-intro-toggle:hover {
+  opacity: 0.75;
+}
+
+.labs-intro-arrow {
+  font-size: 11px;
+  transition: transform 0.2s;
+}
+
+.labs-intro-toggle[aria-expanded="true"] .labs-intro-arrow {
+  transform: rotate(180deg);
+}
+
 .card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -1453,6 +1487,10 @@ footer {
   }
 
   .labs-controls {
+    display: none;
+  }
+
+  .labs-intro-toggle {
     display: none;
   }
 

@@ -40,6 +40,21 @@ const observer = new IntersectionObserver(entries => {
 
 sections.forEach(section => observer.observe(section));
 
+// ── Labs intro: read more toggle ─────────────────────────────
+const labsIntroToggle = document.getElementById('labsIntroToggle');
+const labsIntroMore = document.getElementById('labsIntroMore');
+
+if (labsIntroToggle && labsIntroMore) {
+  labsIntroToggle.addEventListener('click', () => {
+    const isExpanded = labsIntroToggle.getAttribute('aria-expanded') === 'true';
+    labsIntroMore.hidden = isExpanded;
+    labsIntroToggle.setAttribute('aria-expanded', String(!isExpanded));
+    labsIntroToggle.innerHTML = isExpanded
+      ? 'Read more <span class="labs-intro-arrow">▼</span>'
+      : 'Show less <span class="labs-intro-arrow">▲</span>';
+  });
+}
+
 // ── Labs: accordion ──────────────────────────────────────────
 document.querySelectorAll('.accordion-trigger').forEach(trigger => {
   trigger.addEventListener('click', () => {
