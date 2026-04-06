@@ -1278,6 +1278,11 @@ section:nth-child(even) {
   display: block;
 }
 
+.labs-full-view[hidden],
+.labs-doctor-view[hidden] {
+  display: none;
+}
+
 .doctor-day-divider {
   padding: 10px 20px;
   background: var(--surface-alt);
