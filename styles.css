@@ -729,6 +729,34 @@ section:nth-child(even) {
   opacity: 0.8;
 }
 
+/* ── Frequency badges (one-time / infrequent tests) ── */
+.freq-badge {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  font-family: var(--font-sans);
+  font-style: normal;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: 3px;
+  padding: 2px 5px;
+  margin-left: 6px;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.freq-badge.once {
+  background: #e8f4fd;
+  color: #2471a3;
+  border: 1px solid #aed6f1;
+}
+
+.freq-badge.infrequent {
+  background: #f4f6f7;
+  color: #626567;
+  border: 1px solid #cacfd2;
+}
+
 .print-btn-wrap {
   display: flex;
   justify-content: flex-end;
