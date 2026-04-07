@@ -37,7 +37,7 @@ When Nick says **"sync my health website"** or **"sync the site"**:
 | `prod-cloud-ro` | Product Recs → ### Cloud Reverse Osmosis System |
 | `prod-branch-basics` | Product Recs → ### Branch Basics |
 | `prod-blueland` | Product Recs → ### Blueland |
-| `prod-mollys-suds` | Product Recs → ### Molly's Suds |
+| `prod-force-of-nature` | Product Recs → ### Force Of Nature |
 | `prod-blueland-dish` | Product Recs → ### Blueland Dishwasher Tabs |
 | `buy-fullscript` | Where to Buy → ### Fullscript |
 | `buy-amazon` | Where to Buy → ### Amazon |
