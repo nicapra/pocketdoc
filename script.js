@@ -317,6 +317,14 @@ resetBtn.addEventListener('click', () => {
   interpreterForm.classList.add('visible');
 });
 
+// ── Print panel with custom PDF filename ─────────────────────
+function printPanel(panel) {
+  const prev = document.title;
+  document.title = 'PocketNick - Labs (' + panel + ')';
+  window.print();
+  document.title = prev;
+}
+
 function escapeHtml(str) {
   if (!str) return '';
   return String(str)
