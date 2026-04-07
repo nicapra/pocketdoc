@@ -1520,9 +1520,12 @@ footer {
     display: none !important;
   }
 
-  /* ── Show the open accordion panel ── */
+  /* ── Show the open accordion panel, remove overflow clipping ── */
   .accordion-body:not([hidden]) {
     display: block !important;
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
     border: none !important;
     padding: 0 !important;
     margin: 0 !important;
@@ -1537,23 +1540,28 @@ footer {
     display: block !important;
   }
 
-  /* ── Base reset ── */
-  body {
+  /* ── Base reset — collapse all top spacing ── */
+  body, main {
     background: white;
     color: black;
-    margin: 0;
-    padding: 0;
+    margin: 0 !important;
+    padding: 0 !important;
     font-size: 11px;
   }
 
   #labs {
-    padding: 0;
-    margin: 0;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .lab-accordion {
+    margin-top: 0 !important;
   }
 
   .container {
     max-width: none;
     padding: 0 20px;
+    margin: 0 !important;
   }
 
   /* ── Doctor header ── */
