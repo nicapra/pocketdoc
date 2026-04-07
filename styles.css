@@ -709,10 +709,15 @@ section:nth-child(even) {
 }
 
 .icd-code::before {
-  content: 'ICD-10 ';
-  font-size: 10px;
-  letter-spacing: 0.03em;
-  opacity: 0.7;
+  content: '(e.g. ';
+  font-size: 11px;
+  opacity: 0.8;
+}
+
+.icd-code::after {
+  content: ')';
+  font-size: 11px;
+  opacity: 0.8;
 }
 
 .print-btn-wrap {
@@ -1498,33 +1503,124 @@ footer {
 }
 
 @media print {
-  .nav, .hero, #start-here, #supplements, #recs, #where-to-buy, #lab-interpreter, footer {
+  /* ── Hide all page chrome ── */
+  .nav, .nav-mobile, .hero,
+  #start-here, #supplements, #recs, #where-to-buy, #lab-interpreter, footer {
     display: none !important;
   }
 
-  .full-view {
+  /* ── Hide labs section UI chrome ── */
+  .section-header, .labs-intro-more, .labs-intro-toggle,
+  .accordion-trigger, .labs-view-bar, .labs-full-view, .print-btn-wrap {
     display: none !important;
   }
 
-  .doctor-view {
+  /* ── Hide whichever accordion panel is closed ── */
+  .accordion-body[hidden] {
+    display: none !important;
+  }
+
+  /* ── Show the open accordion panel ── */
+  .accordion-body:not([hidden]) {
+    display: block !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* ── Always show doctor view (regardless of toggle state) ── */
+  .labs-full-view {
+    display: none !important;
+  }
+
+  .labs-doctor-view {
     display: block !important;
   }
 
-  .labs-controls {
-    display: none;
-  }
-
-  .labs-intro-toggle {
-    display: none;
-  }
-
+  /* ── Base reset ── */
   body {
     background: white;
     color: black;
+    margin: 0;
+    padding: 0;
+    font-size: 11px;
   }
 
+  #labs {
+    padding: 0;
+    margin: 0;
+  }
+
+  .container {
+    max-width: none;
+    padding: 0 20px;
+  }
+
+  /* ── Doctor header ── */
+  .doctor-header {
+    background: none;
+    border: none;
+    border-bottom: 2px solid #000;
+    border-radius: 0;
+    padding: 8px 0;
+    margin-bottom: 4px;
+  }
+
+  .doctor-header h3 {
+    font-size: 13px;
+    margin-bottom: 2px;
+  }
+
+  .doctor-header p {
+    font-size: 10px;
+    margin: 0;
+  }
+
+  /* ── Doctor list ── */
   .doctor-list {
-    border: 1px solid #ccc;
+    border: none;
     box-shadow: none;
+    border-radius: 0;
+  }
+
+  .doctor-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px 0;
+    border-bottom: 1px solid #ddd;
+    gap: 8px;
+    page-break-inside: avoid;
+  }
+
+  .doctor-list-item strong {
+    font-size: 10px;
+    flex: 1;
+  }
+
+  .doctor-list-item code {
+    font-size: 10px;
+    padding: 1px 5px;
+    background: #f0f0f0;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  .icd-code {
+    font-size: 9px;
+    border: none;
+    padding: 0;
+    color: #666;
+    flex-shrink: 0;
+  }
+
+  .doctor-day-divider {
+    font-size: 9px;
+    font-weight: 700;
+    padding: 4px 0 2px;
+    background: none;
+    border-bottom: 1px solid #bbb;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 }
