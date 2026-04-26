@@ -6,521 +6,983 @@
   <title>PocketNick — Nick's Health Resource</title>
   <meta name="description" content="Nick's personal health resource — labs, supplements, and clean products. Like having Nick in your pocket.">
   <meta name="robots" content="noindex, nofollow">
-
-  <!-- Open Graph / link preview -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://pocketnick.com">
   <meta property="og:title" content="PocketNick">
   <meta property="og:description" content="Nick's personal health resource — labs, supplements, and clean products.">
   <meta property="og:image" content="https://pocketnick.com/logo.png">
-
-  <!-- Twitter / iMessage fallback -->
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="PocketNick">
   <meta name="twitter:description" content="Nick's personal health resource — labs, supplements, and clean products.">
   <meta name="twitter:image" content="https://pocketnick.com/logo.png">
-  <link rel="stylesheet" href="styles.css">
-  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="icon" href="logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #F5EEE1;
+      --surface:      #FEFCF7;
+      --surface-alt:  #F0E9DA;
+      --border:       #E4D9C6;
+      --border-light: #EDE5D5;
+      --text-primary: #1C1917;
+      --text-secondary: #6B6254;
+      --text-muted:   #9B9082;
+      --accent:       #E0764E;
+      --accent-hover: #C96940;
+      --accent-light: #FAE8DC;
+      --green:        #3D9268;
+      --green-bg:     #E8F4EE;
+      --yellow:       #B8860A;
+      --yellow-bg:    #FEF6DC;
+      --red:          #C03838;
+      --red-bg:       #FDEAEA;
+      --font-sans:    'Open Sans', system-ui, sans-serif;
+      --font-serif:   'PT Serif', Georgia, serif;
+      --sidebar-w:    220px;
+      --radius-sm:    8px;
+      --radius-md:    12px;
+      --shadow-sm:    0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md:    0 4px 16px rgba(0,0,0,0.08);
+    }
+
+    html, body { height: 100%; }
+
+    body {
+      font-family: var(--font-sans);
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--text-primary);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--accent-hover); }
+
+    h1, h2, h3 { font-family: var(--font-serif); line-height: 1.2; color: var(--text-primary); }
+    h1 { font-size: clamp(30px, 4vw, 44px); font-weight: 700; }
+    h2 { font-size: clamp(22px, 3vw, 30px); font-weight: 700; }
+    h3 { font-size: 18px; font-weight: 400; font-style: italic; }
+    h4 { font-family: var(--font-sans); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); }
+    p { color: var(--text-secondary); }
+    strong { color: var(--text-primary); font-weight: 600; }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: var(--sidebar-w);
+      flex-shrink: 0;
+      height: 100vh;
+      position: sticky;
+      top: 0;
+      display: flex;
+      flex-direction: column;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .sidebar-logo {
+      padding: 28px 24px 24px;
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sidebar-logo img { width: 28px; height: 28px; border-radius: 6px; object-fit: cover; }
+
+    .sidebar-logo-text {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+    }
+
+    .sidebar-logo-text span { color: var(--accent); }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      text-decoration: none;
+    }
+
+    .nav-item:hover { background: var(--surface-alt); color: var(--text-primary); }
+
+    .nav-item.active {
+      background: var(--accent-light);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .nav-item svg { width: 15px; height: 15px; flex-shrink: 0; opacity: 0.7; }
+    .nav-item.active svg { opacity: 1; }
+
+    .sidebar-footer {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border-light);
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* ── Main content ── */
+    .main {
+      flex: 1;
+      height: 100vh;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+    }
+
+    .page { display: none; min-height: 100vh; }
+    .page.active { display: block; }
+
+    .page-inner {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 52px 40px 80px;
+    }
+
+    .page-header {
+      margin-bottom: 40px;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .page-header h2 { margin-bottom: 10px; }
+    .page-header p { font-size: 16px; line-height: 1.7; max-width: 560px; }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-sans); font-size: 13px; font-weight: 600;
+      cursor: pointer; border: none; text-decoration: none;
+      transition: all 0.15s ease;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-hover); color: #fff; }
+    .btn-secondary { background: var(--surface); color: var(--text-primary); border: 1px solid var(--border); }
+    .btn-secondary:hover { background: var(--surface-alt); color: var(--text-primary); }
+    .btn-ghost { background: transparent; color: var(--text-secondary); padding: 8px 14px; }
+    .btn-ghost:hover { background: var(--surface-alt); color: var(--text-primary); }
+    .btn-sm { padding: 7px 14px; font-size: 12px; }
+
+    /* ── Home ── */
+    .home-hero {
+      padding: 60px 40px 48px;
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    .home-hero .eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 16px;
+    }
+
+    .home-hero h1 { margin-bottom: 16px; }
+
+    .home-hero .sub {
+      font-size: 16px;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      max-width: 520px;
+      margin-bottom: 32px;
+    }
+
+    .home-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .home-cards {
+      padding: 0 40px 60px;
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    .home-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+
+    .home-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 22px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .home-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+      border-color: var(--accent-light);
+    }
+
+    .home-card-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+    .home-card h3 { font-family: var(--font-sans); font-size: 15px; font-weight: 700; font-style: normal; color: var(--text-primary); }
+    .home-card p { font-size: 13px; color: var(--text-muted); max-width: none; line-height: 1.5; }
+
+    .disclaimer-strip {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ── Divider ── */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 36px 0; }
+
+    /* ── Labs ── */
+    .labs-intro-note {
+      font-size: 15px;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    .labs-read-more-btn {
+      background: none; border: none; padding: 0;
+      font-family: var(--font-sans); font-size: 13px; font-weight: 600;
+      color: var(--accent); cursor: pointer;
+      display: inline-flex; align-items: center; gap: 4px;
+      margin-bottom: 32px;
+    }
+
+    .labs-read-more-btn:hover { opacity: 0.75; }
+
+    .labs-more { display: none; }
+    .labs-more.open { display: block; margin-bottom: 16px; }
+    .labs-more p { font-size: 14px; line-height: 1.75; color: var(--text-secondary); margin-bottom: 14px; max-width: none; }
+
+    .accordion {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background: var(--surface);
+      margin-bottom: 14px;
+    }
+
+    .accordion-head {
+      width: 100%; display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 22px;
+      background: var(--surface); border: none; cursor: pointer;
+      text-align: left; transition: background 0.15s ease; gap: 16px;
+    }
+
+    .accordion-head:hover { background: var(--surface-alt); }
+    .accordion-head.open { border-bottom: 1px solid var(--border); }
+
+    .accordion-head-left { display: flex; align-items: center; gap: 14px; }
+
+    .acc-symbol {
+      width: 34px; height: 34px; border-radius: 8px;
+      background: var(--accent-light);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; flex-shrink: 0;
+      color: var(--accent); font-weight: 700;
+    }
+
+    .acc-title { font-family: var(--font-sans); font-size: 15px; font-weight: 700; color: var(--text-primary); }
+    .acc-sub { font-size: 12px; color: var(--text-muted); margin-top: 1px; }
+
+    .acc-chevron {
+      font-size: 10px; color: var(--text-muted); flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+    .accordion-head.open .acc-chevron { transform: rotate(180deg); }
+
+    .accordion-body { display: none; padding: 24px; background: var(--bg); }
+    .accordion-body.open { display: block; }
+
+    /* View toggle */
+    .view-bar {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .view-bar-label { font-size: 12px; font-weight: 600; color: var(--text-secondary); }
+
+    .toggle-group {
+      display: flex;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .toggle-opt {
+      padding: 6px 14px; font-size: 12px; font-weight: 600;
+      border: none; background: transparent; color: var(--text-secondary);
+      cursor: pointer; transition: all 0.15s ease;
+    }
+
+    .toggle-opt.active {
+      background: var(--accent); color: #fff;
+    }
+
+    /* Day label */
+    .day-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent); padding-bottom: 10px; border-bottom: 1px solid var(--border);
+      margin-bottom: 16px; margin-top: 28px;
+    }
+    .day-label:first-of-type { margin-top: 0; }
+
+    .labs-context {
+      font-size: 13px; line-height: 1.7; color: var(--text-secondary);
+      background: var(--surface); border: 1px solid var(--border);
+      border-left: 3px solid var(--accent); border-radius: var(--radius-sm);
+      padding: 13px 16px; margin-bottom: 24px; max-width: none;
+    }
+
+    /* Labs rows — expandable */
+    .labs-list {
+      border: 1px solid var(--border); border-radius: var(--radius-sm);
+      background: var(--surface); overflow: hidden;
+    }
+
+    .lab-row { border-bottom: 1px solid var(--border-light); }
+    .lab-row:last-child { border-bottom: none; }
+
+    .lab-row-head {
+      display: flex; align-items: center; gap: 10px;
+      padding: 11px 14px; cursor: pointer;
+      transition: background 0.12s; width: 100%;
+      background: none; border: none; text-align: left;
+    }
+    .lab-row-head:hover { background: var(--accent-light); }
+    .lab-row.open .lab-row-head { background: var(--accent-light); }
+
+    .lab-num {
+      font-size: 11px; color: var(--text-muted); flex-shrink: 0;
+      width: 20px; text-align: right; font-variant-numeric: tabular-nums;
+    }
+
+    .lab-name {
+      flex: 1; font-size: 13px; font-weight: 600; color: var(--text-primary);
+      line-height: 1.4; text-align: left;
+    }
+
+    .lab-code {
+      font-family: monospace; font-size: 11px; color: var(--text-muted);
+      flex-shrink: 0; white-space: nowrap;
+    }
+
+    .lab-chevron {
+      font-size: 9px; color: var(--text-muted); flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+    .lab-row.open .lab-chevron { transform: rotate(180deg); }
+
+    .lab-row-body {
+      display: none; padding: 0 14px 13px 44px;
+    }
+    .lab-row.open .lab-row-body { display: block; }
+
+    .lab-row-body p {
+      font-size: 13px; line-height: 1.7; color: var(--text-secondary);
+      max-width: none;
+    }
+
+    .freq-badge {
+      display: inline-block; font-size: 9px; font-weight: 700;
+      font-family: var(--font-sans); letter-spacing: 0.04em; text-transform: uppercase;
+      border-radius: 3px; padding: 1px 5px; margin-left: 5px; vertical-align: middle;
+    }
+    .freq-badge.once { background: #e8f4fd; color: #2471a3; border: 1px solid #aed6f1; }
+    .freq-badge.infrequent { background: #f4f6f7; color: #626567; border: 1px solid #cacfd2; }
+
+    /* Doctor view */
+    .doctor-header {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
+      padding: 18px 20px; margin-bottom: 16px;
+    }
+    .doctor-header h3 { font-family: var(--font-sans); font-size: 15px; font-weight: 700; font-style: normal; margin-bottom: 4px; }
+    .doctor-header p { font-size: 13px; color: var(--text-secondary); max-width: none; }
+
+    .doctor-list { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; }
+    .doctor-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 11px 18px; border-bottom: 1px solid var(--border-light); gap: 12px;
+    }
+    .doctor-item:last-child { border-bottom: none; }
+    .doctor-item strong { font-size: 13px; flex: 1; }
+    .doctor-item code {
+      font-family: monospace; font-size: 12px; color: var(--text-secondary);
+      background: var(--surface-alt); border-radius: 3px; padding: 2px 7px; flex-shrink: 0;
+    }
+    .icd { font-family: monospace; font-size: 11px; color: var(--text-muted); flex-shrink: 0; }
+    .icd::before { content: '('; }
+    .icd::after { content: ')'; }
+
+    .print-row { display: flex; justify-content: flex-end; margin-top: 14px; }
+
+    /* ── Supplements ── */
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+
+    .card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);
+      padding: 20px; transition: all 0.15s ease;
+    }
+    .card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+    .card-placeholder { border-style: dashed; background: transparent; box-shadow: none; }
+    .card-placeholder:hover { transform: none; box-shadow: none; }
+
+    .card h3 { font-family: var(--font-sans); font-size: 14px; font-weight: 700; font-style: normal; color: var(--text-primary); margin-bottom: 6px; }
+    .card p { font-size: 13px; line-height: 1.6; color: var(--text-secondary); max-width: none; }
+
+    .card-badge {
+      display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.05em;
+      text-transform: uppercase; padding: 2px 6px; border-radius: 3px;
+      background: var(--surface-alt); border: 1px solid var(--border);
+      color: var(--text-muted); margin-bottom: 10px;
+    }
+    .card-badge.affiliate { background: var(--accent-light); border-color: #f0c9b0; color: var(--accent); }
+
+    .fullscript-banner {
+      margin-top: 32px; background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 22px 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+    }
+    .fullscript-banner h4 { font-size: 13px; font-weight: 700; text-transform: none; letter-spacing: 0; color: var(--text-primary); margin-bottom: 4px; }
+    .fullscript-banner p { font-size: 13px; color: var(--text-secondary); max-width: 420px; }
+
+    /* ── Shop ── */
+    .product-category { margin-bottom: 40px; }
+    .product-category h4 { margin-bottom: 14px; display: flex; align-items: center; gap: 6px; font-size: 11px; }
+
+    .product-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);
+      padding: 18px 20px; display: flex; align-items: flex-start; gap: 16px;
+      transition: all 0.15s ease; text-decoration: none; color: inherit;
+      margin-bottom: 10px;
+    }
+    .product-card:hover { box-shadow: var(--shadow-md); color: inherit; }
+
+    .product-card h3 { font-family: var(--font-sans); font-size: 14px; font-weight: 700; font-style: normal; color: var(--text-primary); margin-bottom: 4px; }
+    .product-card p { font-size: 13px; color: var(--text-secondary); max-width: none; line-height: 1.6; }
+
+    .product-card-body { flex: 1; }
+    .product-card-meta { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+
+    .buy-list { display: flex; flex-direction: column; gap: 12px; }
+    .buy-item {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);
+      padding: 18px 20px; display: flex; align-items: flex-start; gap: 16px;
+    }
+    .buy-item-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+    .buy-item h3 { font-family: var(--font-sans); font-size: 14px; font-weight: 700; font-style: normal; margin-bottom: 4px; }
+    .buy-item p { font-size: 13px; color: var(--text-secondary); max-width: none; margin-bottom: 10px; }
+
+    /* ── Interpreter ── */
+    .gate-box {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);
+      padding: 40px; max-width: 440px; margin: 0 auto; text-align: center;
+    }
+    .gate-box h3 { font-family: var(--font-sans); font-size: 16px; font-weight: 700; font-style: normal; margin-bottom: 8px; }
+    .gate-box p { font-size: 13px; color: var(--text-secondary); max-width: none; margin-bottom: 24px; }
+
+    .pw-row { display: flex; gap: 8px; margin-bottom: 8px; }
+    .pw-row input {
+      flex: 1; padding: 9px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+      font-family: var(--font-sans); font-size: 14px; background: var(--bg); color: var(--text-primary);
+      outline: none; transition: border-color 0.15s;
+    }
+    .pw-row input:focus { border-color: var(--accent); }
+
+    .pw-error { font-size: 12px; color: var(--red); display: none; }
+    .pw-error.show { display: block; }
+
+    .interp-form { display: none; max-width: 580px; margin: 0 auto; }
+    .interp-form.show { display: block; }
+
+    .privacy-note {
+      background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent);
+      border-radius: var(--radius-sm); padding: 12px 16px; font-size: 13px; color: var(--text-secondary);
+      margin-bottom: 20px; display: flex; gap: 10px;
+    }
+
+    .upload-zone {
+      border: 2px dashed var(--border); border-radius: var(--radius-md); padding: 40px;
+      text-align: center; cursor: pointer; transition: all 0.15s; margin-bottom: 16px;
+      background: var(--surface); position: relative;
+    }
+    .upload-zone:hover, .upload-zone.drag { border-color: var(--accent); background: var(--accent-light); }
+    .upload-zone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+    .upload-zone p { font-size: 14px; color: var(--text-secondary); max-width: none; margin: 8px 0 4px; }
+    .upload-zone small { font-size: 12px; color: var(--text-muted); }
+    .upload-icon { font-size: 32px; }
+    .upload-name { font-size: 13px; color: var(--green); font-weight: 600; margin-top: 8px; display: none; }
+    .upload-name.show { display: block; }
+
+    .interp-loading { display: none; text-align: center; padding: 48px 0; }
+    .interp-loading.show { display: block; }
+    .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 14px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .interp-loading p { font-size: 14px; color: var(--text-secondary); max-width: none; text-align: center; }
+
+    .interp-results { display: none; }
+    .interp-results.show { display: block; }
+    .results-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .results-head h3 { font-family: var(--font-sans); font-size: 16px; font-weight: 700; font-style: normal; }
+
+    .urgent-block { background: var(--red-bg); border: 1px solid #f0c0c0; border-radius: var(--radius-md); padding: 14px 18px; margin-bottom: 20px; }
+    .urgent-block h4 { color: var(--red); margin-bottom: 8px; }
+    .urgent-block li { font-size: 13px; color: var(--red); font-weight: 600; list-style: none; }
+
+    .results-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+
+    .result-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
+    .result-card-head { display: flex; align-items: center; gap: 10px; padding: 14px 18px; cursor: pointer; transition: background 0.12s; }
+    .result-card-head:hover { background: var(--surface-alt); }
+
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .status-dot.green { background: var(--green); }
+    .status-dot.yellow { background: var(--yellow); }
+    .status-dot.red { background: var(--red); }
+
+    .result-name { flex: 1; font-weight: 600; font-size: 14px; }
+    .result-val { font-size: 13px; font-weight: 600; }
+    .result-val.green { color: var(--green); }
+    .result-val.yellow { color: var(--yellow); }
+    .result-val.red { color: var(--red); }
+    .result-range { font-size: 12px; color: var(--text-muted); }
+
+    .status-badge { font-size: 10px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; }
+    .status-badge.green { background: var(--green-bg); color: var(--green); }
+    .status-badge.yellow { background: var(--yellow-bg); color: var(--yellow); }
+    .status-badge.red { background: var(--red-bg); color: var(--red); }
+
+    .result-card-body { display: none; padding: 0 18px 16px; border-top: 1px solid var(--border); }
+    .result-card.open .result-card-body { display: block; }
+    .result-card-body p { font-size: 13px; color: var(--text-secondary); max-width: none; margin-top: 12px; line-height: 1.7; }
+
+    .results-footer {
+      background: var(--surface-alt); border: 1px solid var(--border); border-radius: var(--radius-md);
+      padding: 18px 20px; font-size: 13px; color: var(--text-secondary); line-height: 1.7;
+    }
+    .results-footer strong { display: block; font-size: 14px; margin-bottom: 4px; }
+
+    /* ── Supplement Modal ── */
+    .modal-backdrop {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(28, 25, 23, 0.55);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.25s ease;
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+    }
+    .modal-backdrop.open { opacity: 1; pointer-events: all; }
+
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      width: 100%; max-width: 520px;
+      max-height: 80vh;
+      overflow-y: auto;
+      padding: 36px;
+      position: relative;
+      transform: translateY(12px) scale(0.98);
+      transition: transform 0.25s ease;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.18);
+    }
+    .modal-backdrop.open .modal { transform: translateY(0) scale(1); }
+
+    .modal-close {
+      position: absolute; top: 16px; right: 16px;
+      width: 30px; height: 30px; border-radius: 50%;
+      background: var(--surface-alt); border: 1px solid var(--border);
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 14px; color: var(--text-muted); transition: all 0.15s;
+      line-height: 1;
+    }
+    .modal-close:hover { background: var(--border); color: var(--text-primary); }
+
+    .modal-badge { display: inline-block; margin-bottom: 12px; }
+
+    .modal h2 {
+      font-family: var(--font-sans); font-size: 20px; font-weight: 700;
+      color: var(--text-primary); margin-bottom: 16px; line-height: 1.3;
+    }
+
+    .modal-body { font-size: 14px; line-height: 1.8; color: var(--text-secondary); }
+    .modal-body p { max-width: none; margin-bottom: 14px; }
+    .modal-body p:last-child { margin-bottom: 0; }
+    .modal-body strong { color: var(--text-primary); }
+    .modal-body a { color: var(--accent); }
+
+    /* Read more link in cards */
+    .read-more-btn {
+      background: none; border: none; padding: 0;
+      font-family: var(--font-sans); font-size: 13px; font-weight: 600;
+      color: var(--accent); cursor: pointer;
+      display: inline-flex; align-items: center; gap: 3px;
+      margin-top: 8px; transition: opacity 0.15s;
+      text-decoration: underline; text-decoration-color: transparent;
+      text-underline-offset: 2px;
+    }
+    .read-more-btn:hover { text-decoration-color: var(--accent); opacity: 0.8; }
+
+    /* ── Bottom nav (mobile) ── */
+    .bottom-nav {
+      display: none;
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: var(--surface); border-top: 1px solid var(--border);
+      z-index: 100; padding: 8px 0 env(safe-area-inset-bottom, 8px);
+      justify-content: space-around;
+    }
+
+    .bnav-item {
+      display: flex; flex-direction: column; align-items: center; gap: 3px;
+      padding: 4px 10px; font-size: 10px; font-weight: 600;
+      color: var(--text-muted); cursor: pointer; border: none; background: none;
+      transition: color 0.15s;
+    }
+    .bnav-item.active { color: var(--accent); }
+    .bnav-item svg { width: 20px; height: 20px; }
+
+    /* ── Responsive ── */
+    @media (max-width: 680px) {
+      .sidebar { display: none; }
+      .bottom-nav { display: flex; }
+      .main { padding-bottom: 60px; }
+      .page-inner { padding: 32px 20px 60px; }
+      .home-hero { padding: 40px 20px 32px; }
+      .home-cards { padding: 0 20px 40px; }
+      .home-cards-grid { grid-template-columns: 1fr; }
+      .labs-table thead { display: none; }
+      .labs-table tbody tr { display: block; margin-bottom: 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px; background: var(--surface); }
+      .labs-table td { display: block; padding: 0; border: none; }
+      .labs-table td:first-child { display: none; }
+      .labs-table td:nth-child(2) { font-size: 13px; margin-bottom: 4px; }
+      .labs-table td:nth-child(3)::before { content: 'Code: '; }
+      .labs-table td:nth-child(3) { font-size: 11px; color: var(--text-muted); margin-bottom: 6px; }
+    }
+  </style>
 </head>
 <body>
 
-  <!-- ── Navigation ── -->
-  <nav class="nav" role="navigation" aria-label="Main navigation">
-    <div class="nav-inner">
-      <a href="#home" class="nav-logo">Pocket<span>Nick</span></a>
-      <ul class="nav-links" role="list">
-        <li><a href="#start-here">Start Here</a></li>
-        <li><a href="#labs">Labs</a></li>
-        <li><a href="#supplements">Supplements</a></li>
-        <li><a href="#recs">Product Recs</a></li>
-        <li><a href="#where-to-buy">Where to Buy</a></li>
-        <li><a href="#lab-interpreter">Lab Interpreter</a></li>
-      </ul>
-      <button class="nav-hamburger" aria-label="Open menu" aria-expanded="false" id="hamburger">
-        <span></span><span></span><span></span>
-      </button>
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="logo.png" alt="PocketNick">
+      <span class="sidebar-logo-text">Pocket<span>Nick</span></span>
     </div>
+    <nav class="sidebar-nav">
+      <button class="nav-item active" data-page="home">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 6.5L8 2l6 4.5V14a1 1 0 01-1 1H3a1 1 0 01-1-1V6.5z"/></svg>
+        Home
+      </button>
+      <button class="nav-item" data-page="labs">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 2v5.5L2 13h12L11 7.5V2"/><path d="M4 2h8"/></svg>
+        Labs
+      </button>
+      <button class="nav-item" data-page="supplements">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><ellipse cx="8" cy="8" rx="5" ry="3" transform="rotate(-45 8 8)"/><line x1="4.5" y1="4.5" x2="11.5" y2="11.5"/></svg>
+        Supplements
+      </button>
+      <button class="nav-item" data-page="shop">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2h1.5l2 8h7l1.5-5H5"/><circle cx="7" cy="13" r="1"/><circle cx="12" cy="13" r="1"/></svg>
+        Shop
+      </button>
+      <button class="nav-item" data-page="interpreter">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M5 8h6M5 5.5h4M5 10.5h3"/></svg>
+        Lab Interpreter
+      </button>
+    </nav>
+    <div class="sidebar-footer">
+      Not medical advice.<br>
+      Always work with a qualified physician.
+    </div>
+  </aside>
+
+  <!-- ── Mobile bottom nav ── -->
+  <nav class="bottom-nav">
+    <button class="bnav-item active" data-page="home">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 6.5L8 2l6 4.5V14a1 1 0 01-1 1H3a1 1 0 01-1-1V6.5z"/></svg>
+      Home
+    </button>
+    <button class="bnav-item" data-page="labs">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 2v5.5L2 13h12L11 7.5V2"/><path d="M4 2h8"/></svg>
+      Labs
+    </button>
+    <button class="bnav-item" data-page="supplements">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><ellipse cx="8" cy="8" rx="5" ry="3" transform="rotate(-45 8 8)"/><line x1="4.5" y1="4.5" x2="11.5" y2="11.5"/></svg>
+      Supplements
+    </button>
+    <button class="bnav-item" data-page="shop">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2h1.5l2 8h7l1.5-5H5"/><circle cx="7" cy="13" r="1"/><circle cx="12" cy="13" r="1"/></svg>
+      Shop
+    </button>
+    <button class="bnav-item" data-page="interpreter">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M5 8h6M5 5.5h4M5 10.5h3"/></svg>
+      Labs AI
+    </button>
   </nav>
 
-  <!-- Mobile menu -->
-  <div class="nav-mobile" id="mobileMenu" role="dialog" aria-label="Navigation menu">
-    <a href="#start-here" class="mobile-nav-link">Start Here</a>
-    <a href="#labs" class="mobile-nav-link">Labs</a>
-    <a href="#supplements" class="mobile-nav-link">Supplements</a>
-    <a href="#recs" class="mobile-nav-link">Product Recs</a>
-    <a href="#where-to-buy" class="mobile-nav-link">Where to Buy</a>
-    <a href="#lab-interpreter" class="mobile-nav-link">Lab Interpreter</a>
+  <!-- ── Supplement Modal ── -->
+  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true">
+    <div class="modal" id="modal">
+      <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+      <div class="modal-badge" id="modalBadge"></div>
+      <h2 id="modalTitle"></h2>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
   </div>
 
-  <main>
+  <!-- ── Main content ── -->
+  <main class="main" id="main">
 
-    <!-- ── Hero ── -->
-    <section class="hero" id="home">
-      <div class="container">
-        <!-- SYNC:hero-eyebrow --><span class="hero-eyebrow">A personal health resource</span><!-- /SYNC:hero-eyebrow -->
+    <!-- HOME -->
+    <div class="page active" id="page-home">
+      <div class="home-hero">
+        <!-- SYNC:hero-eyebrow --><span class="eyebrow">A personal health resource</span><!-- /SYNC:hero-eyebrow -->
         <!-- SYNC:hero-h1 --><h1>All of my recs in one place.</h1><!-- /SYNC:hero-h1 -->
-        <!-- SYNC:hero-sub --><p class="hero-sub">I'm not a doctor, but I'm passionate about health and finding the best for me and my family. This is a place to share that everchanging database with everyone I care about.</p><!-- /SYNC:hero-sub -->
-        <div class="hero-actions">
-          <a href="#start-here" class="btn btn-primary">Start Here</a>
-          <a href="#labs" class="btn btn-secondary">View Lab Panels</a>
+        <!-- SYNC:hero-sub --><p class="sub">I'm not a doctor, but I'm passionate about health and finding the best for me and my family. This is a place to share that ever-changing database with everyone I care about.</p><!-- /SYNC:hero-sub -->
+        <div class="home-actions">
+          <button class="btn btn-primary" data-page="labs">View Lab Panels</button>
+          <button class="btn btn-secondary" data-page="supplements">Supplements</button>
         </div>
       </div>
-    </section>
 
-    <!-- ── Start Here ── -->
-    <section id="start-here">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-label">Start Here</span>
-          <h2>Who made this and why</h2>
+      <div class="home-cards">
+        <div class="home-cards-grid">
+          <div class="home-card" data-page="labs">
+            <span class="home-card-label">Labs</span>
+            <h3>What to get tested — and why</h3>
+            <p>Male &amp; female panels with Labcorp codes, ICD-10 billing, and plain-English explanations.</p>
+          </div>
+          <div class="home-card" data-page="supplements">
+            <span class="home-card-label">Supplements</span>
+            <h3>What I actually take</h3>
+            <p>Researched and vetted — brands, dosing, and what to look for on labels.</p>
+          </div>
+          <div class="home-card" data-page="shop">
+            <span class="home-card-label">Shop</span>
+            <h3>Clean home essentials</h3>
+            <p>Non-toxic household products and where I order supplements from.</p>
+          </div>
+          <div class="home-card" data-page="interpreter">
+            <span class="home-card-label">Lab Interpreter</span>
+            <h3>What do your results mean?</h3>
+            <p>Upload a lab PDF and get a functional medicine read — flagging suboptimal ranges.</p>
+          </div>
         </div>
-
-        <div class="disclaimer">
-          <strong>Not medical advice.</strong> I'm not a doctor or licensed healthcare provider. Nothing on this site is a substitute for working with a qualified physician. Use this as a starting point for conversations with your own doctor — not a replacement for one.
+        <div class="disclaimer-strip">
+          <strong>Not medical advice.</strong> I'm not a doctor or licensed healthcare provider. Use this as a starting point for conversations with your own doctor — not a replacement for one.
         </div>
-
-        <!-- SYNC:start-here -->
-        <p style="font-size: 17px; line-height: 1.8; margin-bottom: 20px; color: var(--text-secondary);">
-          If you know me, you know how I love to research stuff and then send texts that are way too long to tell you about it. Well this is my way of trying to consolidate a lot of those things into a helpful resource.
-        </p>
-
-        <p style="font-size: 17px; line-height: 1.8; margin-bottom: 20px; color: var(--text-secondary);">
-          It started as a way to share the slightly overkill list of blood tests I ask my doc for every year, and it's becoming a place for me to put all of my favorite products in one easy to access place.
-        </p>
-
-        <p style="font-size: 17px; line-height: 1.8; margin-bottom: 20px; color: var(--text-secondary);">
-          My goal is to keep it simple, keep the rambling to a minimum, but keep it up to date. That being said, this is a <em>living document</em> so it will be changed and updated over time.
-        </p>
-
-        <p style="font-size: 16px; line-height: 1.8; margin-bottom: 32px; color: var(--text-muted);">
-          NOTE: As of now this is not even close to final, but the labs below are at least ready to go for download 👍🏻
-        </p>
-        <!-- /SYNC:start-here -->
-
-        <a href="#labs" class="btn btn-primary">Jump to Lab Panels →</a>
       </div>
-    </section>
+    </div>
 
-    <!-- ── Labs ── -->
-    <section id="labs">
-      <div class="container">
-        <div class="section-header">
+    <!-- LABS -->
+    <div class="page" id="page-labs">
+      <div class="page-inner">
+        <div class="page-header">
           <span class="section-label">Labs</span>
           <h2>What to get tested — and why</h2>
-          <!-- SYNC:labs-intro --><p>Once-a-year labs to build a baseline you can track over time. Codes included are for Labcorp, covered by most insurance with the correct billing codes (ICD-10).</p>
-
-          <div class="labs-intro-more" id="labsIntroMore" hidden>
-            <p>At your doctor visit, explain that "you're looking to establish a 'normal baseline' that you can track overtime." The idea is you want to know which biomarkers are optimal, not just "normal".</p>
-
-            <p>Some docs may push back (ego-dependent) but ideally your doctor is open to working with you and your goals. If not, might be worth trying another doctor who aligns with your values and is preventing focused. Some might also say "if you're asymptomatic you shouldn't test", but that is the point; you want a normal baseline for yourself. If you <em>do</em> have symptoms that's even more of a reason to test.</p>
-
-            <p>Framing matters though. Instead of demanding these tests "just because", state your goals clearly. Your goal might be longevity, and you want to focus on preventative care to spot early warning signs, if anything comes up abnormal. (ie. seeing a downward trend over time that never get flagged cause they're within normal ranges).</p>
-
-            <p>If they are still questioning this, you can say you have a friend who is a 'health nerd' who put this together for you lol.</p>
-
-            <p>On insurance - they will probably tell you some of these won't be covered by insurance. There's a possibility that's true, but that really comes down to the doctor putting in the correct ICD-10 code and some doctors just might not feel comfortable doing that if they feel like they're using codes even though you're asymptomatic. However all preventative minded physicians believe it's just as warranted, so it just comes down to what the doctor is comfortable with.</p>
-
-            <p>If this comes up, you can say something like "there are example ICD-10 codes already there that we can try, but even if I have to pay for some of these I would still want to give it a try."</p>
-
-            <p>Personally, I've done these labs multiple times a year for the last four years and haven't paid anything, but just know that there is a chance some of these may not be covered and mileage may vary. But I think at the end of the day it's worth the cost to have your data.</p>
-          </div>
-
-          <button class="labs-intro-toggle" id="labsIntroToggle" aria-expanded="false">Read more <span class="labs-intro-arrow">▼</span></button><!-- /SYNC:labs-intro -->
+          <!-- SYNC:labs-intro --><p class="labs-intro-note">Once-a-year labs to build a baseline you can track over time. Codes included are for Labcorp, covered by most insurance with the correct billing codes (ICD-10).</p>
+          <button class="labs-read-more-btn" id="labsMoreBtn">Read more ▾</button>
+          <div class="labs-more" id="labsMore">
+            <p>At your doctor visit, explain that "you're looking to establish a 'normal baseline' that you can track over time." The idea is you want to know which biomarkers are <em>optimal</em>, not just "normal".</p>
+            <p>Some docs may push back (ego-dependent) but ideally your doctor is open to working with you and your goals. If not, it might be worth trying another doctor who is prevention-focused.</p>
+            <p>Framing matters. State your goals clearly — longevity, preventative care, spotting early warning signs. If they still question it, say you have a friend who is a 'health nerd' who put this together.</p>
+            <p>On insurance — they may say some won't be covered. That comes down to the doctor using the correct ICD-10 code. Personally, I've done these labs multiple times a year for four years and haven't paid anything. But mileage may vary.</p>
+          </div><!-- /SYNC:labs-intro -->
         </div>
 
-        <!-- ── MALE PANEL ACCORDION ── -->
-        <div class="lab-accordion" id="accordion-male">
-          <button class="accordion-trigger" data-panel="male" aria-expanded="false">
-            <div class="accordion-trigger-left">
-              <span class="accordion-icon">♂</span>
+        <!-- Male accordion -->
+        <div class="accordion" id="acc-male">
+          <button class="accordion-head" data-acc="male">
+            <div class="accordion-head-left">
+              <div class="acc-symbol">♂</div>
               <div>
-                <div class="accordion-title">Male Panel</div>
-                <div class="accordion-subtitle">24 labs · Two fasting draws · Via Labcorp</div>
+                <div class="acc-title">Male Panel</div>
+                <div class="acc-sub">24 labs · Two fasting draws · Via Labcorp</div>
               </div>
             </div>
-            <span class="accordion-chevron">▼</span>
+            <span class="acc-chevron">▼</span>
           </button>
-
-          <div class="accordion-body" id="body-male" hidden>
-
-            <!-- View toggle -->
-            <div class="labs-view-bar">
-              <div class="view-toggle">
-                <span class="view-toggle-label">View:</span>
-                <div class="toggle-btn-group" role="group">
-                  <button class="toggle-btn active" data-target="male" data-view="full">Full Guide</button>
-                  <button class="toggle-btn" data-target="male" data-view="doctor">For Your Doctor</button>
-                </div>
+          <div class="accordion-body" id="body-male">
+            <div class="view-bar">
+              <span class="view-bar-label">View:</span>
+              <div class="toggle-group" role="group">
+                <button class="toggle-opt active" data-target="male" data-view="full">Full Guide</button>
+                <button class="toggle-opt" data-target="male" data-view="doctor">For Your Doctor</button>
               </div>
             </div>
+            <div id="male-full"></div>
+            <div id="male-doctor" style="display:none;"></div>
+          </div>
+        </div>
 
-            <!-- Full Guide -->
-            <div class="labs-full-view" id="male-full">
-              <p class="labs-context-note">Ask for labs to check that everything is <em>optimal</em>, not just normal — that word matters. Day 1 requires a 12-hour fast. Day 2 does not. Hydrate well.</p>
-
-              <div class="day-group">
-                <div class="day-label">Day 1 — Fasting</div>
-                <div class="labs-table-wrap">
-                  <table class="labs-table">
-                    <thead><tr><th>#</th><th>Lab</th><th>Code</th><th>Why it matters</th></tr></thead>
-                    <tbody>
-                      <tr><td>1</td><td>Comprehensive Metabolic Panel (CMP)</td><td>322000</td><td><!-- SYNC:lab-m-cmp -->Screens kidney function, liver enzymes, electrolytes, and blood sugar in one draw. Your metabolic foundation.<!-- /SYNC:lab-m-cmp --></td></tr>
-                      <tr><td>2</td><td>CBC with Differential</td><td>005009</td><td><!-- SYNC:lab-m-cbc -->Checks red and white blood cells and platelets. Flags anemia, infection, and immune abnormalities.<!-- /SYNC:lab-m-cbc --></td></tr>
-                      <tr><td>3</td><td>Urinalysis, Complete with Microscopic</td><td>003772</td><td><!-- SYNC:lab-m-ua -->Kidney and bladder health, plus early metabolic issues that show up in urine before blood markers shift.<!-- /SYNC:lab-m-ua --></td></tr>
-                      <tr><td>4</td><td>NMR LipoProfile with Lipids</td><td>884247</td><td><!-- SYNC:lab-m-nmr -->The standard cholesterol test is 70+ year old technology. NMR measures actual particle size and number; a far better cardiovascular risk predictor.<!-- /SYNC:lab-m-nmr --></td></tr>
-                      <tr><td>5</td><td>Apolipoprotein B</td><td>167015</td><td><!-- SYNC:lab-m-apob -->One of the most accurate single markers for cardiovascular risk. Each ApoB particle can deposit in artery walls.<!-- /SYNC:lab-m-apob --></td></tr>
-                      <tr><td>6</td><td>Lipoprotein(a) <span class="freq-badge once">Test once</span></td><td>120188</td><td><!-- SYNC:lab-m-lpa -->A genetically determined cardiovascular risk factor. Only need to measure it once since it rarely changes.<!-- /SYNC:lab-m-lpa --></td></tr>
-                      <tr><td>7</td><td>Hemoglobin A1c</td><td>001453</td><td><!-- SYNC:lab-m-a1c -->Your 3-month average blood sugar. More reliable than a fasting glucose snapshot.<!-- /SYNC:lab-m-a1c --></td></tr>
-                      <tr><td>8</td><td>Insulin, Fasting</td><td>004333</td><td><!-- SYNC:lab-m-insulin -->Elevated fasting insulin is one of the earliest signs of metabolic dysfunction, often elevated years before glucose is.<!-- /SYNC:lab-m-insulin --></td></tr>
-                      <tr><td>9</td><td>C-Reactive Protein, Cardiac (hs-CRP)</td><td>120766</td><td><!-- SYNC:lab-m-crp -->Measures systemic inflammation. Elevated levels predict cardiovascular events better than cholesterol alone.<!-- /SYNC:lab-m-crp --></td></tr>
-                      <tr><td>10</td><td>Iron and Total Iron Binding Capacity (TIBC)</td><td>001321</td><td><!-- SYNC:lab-m-iron -->Iron deficiency is the most common nutrient deficiency worldwide. TIBC gives context to your iron level.<!-- /SYNC:lab-m-iron --></td></tr>
-                      <tr><td>11</td><td>Ferritin</td><td>004598</td><td><!-- SYNC:lab-m-ferritin -->Your iron storage marker. Both very low and very high ferritin are problematic and often missed on standard panels.<!-- /SYNC:lab-m-ferritin --></td></tr>
-                      <tr><td>12</td><td>Phosphorus</td><td>001024</td><td><!-- SYNC:lab-m-phosphorus -->Involved in bone health, energy production, and kidney function. Often depleted in processed food-heavy diets.<!-- /SYNC:lab-m-phosphorus --></td></tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              <div class="day-group">
-                <div class="day-label">Day 2 — No fast required</div>
-                <div class="labs-table-wrap">
-                  <table class="labs-table">
-                    <thead><tr><th>#</th><th>Lab</th><th>Code</th><th>Why it matters</th></tr></thead>
-                    <tbody>
-                      <tr><td>13</td><td>Homocysteine</td><td>706994</td><td><!-- SYNC:lab-m-homocys -->Elevated levels indicate B-vitamin deficiency and raise risk for cardiovascular disease and cognitive decline.<!-- /SYNC:lab-m-homocys --></td></tr>
-                      <tr><td>14</td><td>Thyroid Panel: TSH and Free T4</td><td>224576</td><td><!-- SYNC:lab-m-tsh-t4 -->Standard thyroid check. TSH alone misses a lot — Free T4 shows how much hormone is actually circulating.<!-- /SYNC:lab-m-tsh-t4 --></td></tr>
-                      <tr><td>15</td><td>Free T3</td><td>010389</td><td><!-- SYNC:lab-m-freet3 -->The active thyroid hormone your cells actually use. Often suboptimal even when TSH looks fine.<!-- /SYNC:lab-m-freet3 --></td></tr>
-                      <tr><td>16</td><td>Thyroid Peroxidase (TPO) Antibody <span class="freq-badge infrequent">Every 3–5 yrs</span></td><td>006676</td><td><!-- SYNC:lab-m-tpo -->Detects Hashimoto's thyroiditis, the most common cause of hypothyroidism — often missed for years.<!-- /SYNC:lab-m-tpo --></td></tr>
-                      <tr><td>17</td><td>Thyroid Stimulating Immunoglobulin (TSI) <span class="freq-badge infrequent">Every 3–5 yrs</span></td><td>140747</td><td><!-- SYNC:lab-m-tsi -->Detects Graves' disease (autoimmune hyperthyroidism). Rules out the other side of the thyroid autoimmune spectrum.<!-- /SYNC:lab-m-tsi --></td></tr>
-                      <tr><td>18</td><td>Testosterone, Free and Total</td><td>140103</td><td><!-- SYNC:lab-m-testosterone -->Total testosterone is often normal while free testosterone is low. You need both to get the full picture.<!-- /SYNC:lab-m-testosterone --></td></tr>
-                      <tr><td>19</td><td>Follicle-Stimulating Hormone (FSH)</td><td>004309</td><td><!-- SYNC:lab-m-fsh -->In men, elevated FSH can indicate testicular dysfunction. Useful context alongside testosterone levels.<!-- /SYNC:lab-m-fsh --></td></tr>
-                      <tr><td>20</td><td>Vitamin D, 25-Hydroxy</td><td>081950</td><td><!-- SYNC:lab-m-vitd -->Most people are deficient. Affects immune function, mood, bone health, testosterone production, and more. Recommend testing twice a year as seasons change.<!-- /SYNC:lab-m-vitd --></td></tr>
-                      <tr><td>21</td><td>Vitamin B12 and Folate</td><td>000810</td><td><!-- SYNC:lab-m-b12 -->Essential for nerve function, DNA synthesis, and methylation. Deficiency is common and consistently underdiagnosed.<!-- /SYNC:lab-m-b12 --></td></tr>
-                      <tr><td>22</td><td>Magnesium, RBC</td><td>080283</td><td><!-- SYNC:lab-m-mag -->Serum magnesium is nearly useless — RBC magnesium shows what's actually inside your cells. Most people are low.<!-- /SYNC:lab-m-mag --></td></tr>
-                      <tr><td>23</td><td>OmegaCheck (Omega-3 and Omega-6 Profile)</td><td>823738</td><td><!-- SYNC:lab-m-omega -->Measures your omega-3 index and omega-6/omega-3 ratio. Most people are severely omega-3 deficient.<!-- /SYNC:lab-m-omega --></td></tr>
-                      <tr><td>24</td><td>Gamma-Glutamyl Transferase (GGT)</td><td>001958</td><td><!-- SYNC:lab-m-ggt -->An early liver stress marker. Elevated GGT can precede other liver enzymes and correlates with oxidative stress. Also relevant to the gallbladder.<!-- /SYNC:lab-m-ggt --></td></tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div><!-- /male-full -->
-
-            <!-- For Your Doctor -->
-            <div class="labs-doctor-view" id="male-doctor" hidden>
-              <div class="doctor-header">
-                <h3>Male Lab Panel — 24 Labs</h3>
-                <p>Show this to your doctor or print it out. ICD-10 codes help them order the correct tests through Labcorp.</p>
-              </div>
-              <div class="doctor-list">
-                <div class="doctor-list-item"><strong>1. Comprehensive Metabolic Panel (CMP)</strong><code>322000</code><span class="icd-code">E78.5</span></div>
-                <div class="doctor-list-item"><strong>2. CBC with Differential</strong><code>005009</code><span class="icd-code">E78.5</span></div>
-                <div class="doctor-list-item"><strong>3. Urinalysis, Complete with Microscopic</strong><code>003772</code><span class="icd-code">Z00.00</span></div>
-                <div class="doctor-list-item"><strong>4. NMR LipoProfile with Lipids</strong><code>884247</code><span class="icd-code">E78.5</span></div>
-                <div class="doctor-list-item"><strong>5. Apolipoprotein B</strong><code>167015</code><span class="icd-code">E78.5</span></div>
-                <div class="doctor-list-item"><strong>6. Lipoprotein(a) <span class="freq-badge once">Test once</span></strong><code>120188</code><span class="icd-code">E78.5</span></div>
-                <div class="doctor-list-item"><strong>7. Hemoglobin A1c</strong><code>001453</code><span class="icd-code">Z13.1</span></div>
-                <div class="doctor-list-item"><strong>8. Insulin, Fasting</strong><code>004333</code><span class="icd-code">Z13.1</span></div>
-                <div class="doctor-list-item"><strong>9. C-Reactive Protein, Cardiac (hs-CRP)</strong><code>120766</code><span class="icd-code">E78.5</span></div>
-                <div class="doctor-list-item"><strong>10. Iron and Total Iron Binding Capacity (TIBC)</strong><code>001321</code><span class="icd-code">E61.1</span></div>
-                <div class="doctor-list-item"><strong>11. Ferritin</strong><code>004598</code><span class="icd-code">E61.1</span></div>
-                <div class="doctor-list-item"><strong>12. Phosphorus</strong><code>001024</code><span class="icd-code">Z13.88</span></div>
-                <div class="doctor-list-item"><strong>13. Homocysteine</strong><code>706994</code><span class="icd-code">E78.5</span></div>
-                <div class="doctor-list-item"><strong>14. Thyroid Panel: TSH and Free T4</strong><code>224576</code><span class="icd-code">Z13.29</span></div>
-                <div class="doctor-list-item"><strong>15. Free T3</strong><code>010389</code><span class="icd-code">Z13.29</span></div>
-                <div class="doctor-list-item"><strong>16. Thyroid Peroxidase (TPO) Antibody <span class="freq-badge infrequent">Every 3–5 yrs</span></strong><code>006676</code><span class="icd-code">Z13.29</span></div>
-                <div class="doctor-list-item"><strong>17. Thyroid Stimulating Immunoglobulin (TSI) <span class="freq-badge infrequent">Every 3–5 yrs</span></strong><code>140747</code><span class="icd-code">Z13.29</span></div>
-                <div class="doctor-list-item"><strong>18. Testosterone, Free and Total</strong><code>140103</code><span class="icd-code">Z13.29</span></div>
-                <div class="doctor-list-item"><strong>19. Follicle-Stimulating Hormone (FSH)</strong><code>004309</code><span class="icd-code">Z13.29</span></div>
-                <div class="doctor-list-item"><strong>20. Vitamin D, 25-Hydroxy</strong><code>081950</code><span class="icd-code">E55.9</span></div>
-                <div class="doctor-list-item"><strong>21. Vitamin B12 and Folate</strong><code>000810</code><span class="icd-code">E72.11</span></div>
-                <div class="doctor-list-item"><strong>22. Magnesium, RBC</strong><code>080283</code><span class="icd-code">Z13.88</span></div>
-                <div class="doctor-list-item"><strong>23. OmegaCheck (Omega-3 and Omega-6 Profile)</strong><code>823738</code><span class="icd-code">Z13.88</span></div>
-                <div class="doctor-list-item"><strong>24. Gamma-Glutamyl Transferase (GGT)</strong><code>001958</code><span class="icd-code">Z13.88</span></div>
-              </div>
-              <div class="print-btn-wrap">
-                <button class="btn btn-secondary btn-sm" onclick="printPanel('Male')">Print / Save PDF</button>
-              </div>
-            </div><!-- /male-doctor -->
-
-          </div><!-- /accordion-body male -->
-        </div><!-- /accordion male -->
-
-        <!-- ── FEMALE PANEL ACCORDION ── -->
-        <div class="lab-accordion" id="accordion-female" style="margin-top: 16px;">
-          <button class="accordion-trigger" data-panel="female" aria-expanded="false">
-            <div class="accordion-trigger-left">
-              <span class="accordion-icon">♀</span>
+        <!-- Female accordion -->
+        <div class="accordion" id="acc-female">
+          <button class="accordion-head" data-acc="female">
+            <div class="accordion-head-left">
+              <div class="acc-symbol">♀</div>
               <div>
-                <div class="accordion-title">Female Panel</div>
-                <div class="accordion-subtitle">33 labs · Two fasting draws · Timed to your cycle</div>
+                <div class="acc-title">Female Panel</div>
+                <div class="acc-sub">33 labs · Two fasting draws · Timed to your cycle</div>
               </div>
             </div>
-            <span class="accordion-chevron">▼</span>
+            <span class="acc-chevron">▼</span>
           </button>
-
-          <div class="accordion-body" id="body-female" hidden>
-
-            <!-- View toggle -->
-            <div class="labs-view-bar">
-              <div class="view-toggle">
-                <span class="view-toggle-label">View:</span>
-                <div class="toggle-btn-group" role="group">
-                  <button class="toggle-btn active" data-target="female" data-view="full">Full Guide</button>
-                  <button class="toggle-btn" data-target="female" data-view="doctor">For Your Doctor</button>
-                </div>
+          <div class="accordion-body" id="body-female">
+            <div class="view-bar">
+              <span class="view-bar-label">View:</span>
+              <div class="toggle-group" role="group">
+                <button class="toggle-opt active" data-target="female" data-view="full">Full Guide</button>
+                <button class="toggle-opt" data-target="female" data-view="doctor">For Your Doctor</button>
               </div>
             </div>
-
-            <!-- Full Guide -->
-            <div class="labs-full-view" id="female-full">
-              <p class="labs-context-note">Hormone levels shift throughout your cycle, so timing is key. <strong>Day 1 (Cycle Day 3):</strong> Book your draw on days 2, 3, or 4 of your cycle. <strong>Day 2 (Cycle Day 19–21):</strong> Count 7 days back from your expected next period — Day 21 for a 28-day cycle, Day 23 for a 30-day cycle. Fast 10–12 hours for both draws. Book the same cycle days each year for consistent comparisons.</p>
-
-              <div class="day-group">
-                <div class="day-label">Day 1 — Cycle Day 3 (Fasting)</div>
-                <div class="labs-table-wrap">
-                  <table class="labs-table">
-                    <thead><tr><th>#</th><th>Lab</th><th>Code</th><th>Why it matters</th></tr></thead>
-                    <tbody>
-                      <tr><td>1</td><td>Follicle-Stimulating Hormone (FSH)</td><td>004309</td><td><!-- SYNC:lab-f-fsh -->On cycle day 3, FSH reflects ovarian reserve. Rising FSH over time can indicate diminishing egg supply.<!-- /SYNC:lab-f-fsh --></td></tr>
-                      <tr><td>2</td><td>Luteinizing Hormone (LH)</td><td>004283</td><td><!-- SYNC:lab-f-lh -->The LH-to-FSH ratio on Day 3 gives important context for hormonal balance and PCOS risk assessment.<!-- /SYNC:lab-f-lh --></td></tr>
-                      <tr><td>3</td><td>Estradiol</td><td>004515</td><td><!-- SYNC:lab-f-estradiol -->Baseline estradiol on Day 3 should be low. Elevated levels can suppress FSH and obscure ovarian reserve results.<!-- /SYNC:lab-f-estradiol --></td></tr>
-                      <tr><td>4</td><td>Anti-Mullerian Hormone (AMH)</td><td>500183</td><td><!-- SYNC:lab-f-amh -->The best single marker for ovarian reserve. Stable across the cycle — gives a clear picture of remaining egg supply.<!-- /SYNC:lab-f-amh --></td></tr>
-                      <tr><td>5</td><td>Testosterone, Total (Women/Children, LC/MS-MS)</td><td>070001</td><td><!-- SYNC:lab-f-testosterone -->Low testosterone in women causes low libido, fatigue, and poor muscle recovery. Frequently overlooked.<!-- /SYNC:lab-f-testosterone --></td></tr>
-                      <tr><td>6</td><td>Sex Hormone-Binding Globulin (SHBG)</td><td>500848</td><td><!-- SYNC:lab-f-shbg -->High SHBG binds free testosterone and estrogen, leaving less bioavailable for your cells to use.<!-- /SYNC:lab-f-shbg --></td></tr>
-                      <tr><td>7</td><td>DHEA-Sulfate</td><td>004020</td><td><!-- SYNC:lab-f-dhea -->An adrenal hormone and testosterone precursor. Low levels correlate with fatigue, low libido, and poor stress response.<!-- /SYNC:lab-f-dhea --></td></tr>
-                      <tr><td>8</td><td>Prolactin</td><td>004465</td><td><!-- SYNC:lab-f-prolactin -->Elevated prolactin can suppress ovulation. A common hidden cause of irregular cycles and fertility issues.<!-- /SYNC:lab-f-prolactin --></td></tr>
-                      <tr><td>9</td><td>Insulin, Fasting</td><td>004333</td><td><!-- SYNC:lab-f-insulin -->Elevated fasting insulin is one of the earliest signs of metabolic dysfunction — often rises years before glucose.<!-- /SYNC:lab-f-insulin --></td></tr>
-                      <tr><td>10</td><td>Hemoglobin A1c</td><td>001453</td><td><!-- SYNC:lab-f-a1c -->Your 3-month average blood sugar. More reliable than a fasting glucose snapshot for tracking metabolic health.<!-- /SYNC:lab-f-a1c --></td></tr>
-                      <tr><td>11</td><td>Thyroid Panel: TSH and Free T4</td><td>224576</td><td><!-- SYNC:lab-f-tsh-t4 -->Standard thyroid check. TSH alone misses a lot — Free T4 shows how much hormone is actually circulating.<!-- /SYNC:lab-f-tsh-t4 --></td></tr>
-                      <tr><td>12</td><td>Free T3</td><td>010389</td><td><!-- SYNC:lab-f-freet3 -->The active thyroid hormone your cells actually use. Often suboptimal even when TSH looks fine.<!-- /SYNC:lab-f-freet3 --></td></tr>
-                      <tr><td>13</td><td>Thyroid Peroxidase (TPO) Antibody <span class="freq-badge infrequent">Every 3–5 yrs</span></td><td>006676</td><td><!-- SYNC:lab-f-tpo -->Detects Hashimoto's thyroiditis — the most common thyroid condition in women. Often undiagnosed for years.<!-- /SYNC:lab-f-tpo --></td></tr>
-                      <tr><td>14</td><td>Thyroid Stimulating Immunoglobulin (TSI) <span class="freq-badge infrequent">Every 3–5 yrs</span></td><td>140747</td><td><!-- SYNC:lab-f-tsi -->Detects Graves' disease (autoimmune hyperthyroidism). Rules out the other side of the thyroid autoimmune spectrum.<!-- /SYNC:lab-f-tsi --></td></tr>
-                      <tr><td>15</td><td>Thyroglobulin Antibody (TgAb) <span class="freq-badge infrequent">Every 3–5 yrs</span></td><td>006685</td><td><!-- SYNC:lab-f-tgab -->A second thyroid autoimmune marker. Some people make TgAb but not TPO antibodies — you need both to catch all cases.<!-- /SYNC:lab-f-tgab --></td></tr>
-                      <tr><td>16</td><td>17-OH Progesterone, LC/MS <span class="freq-badge once">Test once</span></td><td>070085</td><td><!-- SYNC:lab-f-17oh -->Screens for congenital adrenal hyperplasia, a common cause of androgen excess and irregular cycles often missed on standard panels.<!-- /SYNC:lab-f-17oh --></td></tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              <div class="day-group">
-                <div class="day-label">Day 2 — Cycle Day 19–21 (Fasting)</div>
-                <div class="labs-table-wrap">
-                  <table class="labs-table">
-                    <thead><tr><th>#</th><th>Lab</th><th>Code</th><th>Why it matters</th></tr></thead>
-                    <tbody>
-                      <tr><td>17</td><td>Progesterone</td><td>004317</td><td><!-- SYNC:lab-f-prog -->Peak progesterone mid-luteal phase confirms ovulation occurred. Low levels indicate anovulatory cycles or luteal phase defect.<!-- /SYNC:lab-f-prog --></td></tr>
-                      <tr><td>18</td><td>Comprehensive Metabolic Panel (CMP)</td><td>322000</td><td><!-- SYNC:lab-f-cmp -->Screens kidney function, liver enzymes, electrolytes, and blood sugar in one draw.<!-- /SYNC:lab-f-cmp --></td></tr>
-                      <tr><td>19</td><td>CBC with Differential</td><td>005009</td><td><!-- SYNC:lab-f-cbc -->Checks red and white blood cells and platelets. Women are at higher risk for iron-deficiency anemia.<!-- /SYNC:lab-f-cbc --></td></tr>
-                      <tr><td>20</td><td>Urinalysis, Complete with Microscopic</td><td>003772</td><td><!-- SYNC:lab-f-ua -->Kidney and bladder health, plus early metabolic issues that show up in urine before blood markers shift.<!-- /SYNC:lab-f-ua --></td></tr>
-                      <tr><td>21</td><td>NMR LipoProfile with Lipids</td><td>884247</td><td><!-- SYNC:lab-f-nmr -->Particle-level cardiovascular risk assessment. More accurate than a standard cholesterol panel.<!-- /SYNC:lab-f-nmr --></td></tr>
-                      <tr><td>22</td><td>Apolipoprotein B</td><td>167015</td><td><!-- SYNC:lab-f-apob -->The most accurate single marker for cardiovascular risk. Each ApoB particle can deposit in artery walls.<!-- /SYNC:lab-f-apob --></td></tr>
-                      <tr><td>23</td><td>Lipoprotein(a) <span class="freq-badge once">Test once</span></td><td>120188</td><td><!-- SYNC:lab-f-lpa -->A genetically determined cardiovascular risk factor. Only need to measure it once — it rarely changes.<!-- /SYNC:lab-f-lpa --></td></tr>
-                      <tr><td>24</td><td>C-Reactive Protein, Cardiac (hs-CRP)</td><td>120766</td><td><!-- SYNC:lab-f-crp -->Systemic inflammation marker. Predicts cardiovascular events better than standard cholesterol panels.<!-- /SYNC:lab-f-crp --></td></tr>
-                      <tr><td>25</td><td>Iron and Total Iron Binding Capacity (TIBC)</td><td>001321</td><td><!-- SYNC:lab-f-iron -->Women are at much higher risk for iron deficiency due to menstruation. TIBC gives essential context to your iron level.<!-- /SYNC:lab-f-iron --></td></tr>
-                      <tr><td>26</td><td>Ferritin</td><td>004598</td><td><!-- SYNC:lab-f-ferritin -->Iron storage marker. The most sensitive indicator of deficiency — often depleted before anemia develops.<!-- /SYNC:lab-f-ferritin --></td></tr>
-                      <tr><td>27</td><td>Phosphorus</td><td>001024</td><td><!-- SYNC:lab-f-phosphorus -->Involved in bone health, energy production, and kidney function. Often low in processed food-heavy diets.<!-- /SYNC:lab-f-phosphorus --></td></tr>
-                      <tr><td>28</td><td>Homocysteine</td><td>706994</td><td><!-- SYNC:lab-f-homocys -->Elevated levels indicate B-vitamin deficiency and raise risk for cardiovascular disease and cognitive decline.<!-- /SYNC:lab-f-homocys --></td></tr>
-                      <tr><td>29</td><td>Vitamin D, 25-Hydroxy</td><td>081950</td><td><!-- SYNC:lab-f-vitd -->Most people are deficient. Critical for immune function, mood, bone density, and hormonal balance.<!-- /SYNC:lab-f-vitd --></td></tr>
-                      <tr><td>30</td><td>Vitamin B12 and Folate</td><td>000810</td><td><!-- SYNC:lab-f-b12 -->Essential for nerve function, DNA synthesis, and fetal development. Deficiency is common and often missed.<!-- /SYNC:lab-f-b12 --></td></tr>
-                      <tr><td>31</td><td>Magnesium, RBC</td><td>080283</td><td><!-- SYNC:lab-f-mag -->RBC magnesium shows intracellular stores — far more accurate than serum magnesium, which can look normal while cells are depleted.<!-- /SYNC:lab-f-mag --></td></tr>
-                      <tr><td>32</td><td>OmegaCheck (Omega-3 and Omega-6 Profile)</td><td>823738</td><td><!-- SYNC:lab-f-omega -->Measures your omega-3 index and fatty acid ratios. Most people are severely omega-3 deficient.<!-- /SYNC:lab-f-omega --></td></tr>
-                      <tr><td>33</td><td>Gamma-Glutamyl Transferase (GGT)</td><td>001958</td><td><!-- SYNC:lab-f-ggt -->An early liver stress and oxidative stress marker. Can flag problems before other liver enzymes shift.<!-- /SYNC:lab-f-ggt --></td></tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div><!-- /female-full -->
-
-            <!-- For Your Doctor -->
-            <div class="labs-doctor-view" id="female-doctor" hidden>
-              <div class="doctor-header">
-                <h3>Female Lab Panel — 34 Labs</h3>
-                <p>Show this to your doctor or print it out. Hormone labs (19–28) should be drawn on Cycle Day 3; a second draw for progesterone on Cycle Day 19–21.</p>
-              </div>
-              <div class="doctor-list">
-                <div class="doctor-list-item"><strong>1. Comprehensive Metabolic Panel (CMP)</strong><code>322000</code><span class="icd-code">E78.5</span></div>
-                <div class="doctor-list-item"><strong>2. CBC with Differential</strong><code>005009</code><span class="icd-code">E78.5</span></div>
-                <div class="doctor-list-item"><strong>3. Urinalysis, Complete with Microscopic</strong><code>003772</code><span class="icd-code">Z00.00</span></div>
-                <div class="doctor-list-item"><strong>4. NMR LipoProfile with Lipids</strong><code>884247</code><span class="icd-code">E78.5</span></div>
-                <div class="doctor-list-item"><strong>5. Apolipoprotein B</strong><code>167015</code><span class="icd-code">E78.5</span></div>
-                <div class="doctor-list-item"><strong>6. Lipoprotein(a) <span class="freq-badge once">Test once</span></strong><code>120188</code><span class="icd-code">E78.5</span></div>
-                <div class="doctor-list-item"><strong>7. Hemoglobin A1c</strong><code>001453</code><span class="icd-code">Z13.1</span></div>
-                <div class="doctor-list-item"><strong>8. Insulin, Fasting</strong><code>004333</code><span class="icd-code">Z13.1</span></div>
-                <div class="doctor-list-item"><strong>9. C-Reactive Protein, Cardiac (hs-CRP)</strong><code>120766</code><span class="icd-code">E78.5</span></div>
-                <div class="doctor-list-item"><strong>10. Iron and Total Iron Binding Capacity (TIBC)</strong><code>001321</code><span class="icd-code">E61.1</span></div>
-                <div class="doctor-list-item"><strong>11. Ferritin</strong><code>004598</code><span class="icd-code">E61.1</span></div>
-                <div class="doctor-list-item"><strong>12. Phosphorus</strong><code>001024</code><span class="icd-code">Z13.88</span></div>
-                <div class="doctor-list-item"><strong>13. Homocysteine</strong><code>706994</code><span class="icd-code">E78.5</span></div>
-                <div class="doctor-list-item"><strong>14. Thyroid Panel: TSH and Free T4</strong><code>224576</code><span class="icd-code">Z13.29</span></div>
-                <div class="doctor-list-item"><strong>15. Free T3</strong><code>010389</code><span class="icd-code">Z13.29</span></div>
-                <div class="doctor-list-item"><strong>16. Thyroid Peroxidase (TPO) Antibody <span class="freq-badge infrequent">Every 3–5 yrs</span></strong><code>006676</code><span class="icd-code">Z13.29</span></div>
-                <div class="doctor-list-item"><strong>17. Thyroid Stimulating Immunoglobulin (TSI) <span class="freq-badge infrequent">Every 3–5 yrs</span></strong><code>140747</code><span class="icd-code">Z13.29</span></div>
-                <div class="doctor-list-item"><strong>18. Thyroglobulin Antibody (TgAb) <span class="freq-badge infrequent">Every 3–5 yrs</span></strong><code>006685</code><span class="icd-code">Z13.29</span></div>
-                <div class="doctor-list-item"><strong>19. Follicle-Stimulating Hormone (FSH)</strong><code>004309</code><span class="icd-code">Z13.29</span></div>
-                <div class="doctor-list-item"><strong>20. Luteinizing Hormone (LH)</strong><code>004283</code><span class="icd-code">Z13.29</span></div>
-                <div class="doctor-list-item"><strong>21. Estradiol</strong><code>004515</code><span class="icd-code">Z13.29</span></div>
-                <div class="doctor-list-item"><strong>22. Anti-Mullerian Hormone (AMH)</strong><code>500183</code><span class="icd-code">Z13.29</span></div>
-                <div class="doctor-list-item"><strong>23. Testosterone, Total, Women/Children, LC/MS-MS</strong><code>070001</code><span class="icd-code">Z13.29</span></div>
-                <div class="doctor-list-item"><strong>24. Sex Hormone-Binding Globulin (SHBG)</strong><code>500848</code><span class="icd-code">Z13.29</span></div>
-                <div class="doctor-list-item"><strong>25. DHEA-Sulfate</strong><code>004020</code><span class="icd-code">Z13.29</span></div>
-                <div class="doctor-list-item"><strong>26. Prolactin</strong><code>004465</code><span class="icd-code">Z13.29</span></div>
-                <div class="doctor-list-item"><strong>27. 17-OH Progesterone, LC/MS <span class="freq-badge once">Test once</span></strong><code>070085</code><span class="icd-code">Z13.29</span></div>
-                <div class="doctor-list-item"><strong>28. Progesterone</strong><code>004317</code><span class="icd-code">Z13.29</span></div>
-                <div class="doctor-list-item"><strong>29. Vitamin D, 25-Hydroxy</strong><code>081950</code><span class="icd-code">E55.9</span></div>
-                <div class="doctor-list-item"><strong>30. Vitamin B12 and Folate</strong><code>000810</code><span class="icd-code">E72.11</span></div>
-                <div class="doctor-list-item"><strong>31. Magnesium, RBC</strong><code>080283</code><span class="icd-code">Z13.88</span></div>
-                <div class="doctor-list-item"><strong>32. OmegaCheck (Omega-3 and Omega-6 Profile)</strong><code>823738</code><span class="icd-code">Z13.88</span></div>
-                <div class="doctor-list-item"><strong>33. Gamma-Glutamyl Transferase (GGT)</strong><code>001958</code><span class="icd-code">Z13.88</span></div>
-              </div>
-              <div class="print-btn-wrap">
-                <button class="btn btn-secondary btn-sm" onclick="printPanel('Female')">Print / Save PDF</button>
-              </div>
-            </div><!-- /female-doctor -->
-
-          </div><!-- /accordion-body female -->
-        </div><!-- /accordion female -->
-
+            <div id="female-full"></div>
+            <div id="female-doctor" style="display:none;"></div>
+          </div>
+        </div>
       </div>
-    </section>
+    </div>
 
-    <!-- ── Supplements ── -->
-    <section id="supplements">
-      <div class="container">
-        <div class="section-header">
+    <!-- SUPPLEMENTS -->
+    <div class="page" id="page-supplements">
+      <div class="page-inner">
+        <div class="page-header">
           <span class="section-label">Supplements</span>
           <h2>What I actually take</h2>
-          <!-- SYNC:supplements-intro --><p>These are the supplements I've researched, use myself, and recommend to people who ask. Brands and dosing notes coming soon.</p><!-- /SYNC:supplements-intro -->
+          <!-- SYNC:supplements-intro --><p>Researched, vetted, and personally used. Brands and dosing notes being added over time.</p><!-- /SYNC:supplements-intro -->
         </div>
 
-        <div class="card-grid">
-          <div class="card supplement-card">
-            <span class="card-icon">💊</span>
-            <h3>Multivitamin</h3>
-            <!-- SYNC:supp-multivitamin --><p>[PLACEHOLDER] Brand, form factor, why I chose this one over others. What to look for and what to avoid.</p><!-- /SYNC:supp-multivitamin -->
-          </div>
-          <div class="card supplement-card">
-            <span class="card-icon">🦠</span>
-            <h3>Probiotic</h3>
-            <!-- SYNC:supp-probiotic --><p>[PLACEHOLDER] Brand, strain info, why strain specificity matters. Refrigerated vs. shelf-stable.</p><!-- /SYNC:supp-probiotic -->
-          </div>
-          <div class="card supplement-card">
-            <span class="card-icon">🥩</span>
-            <h3>Organs (Heart &amp; Soil)</h3>
-            <!-- SYNC:supp-organ-meat --><p>Organs yo. Desiccated capsule option, contains peptides and nutrients that most of us are missing even with a 'healthy diet'. H&amp;S is super high quality, 3rd party tested for metals, and they have the best Colostrum on the market (better quality than ARMRA.) <a href="https://refer.heartandsoil.co/f5x74qey" target="_blank" rel="noopener">20% off link! →</a></p><!-- /SYNC:supp-organ-meat -->
-          </div>
-          <div class="card supplement-card">
-            <span class="card-icon">🔋</span>
-            <h3>Magnesium</h3>
-            <!-- SYNC:supp-magnesium --><p>Glycinate vs. oxide vs. threonate - most people are deficient. Dosing note and brand rec.</p><!-- /SYNC:supp-magnesium -->
-          </div>
-          <div class="card" style="border: 2px dashed var(--border); box-shadow: none; background: transparent;">
-            <span class="card-icon">⏳</span>
-            <h3>More coming</h3>
-            <p>Additional supplements will be added as I finalize my notes.</p>
-          </div>
-        </div>
+        <div class="card-grid" id="suppGrid"></div>
 
         <div class="fullscript-banner">
-          <div class="text">
+          <div>
             <h4>Buy on Fullscript</h4>
-            <!-- SYNC:fullscript-banner --><p>I use Fullscript for most supplements — dispensary-grade quality, piece of mind, good pricing. The link gives you a public discount. Not an affiliate link, found from another doctor. Amazon can sometimes be cheaper, so worth comparing both before buying.</p><!-- /SYNC:fullscript-banner -->
+            <!-- SYNC:fullscript-banner --><p>Dispensary-grade quality, good pricing, fast shipping. The link gives you a public discount — not an affiliate link, just a discount for you. Amazon can sometimes be cheaper, worth comparing.</p><!-- /SYNC:fullscript-banner -->
           </div>
-          <a href="#" class="btn btn-primary">[Add Fullscript link]</a>
+          <a href="#" class="btn btn-primary btn-sm">[Add Fullscript link]</a>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- ── Product Recs ── -->
-    <section id="recs">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-label">Product Recs</span>
-          <h2>Clean home essentials</h2>
-          <p>Products I've vetted and use at home. Affiliate links are labeled clearly — I only recommend things I actually buy.</p>
+    <!-- SHOP -->
+    <div class="page" id="page-shop">
+      <div class="page-inner">
+        <div class="page-header">
+          <span class="section-label">Shop</span>
+          <h2>Products &amp; where to buy</h2>
+          <p>Vetted products I use at home, plus where I order supplements from.</p>
         </div>
 
         <div class="product-category">
-          <h4>💧 Water Filtration</h4>
-          <div class="card-grid">
-            <a href="#" class="product-card-link">
-              <div class="card">
-                <h3>Cloud Reverse Osmosis System</h3>
-                <!-- SYNC:prod-cloud-ro --><p>Under-sink RO system. Removes fluoride, chlorine, heavy metals, and pharmaceuticals. The one I have at home.</p><!-- /SYNC:prod-cloud-ro -->
-                <div class="card-meta">
-                  <span class="affiliate-badge">Affiliate</span>
-                  <span>$100 off with this link</span>
-                </div>
+          <h4>Water Filtration</h4>
+          <a href="#" class="product-card">
+            <div class="product-card-body">
+              <h3>Cloud Reverse Osmosis System</h3>
+              <!-- SYNC:prod-cloud-ro --><p>Under-sink RO system. Removes fluoride, chlorine, heavy metals, and pharmaceuticals. The one I have at home.</p><!-- /SYNC:prod-cloud-ro -->
+              <div class="product-card-meta">
+                <span class="card-badge affiliate">Affiliate</span>
+                <span style="font-size: 12px; color: var(--text-muted);">$100 off with this link</span>
               </div>
-            </a>
-          </div>
-        </div>
-
-        <div class="product-category">
-          <h4>🧹 Household Cleaners</h4>
-          <div class="card-grid">
-            <a href="#" class="product-card-link">
-              <div class="card">
-                <h3>Branch Basics</h3>
-                <!-- SYNC:prod-branch-basics --><p>[PLACEHOLDER] Concentrate-based, non-toxic, works on everything.</p><!-- /SYNC:prod-branch-basics -->
-                <div class="card-meta"><span>No affiliate</span></div>
-              </div>
-            </a>
-            <a href="#" class="product-card-link">
-              <div class="card">
-                <h3>Blueland</h3>
-                <!-- SYNC:prod-blueland --><p>[PLACEHOLDER] Tablet-based, zero plastic. Good for surfaces and glass.</p><!-- /SYNC:prod-blueland -->
-                <div class="card-meta"><span>No affiliate</span></div>
-              </div>
-            </a>
-            <a href="#" class="product-card-link">
-              <div class="card">
-                <h3>Force Of Nature</h3>
-                <!-- SYNC:prod-force-of-nature --><p>[PLACEHOLDER] Best all-purpose cleaner / disinfectant that is ACTUALLY non-toxic. Uses Salt and vinegar solution in a cool electrolyzer thing to make Hypochlorous acid.</p><!-- /SYNC:prod-force-of-nature -->
-                <div class="card-meta"><span>No affiliate</span></div>
-              </div>
-            </a>
-          </div>
-        </div>
-
-        <div class="product-category">
-          <h4>🍽 Dishwasher</h4>
-          <div class="card-grid">
-            <a href="#" class="product-card-link">
-              <div class="card">
-                <h3>Blueland Dishwasher Tabs</h3>
-                <!-- SYNC:prod-blueland-dish --><p>[PLACEHOLDER] Tablet-based, plastic-free. No phosphates or chlorine bleach.</p><!-- /SYNC:prod-blueland-dish -->
-                <div class="card-meta"><span>No affiliate</span></div>
-              </div>
-            </a>
-          </div>
-        </div>
-
-        <div class="product-category">
-          <h4>👶 Baby &amp; Kids</h4>
-          <div class="card-grid">
-            <div class="card" style="border: 2px dashed var(--border); box-shadow: none; background: transparent;">
-              <span class="card-icon">⏳</span>
-              <h3>Coming soon</h3>
-              <p>Sunscreen, clothing, sandals — recs coming once I finalize my notes.</p>
             </div>
-          </div>
+          </a>
         </div>
-      </div>
-    </section>
 
-    <!-- ── Where to Buy ── -->
-    <section id="where-to-buy">
-      <div class="container">
-        <div class="section-header">
+        <div class="product-category">
+          <h4>Household Cleaners</h4>
+          <a href="#" class="product-card">
+            <div class="product-card-body">
+              <h3>Branch Basics</h3>
+              <!-- SYNC:prod-branch-basics --><p>Concentrate-based, non-toxic, works on everything.</p><!-- /SYNC:prod-branch-basics -->
+              <div class="product-card-meta"><span class="card-badge">No affiliate</span></div>
+            </div>
+          </a>
+          <a href="#" class="product-card">
+            <div class="product-card-body">
+              <h3>Blueland</h3>
+              <!-- SYNC:prod-blueland --><p>Tablet-based, zero plastic. Good for surfaces and glass.</p><!-- /SYNC:prod-blueland -->
+              <div class="product-card-meta"><span class="card-badge">No affiliate</span></div>
+            </div>
+          </a>
+          <a href="#" class="product-card">
+            <div class="product-card-body">
+              <h3>Force Of Nature</h3>
+              <!-- SYNC:prod-force-of-nature --><p>Best all-purpose cleaner / disinfectant that is actually non-toxic. Uses salt and vinegar solution in a cool electrolyzer to make Hypochlorous acid.</p><!-- /SYNC:prod-force-of-nature -->
+              <div class="product-card-meta"><span class="card-badge">No affiliate</span></div>
+            </div>
+          </a>
+        </div>
+
+        <div class="product-category">
+          <h4>Dishwasher</h4>
+          <a href="#" class="product-card">
+            <div class="product-card-body">
+              <h3>Blueland Dishwasher Tabs</h3>
+              <!-- SYNC:prod-blueland-dish --><p>Tablet-based, plastic-free. No phosphates or chlorine bleach.</p><!-- /SYNC:prod-blueland-dish -->
+              <div class="product-card-meta"><span class="card-badge">No affiliate</span></div>
+            </div>
+          </a>
+        </div>
+
+        <hr class="divider">
+
+        <div class="page-header" style="margin-bottom: 20px;">
           <span class="section-label">Where to Buy</span>
-          <h2>Where I actually order from</h2>
+          <h2 style="font-size: 22px;">Where I actually order from</h2>
           <p>Short answer: Fullscript first, then Amazon. TrueMed if you have an HSA.</p>
         </div>
 
         <div class="buy-list">
           <div class="buy-item">
             <div class="buy-item-icon">🏥</div>
-            <div class="buy-item-content">
+            <div>
               <h3>Fullscript</h3>
               <!-- SYNC:buy-fullscript --><p>Dispensary-grade supplements. Authentic products, good pricing, fast shipping. My default first stop. Use the link for a public discount — not affiliate, just a discount for you.</p><!-- /SYNC:buy-fullscript -->
               <a href="#" class="btn btn-primary btn-sm">[Add Fullscript link]</a>
@@ -528,93 +990,472 @@
           </div>
           <div class="buy-item">
             <div class="buy-item-icon">📦</div>
-            <div class="buy-item-content">
+            <div>
               <h3>Amazon</h3>
               <!-- SYNC:buy-amazon --><p>Sometimes cheaper than Fullscript for the same products — worth checking both before buying. Stick to brands with third-party testing (NSF, USP, or Informed Sport certified).</p><!-- /SYNC:buy-amazon -->
             </div>
           </div>
           <div class="buy-item">
             <div class="buy-item-icon">💳</div>
-            <div class="buy-item-content">
+            <div>
               <h3>TrueMed / HSA</h3>
-              <!-- SYNC:buy-truemed --><p>If you have an HSA or FSA, TrueMed lets you use pre-tax dollars on eligible supplements. Legitimate way to save 20–40% depending on your tax bracket. Worth looking into.</p><!-- /SYNC:buy-truemed -->
+              <!-- SYNC:buy-truemed --><p>If you have an HSA or FSA, TrueMed lets you use pre-tax dollars on eligible supplements. Legitimate way to save 20–40% depending on your tax bracket.</p><!-- /SYNC:buy-truemed -->
               <a href="#" class="btn btn-secondary btn-sm">[Add TrueMed link]</a>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- ── Lab Interpreter ── -->
-    <section id="lab-interpreter">
-      <div class="container">
-        <div class="section-header">
+    <!-- INTERPRETER -->
+    <div class="page" id="page-interpreter">
+      <div class="page-inner">
+        <div class="page-header">
           <span class="section-label">Lab Interpreter</span>
           <h2>What do your results actually mean?</h2>
-          <p>Upload your lab results PDF. This tool reads them through a functional medicine lens — flagging results that may be suboptimal even if your lab marked them "normal."</p>
+          <p>Upload your lab results PDF. This reads them through a functional medicine lens — flagging results that may be suboptimal even if your lab marked them "normal."</p>
         </div>
 
-        <!-- Password Gate -->
-        <div class="interpreter-gate" id="interpreterGate">
+        <div class="gate-box" id="interpGate">
           <h3>Access required</h3>
           <p>This feature uses AI and has a usage cost. It's available to people I've shared the access code with directly.</p>
-          <div class="password-input-wrap">
-            <input type="password" id="accessPassword" placeholder="Enter access code" autocomplete="off" aria-label="Access code">
+          <div class="pw-row">
+            <input type="password" id="pwInput" placeholder="Enter access code" autocomplete="off">
             <button class="btn btn-primary" id="unlockBtn">Unlock</button>
           </div>
-          <div class="password-error" id="passwordError">Incorrect code. Ask Nick.</div>
+          <div class="pw-error" id="pwError">Incorrect code. Ask Nick.</div>
         </div>
 
-        <!-- Interpreter Form -->
-        <div class="interpreter-form" id="interpreterForm">
+        <div class="interp-form" id="interpForm">
           <div class="privacy-note">
-            <span class="privacy-note-icon">🔒</span>
+            <span>🔒</span>
             <span>Feel free to black out your name and date of birth before uploading. The AI only needs the lab values — not your identifying information.</span>
           </div>
-          <div class="upload-area" id="uploadArea">
-            <input type="file" id="labFile" accept=".pdf" aria-label="Upload lab results PDF">
-            <span class="upload-icon">📄</span>
+          <div class="upload-zone" id="uploadZone">
+            <input type="file" id="labFile" accept=".pdf">
+            <div class="upload-icon">📄</div>
             <p>Drag your lab results PDF here, or click to select</p>
             <small>PDF only · Results are not stored</small>
-            <div class="upload-filename" id="uploadFilename"></div>
+            <div class="upload-name" id="uploadName"></div>
           </div>
-          <button class="btn btn-primary" id="interpretBtn" style="width: 100%; justify-content: center; padding: 14px;" disabled>
-            Interpret My Labs
-          </button>
+          <button class="btn btn-primary" id="interpretBtn" style="width:100%;justify-content:center;padding:12px;" disabled>Interpret My Labs</button>
         </div>
 
-        <!-- Loading State -->
-        <div class="interpreter-loading" id="interpreterLoading">
+        <div class="interp-loading" id="interpLoading">
           <div class="spinner"></div>
-          <p>Reading your results through a functional medicine lens...<br>This takes 20–40 seconds.</p>
+          <p>Reading your results through a functional medicine lens…<br>This takes 20–40 seconds.</p>
         </div>
 
-        <!-- Results -->
-        <div class="interpreter-results" id="interpreterResults">
-          <div class="results-header">
-            <h3 style="font-family: var(--font-sans); font-size: 18px; font-weight: 700; font-style: normal;">Your Results</h3>
+        <div class="interp-results" id="interpResults">
+          <div class="results-head">
+            <h3>Your Results</h3>
             <button class="btn btn-ghost btn-sm" id="resetBtn">Upload new file</button>
           </div>
-          <div id="urgentFlagsBlock" style="display:none;"></div>
-          <div class="results-grid" id="resultsGrid"></div>
+          <div id="urgentBlock"></div>
+          <div class="results-list" id="resultsList"></div>
           <div class="results-footer" id="resultsFooter" style="display:none;"></div>
-          <div class="bring-to-doctor">
-            Bring these findings to your doctor. This interpretation is a starting point for that conversation — not a diagnosis or treatment plan.
-          </div>
         </div>
       </div>
-    </section>
+    </div>
 
   </main>
 
-  <!-- ── Footer ── -->
-  <footer>
-    <div class="footer-inner">
-      <div class="footer-logo">Pocket<span>Nick</span></div>
-      <p class="footer-note">Made by Nick Capra · Not medical advice<br>Updated periodically — check back.</p>
-    </div>
-  </footer>
+  <script>
+  // ── Supplements data & modal ─────────────────────────────
+  const SUPPLEMENTS = [
+    {
+      badge: "Daily", badgeClass: "",
+      name: "Multivitamin",
+      preview: "Brand, form factor, and what to look for on labels.",
+      full: `<!-- SYNC:supp-multivitamin --><p>[PLACEHOLDER] Brand, form factor, why I chose this one over others. What to look for and what to avoid.</p><!-- /SYNC:supp-multivitamin -->`
+    },
+    {
+      badge: "Daily", badgeClass: "",
+      name: "Probiotic",
+      preview: "Strain specificity matters more than most people think.",
+      full: `<!-- SYNC:supp-probiotic --><p>[PLACEHOLDER] Brand, strain info, why strain specificity matters. Refrigerated vs. shelf-stable — and why it makes a difference.</p><!-- /SYNC:supp-probiotic -->`
+    },
+    {
+      badge: "Affiliate link", badgeClass: "affiliate",
+      name: "Organs (Heart & Soil)",
+      preview: "Desiccated capsule option with peptides and nutrients most diets miss.",
+      full: `<!-- SYNC:supp-organ-meat --><p>Organs yo. Desiccated capsule option — contains peptides and nutrients that most of us are missing even with a "healthy diet".</p>
+             <p>Heart & Soil is super high quality, 3rd party tested for metals, and they have the best Colostrum on the market (better quality than ARMRA).</p>
+             <p><a href="https://refer.heartandsoil.co/f5x74qey" target="_blank">20% off with this link →</a></p><!-- /SYNC:supp-organ-meat -->`
+    },
+    {
+      badge: "Daily", badgeClass: "",
+      name: "Magnesium",
+      preview: "Most people are deficient. Form matters — glycinate vs. oxide vs. threonate.",
+      full: `<!-- SYNC:supp-magnesium --><p>Most people are deficient in magnesium and don't know it. The form you take matters a lot.</p>
+             <p><strong>Glycinate</strong> — best for sleep and general deficiency. Most absorbable, least likely to cause GI issues.</p>
+             <p><strong>Threonate</strong> — crosses the blood-brain barrier. Better for cognitive function and anxiety.</p>
+             <p><strong>Oxide</strong> — cheap, poorly absorbed, mostly just a laxative. Avoid.</p>
+             <p>[Brand rec and dosing coming soon.]</p><!-- /SYNC:supp-magnesium -->`
+    },
+  ];
 
-  <script src="script.js"></script>
+  function renderSupplements() {
+    const grid = document.getElementById('suppGrid');
+    grid.innerHTML = SUPPLEMENTS.map((s, i) => `
+      <div class="card">
+        <div class="card-badge ${s.badgeClass}">${s.badge}</div>
+        <h3>${s.name}</h3>
+        <p>${s.preview}</p>
+        <button class="read-more-btn" data-supp="${i}">Read more →</button>
+      </div>
+    `).join('') + `
+      <div class="card card-placeholder">
+        <h3 style="font-family:var(--font-sans);font-size:14px;font-weight:600;font-style:normal;color:var(--text-muted);">More coming soon</h3>
+        <p>Additional supplements added as I finalize my notes.</p>
+      </div>`;
+
+    grid.querySelectorAll('.read-more-btn').forEach(btn => {
+      btn.addEventListener('click', () => openModal(parseInt(btn.dataset.supp)));
+    });
+  }
+
+  function openModal(i) {
+    const s = SUPPLEMENTS[i];
+    document.getElementById('modalBadge').innerHTML = `<span class="card-badge ${s.badgeClass}">${s.badge}</span>`;
+    document.getElementById('modalTitle').textContent = s.name;
+    document.getElementById('modalBody').innerHTML = s.full;
+    document.getElementById('modalBackdrop').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalBackdrop').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  document.getElementById('modalBackdrop').addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeModal();
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  renderSupplements();
+
+  // ── Lab data ────────────────────────────────────────────────
+  const MALE_D1 = [
+    [1,"Comprehensive Metabolic Panel (CMP)","322000","E78.5","<!-- SYNC:lab-m-cmp -->Screens kidney function, liver enzymes, electrolytes, and blood sugar in one draw. Your metabolic foundation.<!-- /SYNC:lab-m-cmp -->"],
+    [2,"CBC with Differential","005009","E78.5","<!-- SYNC:lab-m-cbc -->Checks red and white blood cells and platelets. Flags anemia, infection, and immune abnormalities.<!-- /SYNC:lab-m-cbc -->"],
+    [3,"Urinalysis, Complete with Microscopic","003772","Z00.00","<!-- SYNC:lab-m-ua -->Kidney and bladder health, plus early metabolic issues that show up in urine before blood markers shift.<!-- /SYNC:lab-m-ua -->"],
+    [4,"NMR LipoProfile with Lipids","884247","E78.5","<!-- SYNC:lab-m-nmr -->The standard cholesterol test is 70+ year old technology. NMR measures actual particle size and number — a far better cardiovascular risk predictor.<!-- /SYNC:lab-m-nmr -->"],
+    [5,"Apolipoprotein B","167015","E78.5","<!-- SYNC:lab-m-apob -->One of the most accurate single markers for cardiovascular risk. Each ApoB particle can deposit in artery walls.<!-- /SYNC:lab-m-apob -->"],
+    [6,"Lipoprotein(a) <span class='freq-badge once'>Test once</span>","120188","E78.5","<!-- SYNC:lab-m-lpa -->A genetically determined cardiovascular risk factor. Only need to measure it once since it rarely changes.<!-- /SYNC:lab-m-lpa -->"],
+    [7,"Hemoglobin A1c","001453","Z13.1","<!-- SYNC:lab-m-a1c -->Your 3-month average blood sugar. More reliable than a fasting glucose snapshot.<!-- /SYNC:lab-m-a1c -->"],
+    [8,"Insulin, Fasting","004333","Z13.1","<!-- SYNC:lab-m-insulin -->Elevated fasting insulin is one of the earliest signs of metabolic dysfunction, often elevated years before glucose is.<!-- /SYNC:lab-m-insulin -->"],
+    [9,"C-Reactive Protein, Cardiac (hs-CRP)","120766","E78.5","<!-- SYNC:lab-m-crp -->Measures systemic inflammation. Elevated levels predict cardiovascular events better than cholesterol alone.<!-- /SYNC:lab-m-crp -->"],
+    [10,"Iron and Total Iron Binding Capacity (TIBC)","001321","E61.1","<!-- SYNC:lab-m-iron -->Iron deficiency is the most common nutrient deficiency worldwide. TIBC gives context to your iron level.<!-- /SYNC:lab-m-iron -->"],
+    [11,"Ferritin","004598","E61.1","<!-- SYNC:lab-m-ferritin -->Your iron storage marker. Both very low and very high ferritin are problematic and often missed on standard panels.<!-- /SYNC:lab-m-ferritin -->"],
+    [12,"Phosphorus","001024","Z13.88","<!-- SYNC:lab-m-phosphorus -->Involved in bone health, energy production, and kidney function. Often depleted in processed food-heavy diets.<!-- /SYNC:lab-m-phosphorus -->"],
+  ];
+  const MALE_D2 = [
+    [13,"Homocysteine","706994","E78.5","<!-- SYNC:lab-m-homocys -->Elevated levels indicate B-vitamin deficiency and raise risk for cardiovascular disease and cognitive decline.<!-- /SYNC:lab-m-homocys -->"],
+    [14,"Thyroid Panel: TSH and Free T4","224576","Z13.29","<!-- SYNC:lab-m-tsh-t4 -->Standard thyroid check. TSH alone misses a lot — Free T4 shows how much hormone is actually circulating.<!-- /SYNC:lab-m-tsh-t4 -->"],
+    [15,"Free T3","010389","Z13.29","<!-- SYNC:lab-m-freet3 -->The active thyroid hormone your cells actually use. Often suboptimal even when TSH looks fine.<!-- /SYNC:lab-m-freet3 -->"],
+    [16,"Thyroid Peroxidase (TPO) Antibody <span class='freq-badge infrequent'>Every 3–5 yrs</span>","006676","Z13.29","<!-- SYNC:lab-m-tpo -->Detects Hashimoto's thyroiditis, the most common cause of hypothyroidism — often missed for years.<!-- /SYNC:lab-m-tpo -->"],
+    [17,"Thyroid Stimulating Immunoglobulin (TSI) <span class='freq-badge infrequent'>Every 3–5 yrs</span>","140747","Z13.29","<!-- SYNC:lab-m-tsi -->Detects Graves' disease (autoimmune hyperthyroidism). Rules out the other side of the thyroid autoimmune spectrum.<!-- /SYNC:lab-m-tsi -->"],
+    [18,"Testosterone, Free and Total","140103","Z13.29","<!-- SYNC:lab-m-testosterone -->Total testosterone is often normal while free testosterone is low. You need both to get the full picture.<!-- /SYNC:lab-m-testosterone -->"],
+    [19,"Follicle-Stimulating Hormone (FSH)","004309","Z13.29","<!-- SYNC:lab-m-fsh -->In men, elevated FSH can indicate testicular dysfunction. Useful context alongside testosterone levels.<!-- /SYNC:lab-m-fsh -->"],
+    [20,"Vitamin D, 25-Hydroxy","081950","E55.9","<!-- SYNC:lab-m-vitd -->Most people are deficient. Affects immune function, mood, bone health, testosterone production, and more.<!-- /SYNC:lab-m-vitd -->"],
+    [21,"Vitamin B12 and Folate","000810","E72.11","<!-- SYNC:lab-m-b12 -->Essential for nerve function, DNA synthesis, and methylation. Deficiency is common and consistently underdiagnosed.<!-- /SYNC:lab-m-b12 -->"],
+    [22,"Magnesium, RBC","080283","Z13.88","<!-- SYNC:lab-m-mag -->Serum magnesium is nearly useless — RBC magnesium shows what's actually inside your cells. Most people are low.<!-- /SYNC:lab-m-mag -->"],
+    [23,"OmegaCheck (Omega-3 and Omega-6 Profile)","823738","Z13.88","<!-- SYNC:lab-m-omega -->Measures your omega-3 index and omega-6/omega-3 ratio. Most people are severely omega-3 deficient.<!-- /SYNC:lab-m-omega -->"],
+    [24,"Gamma-Glutamyl Transferase (GGT)","001958","Z13.88","<!-- SYNC:lab-m-ggt -->An early liver stress marker. Elevated GGT can precede other liver enzymes and correlates with oxidative stress.<!-- /SYNC:lab-m-ggt -->"],
+  ];
+
+  const FEMALE_D1 = [
+    [1,"Follicle-Stimulating Hormone (FSH)","004309","Z13.29","<!-- SYNC:lab-f-fsh -->On cycle day 3, FSH reflects ovarian reserve. Rising FSH over time can indicate diminishing egg supply.<!-- /SYNC:lab-f-fsh -->"],
+    [2,"Luteinizing Hormone (LH)","004283","Z13.29","<!-- SYNC:lab-f-lh -->The LH-to-FSH ratio on Day 3 gives important context for hormonal balance and PCOS risk assessment.<!-- /SYNC:lab-f-lh -->"],
+    [3,"Estradiol","004515","Z13.29","<!-- SYNC:lab-f-estradiol -->Baseline estradiol on Day 3 should be low. Elevated levels can suppress FSH and obscure ovarian reserve results.<!-- /SYNC:lab-f-estradiol -->"],
+    [4,"Anti-Mullerian Hormone (AMH)","500183","Z13.29","<!-- SYNC:lab-f-amh -->The best single marker for ovarian reserve. Stable across the cycle — gives a clear picture of remaining egg supply.<!-- /SYNC:lab-f-amh -->"],
+    [5,"Testosterone, Total (Women/Children)","070001","Z13.29","<!-- SYNC:lab-f-testosterone -->Low testosterone in women causes low libido, fatigue, and poor muscle recovery. Frequently overlooked.<!-- /SYNC:lab-f-testosterone -->"],
+    [6,"Sex Hormone-Binding Globulin (SHBG)","500848","Z13.29","<!-- SYNC:lab-f-shbg -->High SHBG binds free testosterone and estrogen, leaving less bioavailable for your cells to use.<!-- /SYNC:lab-f-shbg -->"],
+    [7,"DHEA-Sulfate","004020","Z13.29","<!-- SYNC:lab-f-dhea -->An adrenal hormone and testosterone precursor. Low levels correlate with fatigue, low libido, and poor stress response.<!-- /SYNC:lab-f-dhea -->"],
+    [8,"Prolactin","004465","Z13.29","<!-- SYNC:lab-f-prolactin -->Elevated prolactin can suppress ovulation. A common hidden cause of irregular cycles and fertility issues.<!-- /SYNC:lab-f-prolactin -->"],
+    [9,"Insulin, Fasting","004333","Z13.1","<!-- SYNC:lab-f-insulin -->Elevated fasting insulin is one of the earliest signs of metabolic dysfunction — often rises years before glucose.<!-- /SYNC:lab-f-insulin -->"],
+    [10,"Hemoglobin A1c","001453","Z13.1","<!-- SYNC:lab-f-a1c -->Your 3-month average blood sugar. More reliable than a fasting glucose snapshot for tracking metabolic health.<!-- /SYNC:lab-f-a1c -->"],
+    [11,"Thyroid Panel: TSH and Free T4","224576","Z13.29","<!-- SYNC:lab-f-tsh-t4 -->Standard thyroid check. TSH alone misses a lot — Free T4 shows how much hormone is actually circulating.<!-- /SYNC:lab-f-tsh-t4 -->"],
+    [12,"Free T3","010389","Z13.29","<!-- SYNC:lab-f-freet3 -->The active thyroid hormone your cells actually use. Often suboptimal even when TSH looks fine.<!-- /SYNC:lab-f-freet3 -->"],
+    [13,"Thyroid Peroxidase (TPO) Antibody <span class='freq-badge infrequent'>Every 3–5 yrs</span>","006676","Z13.29","<!-- SYNC:lab-f-tpo -->Detects Hashimoto's thyroiditis — the most common thyroid condition in women. Often undiagnosed for years.<!-- /SYNC:lab-f-tpo -->"],
+    [14,"Thyroid Stimulating Immunoglobulin (TSI) <span class='freq-badge infrequent'>Every 3–5 yrs</span>","140747","Z13.29","<!-- SYNC:lab-f-tsi -->Detects Graves' disease (autoimmune hyperthyroidism). Rules out the other side of the thyroid autoimmune spectrum.<!-- /SYNC:lab-f-tsi -->"],
+    [15,"Thyroglobulin Antibody (TgAb) <span class='freq-badge infrequent'>Every 3–5 yrs</span>","006685","Z13.29","<!-- SYNC:lab-f-tgab -->A second thyroid autoimmune marker. Some people make TgAb but not TPO antibodies — you need both to catch all cases.<!-- /SYNC:lab-f-tgab -->"],
+    [16,"17-OH Progesterone <span class='freq-badge once'>Test once</span>","070085","Z13.29","<!-- SYNC:lab-f-17oh -->Screens for congenital adrenal hyperplasia, a common cause of androgen excess and irregular cycles often missed.<!-- /SYNC:lab-f-17oh -->"],
+  ];
+  const FEMALE_D2 = [
+    [17,"Progesterone","004317","Z13.29","<!-- SYNC:lab-f-prog -->Peak progesterone mid-luteal phase confirms ovulation occurred. Low levels indicate anovulatory cycles or luteal phase defect.<!-- /SYNC:lab-f-prog -->"],
+    [18,"Comprehensive Metabolic Panel (CMP)","322000","E78.5","<!-- SYNC:lab-f-cmp -->Screens kidney function, liver enzymes, electrolytes, and blood sugar in one draw.<!-- /SYNC:lab-f-cmp -->"],
+    [19,"CBC with Differential","005009","E78.5","<!-- SYNC:lab-f-cbc -->Checks red and white blood cells and platelets. Women are at higher risk for iron-deficiency anemia.<!-- /SYNC:lab-f-cbc -->"],
+    [20,"Urinalysis, Complete with Microscopic","003772","Z00.00","<!-- SYNC:lab-f-ua -->Kidney and bladder health, plus early metabolic issues that show up in urine before blood markers shift.<!-- /SYNC:lab-f-ua -->"],
+    [21,"NMR LipoProfile with Lipids","884247","E78.5","<!-- SYNC:lab-f-nmr -->Particle-level cardiovascular risk assessment. More accurate than a standard cholesterol panel.<!-- /SYNC:lab-f-nmr -->"],
+    [22,"Apolipoprotein B","167015","E78.5","<!-- SYNC:lab-f-apob -->The most accurate single marker for cardiovascular risk. Each ApoB particle can deposit in artery walls.<!-- /SYNC:lab-f-apob -->"],
+    [23,"Lipoprotein(a) <span class='freq-badge once'>Test once</span>","120188","E78.5","<!-- SYNC:lab-f-lpa -->A genetically determined cardiovascular risk factor. Only need to measure it once — it rarely changes.<!-- /SYNC:lab-f-lpa -->"],
+    [24,"C-Reactive Protein, Cardiac (hs-CRP)","120766","E78.5","<!-- SYNC:lab-f-crp -->Systemic inflammation marker. Predicts cardiovascular events better than standard cholesterol panels.<!-- /SYNC:lab-f-crp -->"],
+    [25,"Iron and Total Iron Binding Capacity (TIBC)","001321","E61.1","<!-- SYNC:lab-f-iron -->Women are at much higher risk for iron deficiency due to menstruation. TIBC gives essential context.<!-- /SYNC:lab-f-iron -->"],
+    [26,"Ferritin","004598","E61.1","<!-- SYNC:lab-f-ferritin -->Iron storage marker. The most sensitive indicator of deficiency — often depleted before anemia develops.<!-- /SYNC:lab-f-ferritin -->"],
+    [27,"Phosphorus","001024","Z13.88","<!-- SYNC:lab-f-phosphorus -->Involved in bone health, energy production, and kidney function. Often low in processed food-heavy diets.<!-- /SYNC:lab-f-phosphorus -->"],
+    [28,"Homocysteine","706994","E78.5","<!-- SYNC:lab-f-homocys -->Elevated levels indicate B-vitamin deficiency and raise risk for cardiovascular disease and cognitive decline.<!-- /SYNC:lab-f-homocys -->"],
+    [29,"Vitamin D, 25-Hydroxy","081950","E55.9","<!-- SYNC:lab-f-vitd -->Most people are deficient. Critical for immune function, mood, bone density, and hormonal balance.<!-- /SYNC:lab-f-vitd -->"],
+    [30,"Vitamin B12 and Folate","000810","E72.11","<!-- SYNC:lab-f-b12 -->Essential for nerve function, DNA synthesis, and fetal development. Deficiency is common and often missed.<!-- /SYNC:lab-f-b12 -->"],
+    [31,"Magnesium, RBC","080283","Z13.88","<!-- SYNC:lab-f-mag -->RBC magnesium shows intracellular stores — far more accurate than serum magnesium.<!-- /SYNC:lab-f-mag -->"],
+    [32,"OmegaCheck (Omega-3 and Omega-6 Profile)","823738","Z13.88","<!-- SYNC:lab-f-omega -->Measures your omega-3 index and fatty acid ratios. Most people are severely omega-3 deficient.<!-- /SYNC:lab-f-omega -->"],
+    [33,"Gamma-Glutamyl Transferase (GGT)","001958","Z13.88","<!-- SYNC:lab-f-ggt -->An early liver stress and oxidative stress marker. Can flag problems before other liver enzymes shift.<!-- /SYNC:lab-f-ggt -->"],
+  ];
+
+  function labsTable(rows) {
+    const trs = rows.map(r => `<tr>
+      <td>${r[0]}</td>
+      <td>${r[1]}</td>
+      <td>${r[2]}</td>
+      <td>${r[4]}</td>
+    </tr>`).join('');
+    return `<div class="labs-table-wrap"><table class="labs-table">
+      <thead><tr><th>#</th><th>Lab</th><th>Code</th><th>Why it matters</th></tr></thead>
+      <tbody>${trs}</tbody>
+    </table></div>`;
+  }
+
+  function doctorList(rows) {
+    return `<div class="doctor-list">${rows.map(r=>`<div class="doctor-item">
+      <strong>${r[0]}. ${r[1]}</strong>
+      <code>${r[2]}</code>
+      <span class="icd">${r[3]}</span>
+    </div>`).join('')}</div>`;
+  }
+
+  // Render male labs
+  document.getElementById('male-full').innerHTML =
+    `<p class="labs-context">Ask for labs to check that everything is <em>optimal</em>, not just normal — that word matters. Day 1 requires a 12-hour fast. Day 2 does not. Hydrate well.</p>` +
+    `<div class="day-label">Day 1 — Fasting</div>${labsTable(MALE_D1)}` +
+    `<div class="day-label">Day 2 — No fast required</div>${labsTable(MALE_D2)}`;
+
+  document.getElementById('male-doctor').innerHTML =
+    `<div class="doctor-header"><h3>Male Lab Panel — 24 Labs</h3><p>Show this to your doctor or print it out. ICD-10 codes help them order the correct tests through Labcorp.</p></div>` +
+    `<div class="day-label">Day 1 — Fasting</div>${doctorList(MALE_D1)}` +
+    `<div class="day-label">Day 2 — No fast required</div>${doctorList(MALE_D2)}` +
+    `<div class="print-row"><button class="btn btn-secondary btn-sm" onclick="printPanel('Male')">Print / Save PDF</button></div>`;
+
+  // Render female labs
+  document.getElementById('female-full').innerHTML =
+    `<p class="labs-context"><strong>Day 1 (Cycle Day 3):</strong> Book your draw on days 2, 3, or 4 of your cycle. <strong>Day 2 (Cycle Day 19–21):</strong> Count 7 days back from your expected next period. Fast 10–12 hours for both draws. Book the same cycle days each year for consistent comparisons.</p>` +
+    `<div class="day-label">Day 1 — Cycle Day 3 (Fasting)</div>${labsTable(FEMALE_D1)}` +
+    `<div class="day-label">Day 2 — Cycle Day 19–21 (Fasting)</div>${labsTable(FEMALE_D2)}`;
+
+  document.getElementById('female-doctor').innerHTML =
+    `<div class="doctor-header"><h3>Female Lab Panel — 33 Labs</h3><p>Show this to your doctor or print it out. Day 1 labs on Cycle Day 3; Day 2 (progesterone) on Cycle Day 19–21.</p></div>` +
+    `<div class="day-label">Day 1 — Cycle Day 3 (Fasting)</div>${doctorList(FEMALE_D1)}` +
+    `<div class="day-label">Day 2 — Cycle Day 19–21 (Fasting)</div>${doctorList(FEMALE_D2)}` +
+    `<div class="print-row"><button class="btn btn-secondary btn-sm" onclick="printPanel('Female')">Print / Save PDF</button></div>`;
+
+  // ── Navigation ────────────────────────────────────────────
+  function navigate(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item, .bnav-item').forEach(b => b.classList.remove('active'));
+    const page = document.getElementById('page-' + pageId);
+    if (page) {
+      page.classList.add('active');
+      document.getElementById('main').scrollTop = 0;
+    }
+    document.querySelectorAll('[data-page="' + pageId + '"]').forEach(b => b.classList.add('active'));
+  }
+
+  document.querySelectorAll('[data-page]').forEach(el => {
+    el.addEventListener('click', () => navigate(el.dataset.page));
+  });
+
+  // ── Labs read more ────────────────────────────────────────
+  const labsMoreBtn = document.getElementById('labsMoreBtn');
+  const labsMore = document.getElementById('labsMore');
+  labsMoreBtn.addEventListener('click', () => {
+    const open = labsMore.classList.toggle('open');
+    labsMoreBtn.textContent = open ? 'Show less ▴' : 'Read more ▾';
+  });
+
+  // ── Lab accordions ────────────────────────────────────────
+  document.querySelectorAll('.accordion-head').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.acc;
+      const body = document.getElementById('body-' + id);
+      const isOpen = body.classList.contains('open');
+      document.querySelectorAll('.accordion-body').forEach(b => b.classList.remove('open'));
+      document.querySelectorAll('.accordion-head').forEach(b => b.classList.remove('open'));
+      if (!isOpen) {
+        body.classList.add('open');
+        btn.classList.add('open');
+      }
+    });
+  });
+
+  // ── View toggle ───────────────────────────────────────────
+  document.querySelectorAll('.toggle-opt').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const {target, view} = btn.dataset;
+      btn.closest('.toggle-group').querySelectorAll('.toggle-opt').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(target + '-full').style.display = view === 'full' ? '' : 'none';
+      document.getElementById(target + '-doctor').style.display = view === 'doctor' ? '' : 'none';
+    });
+  });
+
+  // ── Lab Interpreter ───────────────────────────────────────
+  const SITE_PASSWORD = 'markhyman';
+  const interpGate = document.getElementById('interpGate');
+  const interpForm = document.getElementById('interpForm');
+  const pwInput = document.getElementById('pwInput');
+  const pwError = document.getElementById('pwError');
+  const unlockBtn = document.getElementById('unlockBtn');
+
+  function tryUnlock() {
+    if (pwInput.value === SITE_PASSWORD) {
+      interpGate.style.display = 'none';
+      interpForm.classList.add('show');
+      pwError.classList.remove('show');
+    } else {
+      pwError.classList.add('show');
+      pwInput.value = '';
+      pwInput.focus();
+    }
+  }
+  unlockBtn.addEventListener('click', tryUnlock);
+  pwInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
+
+  const labFile = document.getElementById('labFile');
+  const uploadName = document.getElementById('uploadName');
+  const interpretBtn = document.getElementById('interpretBtn');
+  const uploadZone = document.getElementById('uploadZone');
+
+  labFile.addEventListener('change', () => {
+    if (labFile.files[0]) {
+      uploadName.textContent = '✓ ' + labFile.files[0].name;
+      uploadName.classList.add('show');
+      interpretBtn.disabled = false;
+    }
+  });
+  uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('drag'); });
+  uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag'));
+  uploadZone.addEventListener('drop', e => {
+    e.preventDefault(); uploadZone.classList.remove('drag');
+    if (e.dataTransfer.files[0]?.type === 'application/pdf') {
+      labFile.files = e.dataTransfer.files;
+      uploadName.textContent = '✓ ' + e.dataTransfer.files[0].name;
+      uploadName.classList.add('show');
+      interpretBtn.disabled = false;
+    }
+  });
+
+  const interpLoading = document.getElementById('interpLoading');
+  const interpResults = document.getElementById('interpResults');
+  const resultsList = document.getElementById('resultsList');
+  const urgentBlock = document.getElementById('urgentBlock');
+  const resultsFooter = document.getElementById('resultsFooter');
+  const resetBtn = document.getElementById('resetBtn');
+
+  interpretBtn.addEventListener('click', () => {
+    if (!labFile.files[0]) return;
+    const reader = new FileReader();
+    reader.onload = async e => {
+      const base64 = e.target.result.split(',')[1];
+      interpForm.classList.remove('show');
+      interpLoading.classList.add('show');
+      try {
+        const res = await fetch('/api/interpret', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({pdfBase64: base64})
+        });
+        if (!res.ok) throw new Error('Request failed: ' + res.status);
+        renderResults(await res.json());
+      } catch(err) {
+        interpLoading.classList.remove('show');
+        interpForm.classList.add('show');
+        alert('Something went wrong. Please try again.\n\nError: ' + err.message);
+      }
+    };
+    reader.readAsDataURL(labFile.files[0]);
+  });
+
+  function renderResults(result) {
+    interpLoading.classList.remove('show');
+    if (result.urgentFlags?.length > 0) {
+      urgentBlock.innerHTML = `<div class="urgent-block"><h4>Urgent — Review with your doctor promptly</h4><ul>${result.urgentFlags.map(f=>`<li>${esc(f)}</li>`).join('')}</ul></div>`;
+    }
+    resultsList.innerHTML = result.markers.map((m,i) => {
+      const sc = m.status === 'optimal' ? 'green' : m.status === 'borderline' ? 'yellow' : 'red';
+      const sl = m.status === 'optimal' ? 'Optimal' : m.status === 'borderline' ? 'Borderline' : 'Flagged';
+      return `<div class="result-card" data-status="${sc}" data-name="${esc(m.name)}" data-value="${esc(m.value)}" data-functional="${esc(m.functionalRange)}" data-standard="${esc(m.standardRange)}" data-markerstatus="${esc(m.status)}">
+        <div class="result-card-head" onclick="toggleCard(this.parentElement)">
+          <div class="status-dot ${sc}"></div>
+          <div class="result-name">${esc(m.name)}</div>
+          <div class="result-val ${sc}">${esc(m.value)}</div>
+          <div class="result-range">${esc(m.functionalRange)}</div>
+          <span class="status-badge ${sc}">${sl}</span>
+        </div>
+        <div class="result-card-body">
+          <p style="font-size:12px;color:var(--text-muted);margin-bottom:6px;">Standard lab range: ${esc(m.standardRange)}</p>
+          <div class="explanation-slot" data-loaded="false"><p class="explanation-text" style="color:var(--text-muted);font-style:italic;">Click to load explanation…</p></div>
+        </div>
+      </div>`;
+    }).join('');
+
+    if (result.panelCompleteness?.missing?.length > 0) {
+      const pc = result.panelCompleteness;
+      resultsFooter.style.display = 'block';
+      resultsFooter.innerHTML = `<strong>Your panel covered ${pc.tested} of ${pc.recommended} recommended markers.</strong>Consider asking your doctor to add: ${pc.missing.map(esc).join(', ')}.`;
+    }
+    interpResults.classList.add('show');
+  }
+
+  async function toggleCard(card) {
+    const wasOpen = card.classList.contains('open');
+    card.classList.toggle('open');
+    if (!wasOpen) {
+      const slot = card.querySelector('.explanation-slot');
+      if (slot?.dataset.loaded === 'false') {
+        slot.dataset.loaded = 'loading';
+        slot.querySelector('.explanation-text').textContent = 'Loading…';
+        try {
+          const res = await fetch('/api/explain', {
+            method:'POST', headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({name:card.dataset.name,value:card.dataset.value,functionalRange:card.dataset.functional,standardRange:card.dataset.standard,status:card.dataset.markerstatus})
+          });
+          const data = await res.json();
+          const el = slot.querySelector('.explanation-text');
+          el.style.cssText = 'color:var(--text-secondary);font-style:normal;';
+          el.textContent = data.explanation;
+          slot.dataset.loaded = 'true';
+        } catch(e) {
+          slot.querySelector('.explanation-text').textContent = 'Could not load explanation.';
+          slot.dataset.loaded = 'false';
+        }
+      }
+    }
+  }
+
+  resetBtn.addEventListener('click', () => {
+    interpResults.classList.remove('show');
+    resultsList.innerHTML = '';
+    urgentBlock.innerHTML = '';
+    resultsFooter.style.display = 'none';
+    labFile.value = '';
+    uploadName.classList.remove('show');
+    interpretBtn.disabled = true;
+    interpForm.classList.add('show');
+  });
+
+  function printPanel(panel) {
+    const prev = document.title;
+    document.title = 'PocketNick — Labs (' + panel + ')';
+    window.print();
+    document.title = prev;
+  }
+
+  function esc(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  </script>
 </body>
 </html>
