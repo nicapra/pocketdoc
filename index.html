@@ -520,12 +520,18 @@
     .card-badge.affiliate { background: var(--accent-light); border-color: #f0c9b0; color: var(--accent); }
 
     .fullscript-banner {
-      margin-top: 32px; background: var(--surface); border: 1px solid var(--border);
+      background: var(--surface); border: 1px solid var(--border);
       border-radius: var(--radius-md); padding: 22px 24px;
       display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
     }
     .fullscript-banner h4 { font-size: 13px; font-weight: 700; text-transform: none; letter-spacing: 0; color: var(--text-primary); margin-bottom: 4px; }
     .fullscript-banner p { font-size: 13px; color: var(--text-secondary); max-width: 420px; }
+
+    .construction-banner {
+      margin: 20px 0; background: var(--accent-light); border: 1px solid #f0c9b0;
+      border-radius: var(--radius-md); padding: 12px 18px;
+      font-size: 13px; font-weight: 600; color: var(--accent-hover);
+    }
 
     /* ── Shop ── */
     .product-category { margin-bottom: 40px; }
@@ -934,8 +940,6 @@
           <!-- SYNC:supplements-intro --><p>Researched, vetted, and personally used. Brands and dosing notes being added over time.</p><!-- /SYNC:supplements-intro -->
         </div>
 
-        <div class="card-grid" id="suppGrid"></div>
-
         <div class="fullscript-banner">
           <div>
             <h4>Buy on Fullscript</h4>
@@ -943,6 +947,10 @@
           </div>
           <a href="https://us.fullscript.com/welcome/asiebecker/store-start" class="btn btn-primary btn-sm">Shop Fullscript</a>
         </div>
+
+        <div class="construction-banner">🚧 Everything below is still under construction — brands, dosing, and notes are being finalized.</div>
+
+        <div class="card-grid" id="suppGrid"></div>
       </div>
     </div>
 
