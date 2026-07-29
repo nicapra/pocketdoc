@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PocketNick — Nick's Health Resource</title>
-  <meta name="description" content="Nick's personal health resource — labs, supplements, and clean products. Like having Nick in your pocket.">
+  <title>PocketNick: Nick's Health Resource</title>
+  <meta name="description" content="Nick's personal health resource for labs, supplements, and clean products. Like having Nick in your pocket.">
   <meta name="robots" content="noindex, nofollow">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://pocketnick.com">
   <meta property="og:title" content="PocketNick">
-  <meta property="og:description" content="Nick's personal health resource — labs, supplements, and clean products.">
+  <meta property="og:description" content="Nick's personal health resource for labs, supplements, and clean products.">
   <meta property="og:image" content="https://pocketnick.com/logo.png">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="PocketNick">
-  <meta name="twitter:description" content="Nick's personal health resource — labs, supplements, and clean products.">
+  <meta name="twitter:description" content="Nick's personal health resource for labs, supplements, and clean products.">
   <meta name="twitter:image" content="https://pocketnick.com/logo.png">
   <link rel="icon" href="logo.png">
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -242,8 +242,6 @@
       margin-bottom: var(--space-6);
     }
 
-    .home-actions { display: flex; gap: 10px; flex-wrap: wrap; }
-
     .home-cards {
       padding: 0 var(--space-6) var(--space-7);
       max-width: 780px;
@@ -289,7 +287,7 @@
       line-height: 1.6;
     }
 
-    /* ── Nick's note (personal aside — optional, not required to be one tidy sentence) ── */
+    /* -- Nick's note (personal aside, optional, not required to be one tidy sentence) -- */
     .nick-note {
       margin-top: var(--space-2);
       padding-left: var(--space-3);
@@ -309,7 +307,7 @@
     .nick-note-line { display: block; margin-bottom: 2px; }
     .nick-note-line:last-child { margin-bottom: 0; }
 
-    /* ── Item list (lightweight rows — Supplements, Shop) ── */
+    /* -- Item list (lightweight rows, Supplements, Shop) -- */
     .item-list {
       border: var(--border-hairline);
       border-radius: var(--radius-sm);
@@ -467,7 +465,7 @@
       color: var(--text-muted); white-space: nowrap;
     }
 
-    /* Labs rows — expandable */
+    /* Labs rows, expandable */
     .labs-list {
       border: 1px solid var(--border); border-radius: var(--radius-sm);
       background: var(--surface); overflow: hidden;
@@ -757,7 +755,7 @@
 
     /* ── Responsive ── */
     @media (max-width: 680px) {
-      .topbar { display: none; }
+      .hamburger-btn, .dropdown-nav { display: none; }
       .bottom-nav { display: flex; }
       .main { padding-bottom: 60px; }
       .page-inner { padding: 32px 20px 60px; }
@@ -855,24 +853,20 @@
       <div class="home-hero">
         <!-- SYNC:hero-eyebrow --><span class="eyebrow">A personal health resource</span><!-- /SYNC:hero-eyebrow -->
         <!-- SYNC:hero-h1 --><h1>All of my recs in one place.</h1><!-- /SYNC:hero-h1 -->
-        <!-- SYNC:hero-sub --><p class="sub">I'm not a doctor, but I'm passionate about health and finding the best for me and my family. This is a place to share that ever-changing database with everyone I care about.</p><!-- /SYNC:hero-sub -->
-        <div class="home-actions">
-          <button class="btn btn-primary" data-page="labs">View Lab Panels</button>
-          <button class="btn btn-secondary" data-page="supplements">Supplements</button>
-        </div>
+        <!-- SYNC:hero-sub --><p class="sub">I'm not a doctor, just a health nut who's passionate about finding the best resources for my family and friends. This is a place to share that ever-changing database ♥️</p><!-- /SYNC:hero-sub -->
       </div>
 
       <div class="home-cards">
         <div class="home-cards-grid">
           <div class="home-card" data-page="labs">
             <span class="home-card-label">Labs</span>
-            <h3>What to get tested — and why</h3>
+            <h3>What to get tested, and why</h3>
             <p>Male &amp; female panels with Labcorp codes, ICD-10 billing, and plain-English explanations.</p>
           </div>
           <div class="home-card" data-page="supplements">
             <span class="home-card-label">Supplements</span>
             <h3>What I actually take</h3>
-            <p>Researched and vetted — brands, dosing, and what to look for on labels.</p>
+            <p>Researched and vetted, covering brands, dosing, and what to look for on labels.</p>
           </div>
           <div class="home-card" data-page="shop">
             <span class="home-card-label">Shop</span>
@@ -882,11 +876,11 @@
           <div class="home-card" data-page="interpreter">
             <span class="home-card-label">Lab Interpreter</span>
             <h3>What do your results mean?</h3>
-            <p>Upload a lab PDF and get a functional medicine read — flagging suboptimal ranges.</p>
+            <p>Upload a lab PDF and get a functional medicine read that flags suboptimal ranges.</p>
           </div>
         </div>
         <div class="disclaimer-strip">
-          <strong>Not medical advice.</strong> I'm not a doctor or licensed healthcare provider. Use this as a starting point for conversations with your own doctor — not a replacement for one.
+          <strong>Not medical advice.</strong> I'm not a doctor or licensed healthcare provider. Use this as a starting point for conversations with your own doctor, not a replacement for one.
         </div>
       </div>
     </div>
@@ -896,14 +890,14 @@
       <div class="page-inner">
         <div class="page-header">
           <span class="section-label">Labs</span>
-          <h2>What to get tested — and why</h2>
+          <h2>What to get tested, and why</h2>
           <!-- SYNC:labs-intro --><p class="labs-intro-note">Once-a-year labs to build a baseline you can track over time. Codes included are for Labcorp, covered by most insurance with the correct billing codes (ICD-10).</p>
           <button class="labs-read-more-btn" id="labsMoreBtn">Read more ▾</button>
           <div class="labs-more" id="labsMore">
             <p>At your doctor visit, explain that "you're looking to establish a 'normal baseline' that you can track over time." The idea is you want to know which biomarkers are <em>optimal</em>, not just "normal".</p>
             <p>Some docs may push back (ego-dependent) but ideally your doctor is open to working with you and your goals. If not, it might be worth trying another doctor who is prevention-focused.</p>
-            <p>Framing matters. State your goals clearly — longevity, preventative care, spotting early warning signs. If they still question it, say you have a friend who is a 'health nerd' who put this together.</p>
-            <p>On insurance — they may say some won't be covered. That comes down to the doctor using the correct ICD-10 code. Personally, I've done these labs multiple times a year for four years and haven't paid anything. But mileage may vary.</p>
+            <p>Framing matters. State your goals clearly, things like longevity, preventative care, and spotting early warning signs. If they still question it, say you have a friend who is a 'health nerd' who put this together.</p>
+            <p>On insurance, they may say some won't be covered. That comes down to the doctor using the correct ICD-10 code. Personally, I've done these labs multiple times a year for four years and haven't paid anything. But mileage may vary.</p>
           </div><!-- /SYNC:labs-intro -->
         </div>
 
@@ -968,7 +962,7 @@
           <!-- SYNC:supplements-intro --><p>Researched, vetted, and personally used. Brands and dosing notes being added over time.</p><!-- /SYNC:supplements-intro -->
         </div>
 
-        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: var(--space-4);">🚧 Still under construction — brands, dosing, and notes are being finalized. Buy on Fullscript under Shop → Where to Buy.</p>
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: var(--space-4);">🚧 Brands, dosing, and notes below are still being finalized. Buy on Fullscript under Shop → Where to Buy.</p>
 
         <div class="item-list" id="suppGrid"></div>
       </div>
@@ -983,9 +977,9 @@
           <p>Where I order supplements from, plus vetted products I use at home.</p>
         </div>
 
-        <!-- HOW TO: add a Nick's note to a product-card or buy-item — paste this inside the
+        <!-- HOW TO: add a Nick's note to a product-card or buy-item, paste this inside the
              item's text column, right after the <p> description. Doesn't need to be one tidy
-             sentence — add as many short lines as you want:
+             sentence, add as many short lines as you want:
         <div class="nick-note">
           <span class="nick-note-label">Nick's note</span>
           <span class="nick-note-line">Short unpolished aside here.</span>
@@ -1004,7 +998,7 @@
             <div class="buy-item-icon">🏥</div>
             <div>
               <h3>Fullscript</h3>
-              <!-- SYNC:buy-fullscript --><p>Dispensary-grade supplements. Authentic products, good pricing, fast shipping. My default first stop. Use the link for a public discount — it's an affiliate link that also supports the site.</p><!-- /SYNC:buy-fullscript -->
+              <!-- SYNC:buy-fullscript --><p>Dispensary-grade supplements. Authentic products, good pricing, fast shipping. My default first stop. Use the link for a public discount, since it's an affiliate link that also supports the site.</p><!-- /SYNC:buy-fullscript -->
               <a href="https://us.fullscript.com/welcome/asiebecker/store-start" class="btn btn-primary btn-sm">Shop Fullscript</a>
             </div>
           </div>
@@ -1012,7 +1006,7 @@
             <div class="buy-item-icon">📦</div>
             <div>
               <h3>Amazon</h3>
-              <!-- SYNC:buy-amazon --><p>Sometimes cheaper than Fullscript for the same products — worth checking both before buying. Stick to brands with third-party testing (NSF, USP, or Informed Sport certified).</p><!-- /SYNC:buy-amazon -->
+              <!-- SYNC:buy-amazon --><p>Sometimes cheaper than Fullscript for the same products, so it's worth checking both before buying. Stick to brands with third-party testing (NSF, USP, or Informed Sport certified).</p><!-- /SYNC:buy-amazon -->
             </div>
           </div>
           <div class="buy-item">
@@ -1091,7 +1085,7 @@
         <div class="page-header">
           <span class="section-label">Lab Interpreter</span>
           <h2>What do your results actually mean?</h2>
-          <p>Upload your lab results PDF. This reads them through a functional medicine lens — flagging results that may be suboptimal even if your lab marked them "normal."</p>
+          <p>Upload your lab results PDF. This reads them through a functional medicine lens and flags results that may be suboptimal even if your lab marked them "normal."</p>
         </div>
 
         <div class="gate-box" id="interpGate">
@@ -1107,7 +1101,7 @@
         <div class="interp-form" id="interpForm">
           <div class="privacy-note">
             <span>🔒</span>
-            <span>Feel free to black out your name and date of birth before uploading. The AI only needs the lab values — not your identifying information.</span>
+            <span>Feel free to black out your name and date of birth before uploading. The AI only needs the lab values, not your identifying information.</span>
           </div>
           <div class="upload-zone" id="uploadZone">
             <input type="file" id="labFile" accept=".pdf">
@@ -1140,7 +1134,7 @@
 
   <script>
   // ── Supplements data & modal ─────────────────────────────
-  // Each entry can optionally carry a `nickNote` field — a personal aside shown in
+  // Each entry can optionally carry a `nickNote` field, a personal aside shown in
   // the modal below the main write-up. Doesn't need to be one tidy sentence:
   // nickNote: `<span class="nick-note-line">Short unpolished aside.</span><span class="nick-note-line">Another line.</span>`
   const SUPPLEMENTS = [
@@ -1154,24 +1148,24 @@
       badge: "Daily", badgeClass: "",
       name: "Probiotic",
       preview: "Strain specificity matters more than most people think.",
-      full: `<!-- SYNC:supp-probiotic --><p>[PLACEHOLDER] Brand, strain info, why strain specificity matters. Refrigerated vs. shelf-stable — and why it makes a difference.</p><!-- /SYNC:supp-probiotic -->`
+      full: `<!-- SYNC:supp-probiotic --><p>[PLACEHOLDER] Brand, strain info, why strain specificity matters. Refrigerated vs. shelf-stable, and why it makes a difference.</p><!-- /SYNC:supp-probiotic -->`
     },
     {
       badge: "Affiliate link", badgeClass: "affiliate",
       name: "Organs (Heart & Soil)",
       preview: "Desiccated capsule option with peptides and nutrients most diets miss.",
-      full: `<!-- SYNC:supp-organ-meat --><p>Organs yo. Desiccated capsule option — contains peptides and nutrients that most of us are missing even with a "healthy diet".</p>
+      full: `<!-- SYNC:supp-organ-meat --><p>Organs yo. Desiccated capsule option that contains peptides and nutrients most of us are missing even with a "healthy diet".</p>
              <p>Heart & Soil is super high quality, 3rd party tested for metals, and they have the best Colostrum on the market (better quality than ARMRA).</p>
              <p><a href="https://refer.heartandsoil.co/f5x74qey" target="_blank">20% off with this link →</a></p><!-- /SYNC:supp-organ-meat -->`
     },
     {
       badge: "Daily", badgeClass: "",
       name: "Magnesium",
-      preview: "Most people are deficient. Form matters — glycinate vs. oxide vs. threonate.",
+      preview: "Most people are deficient, and form matters a lot, glycinate vs. oxide vs. threonate.",
       full: `<!-- SYNC:supp-magnesium --><p>Most people are deficient in magnesium and don't know it. The form you take matters a lot.</p>
-             <p><strong>Glycinate</strong> — best for sleep and general deficiency. Most absorbable, least likely to cause GI issues.</p>
-             <p><strong>Threonate</strong> — crosses the blood-brain barrier. Better for cognitive function and anxiety.</p>
-             <p><strong>Oxide</strong> — cheap, poorly absorbed, mostly just a laxative. Avoid.</p>
+             <p><strong>Glycinate</strong> is best for sleep and general deficiency, the most absorbable form and least likely to cause GI issues.</p>
+             <p><strong>Threonate</strong> crosses the blood-brain barrier, making it better for cognitive function and anxiety.</p>
+             <p><strong>Oxide</strong> is cheap, poorly absorbed, and mostly just a laxative. Avoid.</p>
              <p>[Brand rec and dosing coming soon.]</p><!-- /SYNC:supp-magnesium -->`
     },
   ];
@@ -1224,7 +1218,7 @@
     [1,"Comprehensive Metabolic Panel (CMP)","322000","E78.5","<!-- SYNC:lab-m-cmp -->Screens kidney function, liver enzymes, electrolytes, and blood sugar in one draw. Your metabolic foundation.<!-- /SYNC:lab-m-cmp -->"],
     [2,"CBC with Differential","005009","E78.5","<!-- SYNC:lab-m-cbc -->Checks red and white blood cells and platelets. Flags anemia, infection, and immune abnormalities.<!-- /SYNC:lab-m-cbc -->"],
     [3,"Urinalysis, Complete with Microscopic","003772","Z00.00","<!-- SYNC:lab-m-ua -->Kidney and bladder health, plus early metabolic issues that show up in urine before blood markers shift.<!-- /SYNC:lab-m-ua -->"],
-    [4,"NMR LipoProfile with Lipids","884247","E78.5","<!-- SYNC:lab-m-nmr -->The standard cholesterol test is 70+ year old technology. NMR measures actual particle size and number — a far better cardiovascular risk predictor.<!-- /SYNC:lab-m-nmr -->"],
+    [4,"NMR LipoProfile with Lipids","884247","E78.5","<!-- SYNC:lab-m-nmr -->The standard cholesterol test is 70+ year old technology. NMR measures actual particle size and number, which makes it a far better cardiovascular risk predictor.<!-- /SYNC:lab-m-nmr -->"],
     [5,"Apolipoprotein B","167015","E78.5","<!-- SYNC:lab-m-apob -->One of the most accurate single markers for cardiovascular risk. Each ApoB particle can deposit in artery walls.<!-- /SYNC:lab-m-apob -->"],
     [6,"Lipoprotein(a) <span class='freq-badge once'>Test once</span>","120188","E78.5","<!-- SYNC:lab-m-lpa -->A genetically determined cardiovascular risk factor. Only need to measure it once since it rarely changes.<!-- /SYNC:lab-m-lpa -->"],
     [7,"Hemoglobin A1c","001453","Z13.1","<!-- SYNC:lab-m-a1c -->Your 3-month average blood sugar. More reliable than a fasting glucose snapshot.<!-- /SYNC:lab-m-a1c -->"],
@@ -1236,15 +1230,15 @@
   ];
   const MALE_D2 = [
     [13,"Homocysteine","706994","E78.5","<!-- SYNC:lab-m-homocys -->Elevated levels indicate B-vitamin deficiency and raise risk for cardiovascular disease and cognitive decline.<!-- /SYNC:lab-m-homocys -->"],
-    [14,"Thyroid Panel: TSH and Free T4","224576","Z13.29","<!-- SYNC:lab-m-tsh-t4 -->Standard thyroid check. TSH alone misses a lot — Free T4 shows how much hormone is actually circulating.<!-- /SYNC:lab-m-tsh-t4 -->"],
+    [14,"Thyroid Panel: TSH and Free T4","224576","Z13.29","<!-- SYNC:lab-m-tsh-t4 -->Standard thyroid check. TSH alone misses a lot, but Free T4 shows how much hormone is actually circulating.<!-- /SYNC:lab-m-tsh-t4 -->"],
     [15,"Free T3","010389","Z13.29","<!-- SYNC:lab-m-freet3 -->The active thyroid hormone your cells actually use. Often suboptimal even when TSH looks fine.<!-- /SYNC:lab-m-freet3 -->"],
-    [16,"Thyroid Peroxidase (TPO) Antibody <span class='freq-badge infrequent'>Every 3–5 yrs</span>","006676","Z13.29","<!-- SYNC:lab-m-tpo -->Detects Hashimoto's thyroiditis, the most common cause of hypothyroidism — often missed for years.<!-- /SYNC:lab-m-tpo -->"],
+    [16,"Thyroid Peroxidase (TPO) Antibody <span class='freq-badge infrequent'>Every 3–5 yrs</span>","006676","Z13.29","<!-- SYNC:lab-m-tpo -->Detects Hashimoto's thyroiditis, the most common cause of hypothyroidism, often missed for years.<!-- /SYNC:lab-m-tpo -->"],
     [17,"Thyroid Stimulating Immunoglobulin (TSI) <span class='freq-badge infrequent'>Every 3–5 yrs</span>","140747","Z13.29","<!-- SYNC:lab-m-tsi -->Detects Graves' disease (autoimmune hyperthyroidism). Rules out the other side of the thyroid autoimmune spectrum.<!-- /SYNC:lab-m-tsi -->"],
     [18,"Testosterone, Free and Total","140103","Z13.29","<!-- SYNC:lab-m-testosterone -->Total testosterone is often normal while free testosterone is low. You need both to get the full picture.<!-- /SYNC:lab-m-testosterone -->"],
     [19,"Follicle-Stimulating Hormone (FSH)","004309","Z13.29","<!-- SYNC:lab-m-fsh -->In men, elevated FSH can indicate testicular dysfunction. Useful context alongside testosterone levels.<!-- /SYNC:lab-m-fsh -->"],
     [20,"Vitamin D, 25-Hydroxy","081950","E55.9","<!-- SYNC:lab-m-vitd -->Most people are deficient. Affects immune function, mood, bone health, testosterone production, and more.<!-- /SYNC:lab-m-vitd -->"],
     [21,"Vitamin B12 and Folate","000810","E72.11","<!-- SYNC:lab-m-b12 -->Essential for nerve function, DNA synthesis, and methylation. Deficiency is common and consistently underdiagnosed.<!-- /SYNC:lab-m-b12 -->"],
-    [22,"Magnesium, RBC","080283","Z13.88","<!-- SYNC:lab-m-mag -->Serum magnesium is nearly useless — RBC magnesium shows what's actually inside your cells. Most people are low.<!-- /SYNC:lab-m-mag -->"],
+    [22,"Magnesium, RBC","080283","Z13.88","<!-- SYNC:lab-m-mag -->Serum magnesium is nearly useless, but RBC magnesium shows what's actually inside your cells. Most people are low.<!-- /SYNC:lab-m-mag -->"],
     [23,"OmegaCheck (Omega-3 and Omega-6 Profile)","823738","Z13.88","<!-- SYNC:lab-m-omega -->Measures your omega-3 index and omega-6/omega-3 ratio. Most people are severely omega-3 deficient.<!-- /SYNC:lab-m-omega -->"],
     [24,"Gamma-Glutamyl Transferase (GGT)","001958","Z13.88","<!-- SYNC:lab-m-ggt -->An early liver stress marker. Elevated GGT can precede other liver enzymes and correlates with oxidative stress.<!-- /SYNC:lab-m-ggt -->"],
   ];
@@ -1253,18 +1247,18 @@
     [1,"Follicle-Stimulating Hormone (FSH)","004309","Z13.29","<!-- SYNC:lab-f-fsh -->On cycle day 3, FSH reflects ovarian reserve. Rising FSH over time can indicate diminishing egg supply.<!-- /SYNC:lab-f-fsh -->"],
     [2,"Luteinizing Hormone (LH)","004283","Z13.29","<!-- SYNC:lab-f-lh -->The LH-to-FSH ratio on Day 3 gives important context for hormonal balance and PCOS risk assessment.<!-- /SYNC:lab-f-lh -->"],
     [3,"Estradiol","004515","Z13.29","<!-- SYNC:lab-f-estradiol -->Baseline estradiol on Day 3 should be low. Elevated levels can suppress FSH and obscure ovarian reserve results.<!-- /SYNC:lab-f-estradiol -->"],
-    [4,"Anti-Mullerian Hormone (AMH)","500183","Z13.29","<!-- SYNC:lab-f-amh -->The best single marker for ovarian reserve. Stable across the cycle — gives a clear picture of remaining egg supply.<!-- /SYNC:lab-f-amh -->"],
+    [4,"Anti-Mullerian Hormone (AMH)","500183","Z13.29","<!-- SYNC:lab-f-amh -->The best single marker for ovarian reserve. Stable across the cycle, giving a clear picture of remaining egg supply.<!-- /SYNC:lab-f-amh -->"],
     [5,"Testosterone, Total (Women/Children)","070001","Z13.29","<!-- SYNC:lab-f-testosterone -->Low testosterone in women causes low libido, fatigue, and poor muscle recovery. Frequently overlooked.<!-- /SYNC:lab-f-testosterone -->"],
     [6,"Sex Hormone-Binding Globulin (SHBG)","500848","Z13.29","<!-- SYNC:lab-f-shbg -->High SHBG binds free testosterone and estrogen, leaving less bioavailable for your cells to use.<!-- /SYNC:lab-f-shbg -->"],
     [7,"DHEA-Sulfate","004020","Z13.29","<!-- SYNC:lab-f-dhea -->An adrenal hormone and testosterone precursor. Low levels correlate with fatigue, low libido, and poor stress response.<!-- /SYNC:lab-f-dhea -->"],
     [8,"Prolactin","004465","Z13.29","<!-- SYNC:lab-f-prolactin -->Elevated prolactin can suppress ovulation. A common hidden cause of irregular cycles and fertility issues.<!-- /SYNC:lab-f-prolactin -->"],
-    [9,"Insulin, Fasting","004333","Z13.1","<!-- SYNC:lab-f-insulin -->Elevated fasting insulin is one of the earliest signs of metabolic dysfunction — often rises years before glucose.<!-- /SYNC:lab-f-insulin -->"],
+    [9,"Insulin, Fasting","004333","Z13.1","<!-- SYNC:lab-f-insulin -->Elevated fasting insulin is one of the earliest signs of metabolic dysfunction, often rising years before glucose.<!-- /SYNC:lab-f-insulin -->"],
     [10,"Hemoglobin A1c","001453","Z13.1","<!-- SYNC:lab-f-a1c -->Your 3-month average blood sugar. More reliable than a fasting glucose snapshot for tracking metabolic health.<!-- /SYNC:lab-f-a1c -->"],
-    [11,"Thyroid Panel: TSH and Free T4","224576","Z13.29","<!-- SYNC:lab-f-tsh-t4 -->Standard thyroid check. TSH alone misses a lot — Free T4 shows how much hormone is actually circulating.<!-- /SYNC:lab-f-tsh-t4 -->"],
+    [11,"Thyroid Panel: TSH and Free T4","224576","Z13.29","<!-- SYNC:lab-f-tsh-t4 -->Standard thyroid check. TSH alone misses a lot, but Free T4 shows how much hormone is actually circulating.<!-- /SYNC:lab-f-tsh-t4 -->"],
     [12,"Free T3","010389","Z13.29","<!-- SYNC:lab-f-freet3 -->The active thyroid hormone your cells actually use. Often suboptimal even when TSH looks fine.<!-- /SYNC:lab-f-freet3 -->"],
-    [13,"Thyroid Peroxidase (TPO) Antibody <span class='freq-badge infrequent'>Every 3–5 yrs</span>","006676","Z13.29","<!-- SYNC:lab-f-tpo -->Detects Hashimoto's thyroiditis — the most common thyroid condition in women. Often undiagnosed for years.<!-- /SYNC:lab-f-tpo -->"],
+    [13,"Thyroid Peroxidase (TPO) Antibody <span class='freq-badge infrequent'>Every 3–5 yrs</span>","006676","Z13.29","<!-- SYNC:lab-f-tpo -->Detects Hashimoto's thyroiditis, the most common thyroid condition in women, often undiagnosed for years.<!-- /SYNC:lab-f-tpo -->"],
     [14,"Thyroid Stimulating Immunoglobulin (TSI) <span class='freq-badge infrequent'>Every 3–5 yrs</span>","140747","Z13.29","<!-- SYNC:lab-f-tsi -->Detects Graves' disease (autoimmune hyperthyroidism). Rules out the other side of the thyroid autoimmune spectrum.<!-- /SYNC:lab-f-tsi -->"],
-    [15,"Thyroglobulin Antibody (TgAb) <span class='freq-badge infrequent'>Every 3–5 yrs</span>","006685","Z13.29","<!-- SYNC:lab-f-tgab -->A second thyroid autoimmune marker. Some people make TgAb but not TPO antibodies — you need both to catch all cases.<!-- /SYNC:lab-f-tgab -->"],
+    [15,"Thyroglobulin Antibody (TgAb) <span class='freq-badge infrequent'>Every 3–5 yrs</span>","006685","Z13.29","<!-- SYNC:lab-f-tgab -->A second thyroid autoimmune marker. Some people make TgAb but not TPO antibodies, so you need both to catch all cases.<!-- /SYNC:lab-f-tgab -->"],
     [16,"17-OH Progesterone <span class='freq-badge once'>Test once</span>","070085","Z13.29","<!-- SYNC:lab-f-17oh -->Screens for congenital adrenal hyperplasia, a common cause of androgen excess and irregular cycles often missed.<!-- /SYNC:lab-f-17oh -->"],
   ];
   const FEMALE_D2 = [
@@ -1274,22 +1268,22 @@
     [20,"Urinalysis, Complete with Microscopic","003772","Z00.00","<!-- SYNC:lab-f-ua -->Kidney and bladder health, plus early metabolic issues that show up in urine before blood markers shift.<!-- /SYNC:lab-f-ua -->"],
     [21,"NMR LipoProfile with Lipids","884247","E78.5","<!-- SYNC:lab-f-nmr -->Particle-level cardiovascular risk assessment. More accurate than a standard cholesterol panel.<!-- /SYNC:lab-f-nmr -->"],
     [22,"Apolipoprotein B","167015","E78.5","<!-- SYNC:lab-f-apob -->The most accurate single marker for cardiovascular risk. Each ApoB particle can deposit in artery walls.<!-- /SYNC:lab-f-apob -->"],
-    [23,"Lipoprotein(a) <span class='freq-badge once'>Test once</span>","120188","E78.5","<!-- SYNC:lab-f-lpa -->A genetically determined cardiovascular risk factor. Only need to measure it once — it rarely changes.<!-- /SYNC:lab-f-lpa -->"],
+    [23,"Lipoprotein(a) <span class='freq-badge once'>Test once</span>","120188","E78.5","<!-- SYNC:lab-f-lpa -->A genetically determined cardiovascular risk factor. Only need to measure it once, since it rarely changes.<!-- /SYNC:lab-f-lpa -->"],
     [24,"C-Reactive Protein, Cardiac (hs-CRP)","120766","E78.5","<!-- SYNC:lab-f-crp -->Systemic inflammation marker. Predicts cardiovascular events better than standard cholesterol panels.<!-- /SYNC:lab-f-crp -->"],
     [25,"Iron and Total Iron Binding Capacity (TIBC)","001321","E61.1","<!-- SYNC:lab-f-iron -->Women are at much higher risk for iron deficiency due to menstruation. TIBC gives essential context.<!-- /SYNC:lab-f-iron -->"],
-    [26,"Ferritin","004598","E61.1","<!-- SYNC:lab-f-ferritin -->Iron storage marker. The most sensitive indicator of deficiency — often depleted before anemia develops.<!-- /SYNC:lab-f-ferritin -->"],
+    [26,"Ferritin","004598","E61.1","<!-- SYNC:lab-f-ferritin -->Iron storage marker. The most sensitive indicator of deficiency, often depleted before anemia develops.<!-- /SYNC:lab-f-ferritin -->"],
     [27,"Phosphorus","001024","Z13.88","<!-- SYNC:lab-f-phosphorus -->Involved in bone health, energy production, and kidney function. Often low in processed food-heavy diets.<!-- /SYNC:lab-f-phosphorus -->"],
     [28,"Homocysteine","706994","E78.5","<!-- SYNC:lab-f-homocys -->Elevated levels indicate B-vitamin deficiency and raise risk for cardiovascular disease and cognitive decline.<!-- /SYNC:lab-f-homocys -->"],
     [29,"Vitamin D, 25-Hydroxy","081950","E55.9","<!-- SYNC:lab-f-vitd -->Most people are deficient. Critical for immune function, mood, bone density, and hormonal balance.<!-- /SYNC:lab-f-vitd -->"],
     [30,"Vitamin B12 and Folate","000810","E72.11","<!-- SYNC:lab-f-b12 -->Essential for nerve function, DNA synthesis, and fetal development. Deficiency is common and often missed.<!-- /SYNC:lab-f-b12 -->"],
-    [31,"Magnesium, RBC","080283","Z13.88","<!-- SYNC:lab-f-mag -->RBC magnesium shows intracellular stores — far more accurate than serum magnesium.<!-- /SYNC:lab-f-mag -->"],
+    [31,"Magnesium, RBC","080283","Z13.88","<!-- SYNC:lab-f-mag -->RBC magnesium shows intracellular stores, far more accurate than serum magnesium.<!-- /SYNC:lab-f-mag -->"],
     [32,"OmegaCheck (Omega-3 and Omega-6 Profile)","823738","Z13.88","<!-- SYNC:lab-f-omega -->Measures your omega-3 index and fatty acid ratios. Most people are severely omega-3 deficient.<!-- /SYNC:lab-f-omega -->"],
     [33,"Gamma-Glutamyl Transferase (GGT)","001958","Z13.88","<!-- SYNC:lab-f-ggt -->An early liver stress and oxidative stress marker. Can flag problems before other liver enzymes shift.<!-- /SYNC:lab-f-ggt -->"],
   ];
 
   // Optional 6th element per row (r[5]) is a Nick's-note aside, e.g.:
   // `<span class="nick-note-line">Short unpolished aside.</span><span class="nick-note-line">Another line.</span>`
-  // Only shown in the Full Guide table — the doctor view intentionally stays clean.
+  // Only shown in the Full Guide table, the doctor view intentionally stays clean.
   function labsTable(rows) {
     const trs = rows.map(r => `<tr>
       <td>${r[0]}</td>
@@ -1313,26 +1307,26 @@
 
   // Render male labs
   document.getElementById('male-full').innerHTML =
-    `<p class="labs-context">Ask for labs to check that everything is <em>optimal</em>, not just normal — that word matters. Day 1 requires a 12-hour fast. Day 2 does not. Hydrate well.</p>` +
-    `<div class="day-label">Day 1 — Fasting</div>${labsTable(MALE_D1)}` +
-    `<div class="day-label">Day 2 — No fast required</div>${labsTable(MALE_D2)}`;
+    `<p class="labs-context">Ask for labs to check that everything is <em>optimal</em>, not just normal. That word matters. Day 1 requires a 12-hour fast. Day 2 does not. Hydrate well.</p>` +
+    `<div class="day-label">Day 1: Fasting</div>${labsTable(MALE_D1)}` +
+    `<div class="day-label">Day 2: No fast required</div>${labsTable(MALE_D2)}`;
 
   document.getElementById('male-doctor').innerHTML =
-    `<div class="doctor-header"><h3>Male Lab Panel — 24 Labs</h3><p>Show this to your doctor or print it out. ICD-10 codes help them order the correct tests through Labcorp.</p></div>` +
-    `<div class="day-label">Day 1 — Fasting</div>${doctorList(MALE_D1)}` +
-    `<div class="day-label">Day 2 — No fast required</div>${doctorList(MALE_D2)}` +
+    `<div class="doctor-header"><h3>Male Lab Panel: 24 Labs</h3><p>Show this to your doctor or print it out. ICD-10 codes help them order the correct tests through Labcorp.</p></div>` +
+    `<div class="day-label">Day 1: Fasting</div>${doctorList(MALE_D1)}` +
+    `<div class="day-label">Day 2: No fast required</div>${doctorList(MALE_D2)}` +
     `<div class="print-row"><button class="btn btn-secondary btn-sm" onclick="printPanel('Male')">Print / Save PDF</button></div>`;
 
   // Render female labs
   document.getElementById('female-full').innerHTML =
     `<p class="labs-context"><strong>Day 1 (Cycle Day 3):</strong> Book your draw on days 2, 3, or 4 of your cycle. <strong>Day 2 (Cycle Day 19–21):</strong> Count 7 days back from your expected next period. Fast 10–12 hours for both draws. Book the same cycle days each year for consistent comparisons.</p>` +
-    `<div class="day-label">Day 1 — Cycle Day 3 (Fasting)</div>${labsTable(FEMALE_D1)}` +
-    `<div class="day-label">Day 2 — Cycle Day 19–21 (Fasting)</div>${labsTable(FEMALE_D2)}`;
+    `<div class="day-label">Day 1: Cycle Day 3 (Fasting)</div>${labsTable(FEMALE_D1)}` +
+    `<div class="day-label">Day 2: Cycle Day 19–21 (Fasting)</div>${labsTable(FEMALE_D2)}`;
 
   document.getElementById('female-doctor').innerHTML =
-    `<div class="doctor-header"><h3>Female Lab Panel — 33 Labs</h3><p>Show this to your doctor or print it out. Day 1 labs on Cycle Day 3; Day 2 (progesterone) on Cycle Day 19–21.</p></div>` +
-    `<div class="day-label">Day 1 — Cycle Day 3 (Fasting)</div>${doctorList(FEMALE_D1)}` +
-    `<div class="day-label">Day 2 — Cycle Day 19–21 (Fasting)</div>${doctorList(FEMALE_D2)}` +
+    `<div class="doctor-header"><h3>Female Lab Panel: 33 Labs</h3><p>Show this to your doctor or print it out. Day 1 labs on Cycle Day 3; Day 2 (progesterone) on Cycle Day 19–21.</p></div>` +
+    `<div class="day-label">Day 1: Cycle Day 3 (Fasting)</div>${doctorList(FEMALE_D1)}` +
+    `<div class="day-label">Day 2: Cycle Day 19–21 (Fasting)</div>${doctorList(FEMALE_D2)}` +
     `<div class="print-row"><button class="btn btn-secondary btn-sm" onclick="printPanel('Female')">Print / Save PDF</button></div>`;
 
   // ── Navigation ────────────────────────────────────────────
@@ -1486,7 +1480,7 @@
   function renderResults(result) {
     interpLoading.classList.remove('show');
     if (result.urgentFlags?.length > 0) {
-      urgentBlock.innerHTML = `<div class="urgent-block"><h4>Urgent — Review with your doctor promptly</h4><ul>${result.urgentFlags.map(f=>`<li>${esc(f)}</li>`).join('')}</ul></div>`;
+      urgentBlock.innerHTML = `<div class="urgent-block"><h4>Urgent: Review with your doctor promptly</h4><ul>${result.urgentFlags.map(f=>`<li>${esc(f)}</li>`).join('')}</ul></div>`;
     }
     resultsList.innerHTML = result.markers.map((m,i) => {
       const sc = m.status === 'optimal' ? 'green' : m.status === 'borderline' ? 'yellow' : 'red';
@@ -1553,7 +1547,7 @@
 
   function printPanel(panel) {
     const prev = document.title;
-    document.title = 'PocketNick — Labs (' + panel + ')';
+    document.title = 'PocketNick Labs (' + panel + ')';
     window.print();
     document.title = prev;
   }
