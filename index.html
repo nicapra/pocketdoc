@@ -40,11 +40,15 @@
       --red-bg:       #FDEAEA;
       --font-sans:    'Open Sans', system-ui, sans-serif;
       --font-serif:   'PT Serif', Georgia, serif;
-      --sidebar-w:    220px;
+      --topbar-h:     60px;
       --radius-sm:    8px;
       --radius-md:    12px;
       --shadow-sm:    0 1px 3px rgba(0,0,0,0.06);
       --shadow-md:    0 4px 16px rgba(0,0,0,0.08);
+      --shadow-hover: 0 2px 8px rgba(0,0,0,0.05);
+      --border-hairline: 1px solid var(--border-light);
+      --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
+      --space-5: 24px; --space-6: 32px; --space-7: 48px; --space-8: 64px;
     }
 
     html, body { height: 100%; }
@@ -57,6 +61,7 @@
       background: var(--bg);
       -webkit-font-smoothing: antialiased;
       display: flex;
+      flex-direction: column;
     }
 
     a { color: var(--accent); text-decoration: none; }
@@ -70,31 +75,24 @@
     p { color: var(--text-secondary); }
     strong { color: var(--text-primary); font-weight: 600; }
 
-    /* ── Sidebar ── */
-    .sidebar {
-      width: var(--sidebar-w);
+    /* ── Top bar / nav ── */
+    .topbar {
+      height: var(--topbar-h);
       flex-shrink: 0;
-      height: 100vh;
-      position: sticky;
-      top: 0;
-      display: flex;
-      flex-direction: column;
-      background: var(--surface);
-      border-right: 1px solid var(--border);
-      overflow: hidden;
-    }
-
-    .sidebar-logo {
-      padding: 28px 24px 24px;
-      border-bottom: 1px solid var(--border-light);
       display: flex;
       align-items: center;
-      gap: 10px;
+      justify-content: space-between;
+      padding: 0 var(--space-5);
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      z-index: 60;
     }
 
-    .sidebar-logo img { width: 28px; height: 28px; border-radius: 6px; object-fit: cover; }
+    .topbar-logo { display: flex; align-items: center; gap: 10px; }
+    .topbar-logo img { width: 26px; height: 26px; border-radius: 6px; object-fit: cover; }
 
-    .sidebar-logo-text {
+    .topbar-logo-text {
       font-family: var(--font-serif);
       font-size: 16px;
       font-weight: 700;
@@ -102,15 +100,32 @@
       color: var(--text-primary);
     }
 
-    .sidebar-logo-text span { color: var(--accent); }
+    .topbar-logo-text span { color: var(--accent); }
 
-    .sidebar-nav {
-      flex: 1;
-      padding: 16px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
+    .hamburger-btn {
+      width: 36px; height: 36px; border-radius: var(--radius-sm);
+      border: 1px solid var(--border); background: var(--surface);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+      cursor: pointer; transition: background 0.15s ease;
     }
+    .hamburger-btn:hover { background: var(--surface-alt); }
+    .hamburger-btn span { width: 16px; height: 2px; background: var(--text-secondary); border-radius: 1px; transition: all 0.2s ease; }
+    .hamburger-btn.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .hamburger-btn.open span:nth-child(2) { opacity: 0; }
+    .hamburger-btn.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    .dropdown-nav {
+      position: absolute; top: 100%; right: var(--space-5);
+      margin-top: var(--space-2);
+      width: 230px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);
+      box-shadow: var(--shadow-md);
+      padding: var(--space-2);
+      display: flex; flex-direction: column; gap: 2px;
+      opacity: 0; pointer-events: none; transform: translateY(-6px);
+      transition: opacity 0.15s ease, transform 0.15s ease;
+    }
+    .dropdown-nav.open { opacity: 1; pointer-events: all; transform: translateY(0); }
 
     .nav-item {
       display: flex;
@@ -141,9 +156,10 @@
     .nav-item svg { width: 15px; height: 15px; flex-shrink: 0; opacity: 0.7; }
     .nav-item.active svg { opacity: 1; }
 
-    .sidebar-footer {
-      padding: 16px 20px;
+    .dropdown-footer {
+      padding: var(--space-3) var(--space-3) var(--space-2);
       border-top: 1px solid var(--border-light);
+      margin-top: 2px;
       font-size: 11px;
       color: var(--text-muted);
       line-height: 1.5;
@@ -152,7 +168,6 @@
     /* ── Main content ── */
     .main {
       flex: 1;
-      height: 100vh;
       overflow-y: auto;
       scroll-behavior: smooth;
     }
@@ -163,11 +178,11 @@
     .page-inner {
       max-width: 780px;
       margin: 0 auto;
-      padding: 52px 40px 80px;
+      padding: var(--space-7) var(--space-6) var(--space-7);
     }
 
     .page-header {
-      margin-bottom: 40px;
+      margin-bottom: var(--space-6);
     }
 
     .section-label {
@@ -202,7 +217,7 @@
 
     /* ── Home ── */
     .home-hero {
-      padding: 60px 40px 48px;
+      padding: var(--space-7) var(--space-6) var(--space-6);
       max-width: 780px;
       margin: 0 auto;
     }
@@ -224,13 +239,13 @@
       line-height: 1.75;
       color: var(--text-secondary);
       max-width: 520px;
-      margin-bottom: 32px;
+      margin-bottom: var(--space-6);
     }
 
     .home-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 
     .home-cards {
-      padding: 0 40px 60px;
+      padding: 0 var(--space-6) var(--space-7);
       max-width: 780px;
       margin: 0 auto;
     }
@@ -238,25 +253,24 @@
     .home-cards-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
-      margin-bottom: 32px;
+      gap: var(--space-3);
+      margin-bottom: var(--space-6);
     }
 
     .home-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
-      padding: 22px;
+      padding: var(--space-4);
       cursor: pointer;
       transition: all 0.15s ease;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: var(--space-2);
     }
 
     .home-card:hover {
-      box-shadow: var(--shadow-md);
-      transform: translateY(-1px);
+      box-shadow: var(--shadow-hover);
       border-color: var(--accent-light);
     }
 
@@ -269,14 +283,52 @@
       border: 1px solid var(--border);
       border-left: 3px solid var(--accent);
       border-radius: var(--radius-sm);
-      padding: 14px 18px;
+      padding: var(--space-3) var(--space-4);
       font-size: 13px;
       color: var(--text-secondary);
       line-height: 1.6;
     }
 
+    /* ── Nick's note (personal aside — optional, not required to be one tidy sentence) ── */
+    .nick-note {
+      margin-top: var(--space-2);
+      padding-left: var(--space-3);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .nick-note-label {
+      display: block;
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+    .nick-note-line { display: block; margin-bottom: 2px; }
+    .nick-note-line:last-child { margin-bottom: 0; }
+
+    /* ── Item list (lightweight rows — Supplements, Shop) ── */
+    .item-list {
+      border: var(--border-hairline);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      overflow: hidden;
+    }
+    .item-row {
+      padding: var(--space-3) var(--space-4);
+      border-bottom: var(--border-hairline);
+      transition: background 0.12s ease;
+    }
+    .item-row:last-child { border-bottom: none; }
+    .item-row:hover { background: var(--surface-alt); }
+    .item-row h3 { font-family: var(--font-sans); font-size: 14px; font-weight: 700; font-style: normal; color: var(--text-primary); margin-bottom: 4px; }
+    .item-row p { font-size: 13px; line-height: 1.6; color: var(--text-secondary); max-width: none; }
+    .item-row.placeholder h3 { color: var(--text-muted); font-weight: 600; }
+
     /* ── Divider ── */
-    .divider { border: none; border-top: 1px solid var(--border); margin: 36px 0; }
+    .divider { border: none; border-top: 1px solid var(--border); margin: var(--space-6) 0; }
 
     /* ── Labs ── */
     .labs-intro-note {
@@ -305,12 +357,12 @@
       border-radius: var(--radius-md);
       overflow: hidden;
       background: var(--surface);
-      margin-bottom: 14px;
+      margin-bottom: var(--space-3);
     }
 
     .accordion-head {
       width: 100%; display: flex; align-items: center; justify-content: space-between;
-      padding: 18px 22px;
+      padding: var(--space-4) var(--space-5);
       background: var(--surface); border: none; cursor: pointer;
       text-align: left; transition: background 0.15s ease; gap: 16px;
     }
@@ -337,13 +389,13 @@
     }
     .accordion-head.open .acc-chevron { transform: rotate(180deg); }
 
-    .accordion-body { display: none; padding: 24px; background: var(--bg); }
+    .accordion-body { display: none; padding: var(--space-5); background: var(--bg); }
     .accordion-body.open { display: block; }
 
     /* View toggle */
     .view-bar {
       display: flex; align-items: center; gap: 12px;
-      margin-bottom: 24px;
+      margin-bottom: var(--space-5);
     }
 
     .view-bar-label { font-size: 12px; font-weight: 600; color: var(--text-secondary); }
@@ -369,8 +421,8 @@
     /* Day label */
     .day-label {
       font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--accent); padding-bottom: 10px; border-bottom: 1px solid var(--border);
-      margin-bottom: 16px; margin-top: 28px;
+      color: var(--accent); padding-bottom: var(--space-2); border-bottom: 1px solid var(--border);
+      margin-bottom: var(--space-4); margin-top: var(--space-6);
     }
     .day-label:first-of-type { margin-top: 0; }
 
@@ -378,7 +430,7 @@
       font-size: 13px; line-height: 1.7; color: var(--text-secondary);
       background: var(--surface); border: 1px solid var(--border);
       border-left: 3px solid var(--accent); border-radius: var(--radius-sm);
-      padding: 13px 16px; margin-bottom: 24px; max-width: none;
+      padding: var(--space-3) var(--space-4); margin-bottom: var(--space-5); max-width: none;
     }
 
     /* Full Guide table */
@@ -498,66 +550,45 @@
     .print-row { display: flex; justify-content: flex-end; margin-top: 14px; }
 
     /* ── Supplements ── */
-    .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
-
-    .card {
-      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);
-      padding: 20px; transition: all 0.15s ease;
-    }
-    .card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
-    .card-placeholder { border-style: dashed; background: transparent; box-shadow: none; }
-    .card-placeholder:hover { transform: none; box-shadow: none; }
-
-    .card h3 { font-family: var(--font-sans); font-size: 14px; font-weight: 700; font-style: normal; color: var(--text-primary); margin-bottom: 6px; }
-    .card p { font-size: 13px; line-height: 1.6; color: var(--text-secondary); max-width: none; }
-
     .card-badge {
       display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.05em;
       text-transform: uppercase; padding: 2px 6px; border-radius: 3px;
       background: var(--surface-alt); border: 1px solid var(--border);
-      color: var(--text-muted); margin-bottom: 10px;
+      color: var(--text-muted); margin-bottom: var(--space-2);
     }
     .card-badge.affiliate { background: var(--accent-light); border-color: #f0c9b0; color: var(--accent); }
 
-    .fullscript-banner {
-      margin-top: 32px; background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius-md); padding: 22px 24px;
-      display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
-    }
-    .fullscript-banner h4 { font-size: 13px; font-weight: 700; text-transform: none; letter-spacing: 0; color: var(--text-primary); margin-bottom: 4px; }
-    .fullscript-banner p { font-size: 13px; color: var(--text-secondary); max-width: 420px; }
-
     /* ── Shop ── */
-    .product-category { margin-bottom: 40px; }
-    .product-category h4 { margin-bottom: 14px; display: flex; align-items: center; gap: 6px; font-size: 11px; }
+    .product-category { margin-bottom: var(--space-6); }
+    .product-category h4 { margin-bottom: var(--space-3); display: flex; align-items: center; gap: 6px; font-size: 11px; }
 
     .product-card {
-      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);
-      padding: 18px 20px; display: flex; align-items: flex-start; gap: 16px;
+      background: var(--surface); border: var(--border-hairline); border-radius: var(--radius-sm);
+      padding: var(--space-3) var(--space-4); display: flex; align-items: flex-start; gap: var(--space-4);
       transition: all 0.15s ease; text-decoration: none; color: inherit;
-      margin-bottom: 10px;
+      margin-bottom: var(--space-2);
     }
-    .product-card:hover { box-shadow: var(--shadow-md); color: inherit; }
+    .product-card:hover { background: var(--surface-alt); border-color: var(--border); color: inherit; }
 
     .product-card h3 { font-family: var(--font-sans); font-size: 14px; font-weight: 700; font-style: normal; color: var(--text-primary); margin-bottom: 4px; }
     .product-card p { font-size: 13px; color: var(--text-secondary); max-width: none; line-height: 1.6; }
 
     .product-card-body { flex: 1; }
-    .product-card-meta { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+    .product-card-meta { display: flex; align-items: center; gap: 8px; margin-top: var(--space-2); }
 
-    .buy-list { display: flex; flex-direction: column; gap: 12px; }
+    .buy-list { display: flex; flex-direction: column; gap: var(--space-3); }
     .buy-item {
-      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);
-      padding: 18px 20px; display: flex; align-items: flex-start; gap: 16px;
+      background: var(--surface); border: var(--border-hairline); border-radius: var(--radius-sm);
+      padding: var(--space-3) var(--space-4); display: flex; align-items: flex-start; gap: var(--space-4);
     }
     .buy-item-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
     .buy-item h3 { font-family: var(--font-sans); font-size: 14px; font-weight: 700; font-style: normal; margin-bottom: 4px; }
-    .buy-item p { font-size: 13px; color: var(--text-secondary); max-width: none; margin-bottom: 10px; }
+    .buy-item p { font-size: 13px; color: var(--text-secondary); max-width: none; margin-bottom: var(--space-2); }
 
     /* ── Interpreter ── */
     .gate-box {
       background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);
-      padding: 40px; max-width: 440px; margin: 0 auto; text-align: center;
+      padding: var(--space-6); max-width: 440px; margin: 0 auto; text-align: center;
     }
     .gate-box h3 { font-family: var(--font-sans); font-size: 16px; font-weight: 700; font-style: normal; margin-bottom: 8px; }
     .gate-box p { font-size: 13px; color: var(--text-secondary); max-width: none; margin-bottom: 24px; }
@@ -578,13 +609,13 @@
 
     .privacy-note {
       background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent);
-      border-radius: var(--radius-sm); padding: 12px 16px; font-size: 13px; color: var(--text-secondary);
-      margin-bottom: 20px; display: flex; gap: 10px;
+      border-radius: var(--radius-sm); padding: var(--space-3) var(--space-4); font-size: 13px; color: var(--text-secondary);
+      margin-bottom: var(--space-5); display: flex; gap: 10px;
     }
 
     .upload-zone {
-      border: 2px dashed var(--border); border-radius: var(--radius-md); padding: 40px;
-      text-align: center; cursor: pointer; transition: all 0.15s; margin-bottom: 16px;
+      border: 2px dashed var(--border); border-radius: var(--radius-md); padding: var(--space-6);
+      text-align: center; cursor: pointer; transition: all 0.15s; margin-bottom: var(--space-4);
       background: var(--surface); position: relative;
     }
     .upload-zone:hover, .upload-zone.drag { border-color: var(--accent); background: var(--accent-light); }
@@ -603,17 +634,17 @@
 
     .interp-results { display: none; }
     .interp-results.show { display: block; }
-    .results-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .results-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-5); }
     .results-head h3 { font-family: var(--font-sans); font-size: 16px; font-weight: 700; font-style: normal; }
 
-    .urgent-block { background: var(--red-bg); border: 1px solid #f0c0c0; border-radius: var(--radius-md); padding: 14px 18px; margin-bottom: 20px; }
+    .urgent-block { background: var(--red-bg); border: 1px solid #f0c0c0; border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); margin-bottom: var(--space-5); }
     .urgent-block h4 { color: var(--red); margin-bottom: 8px; }
     .urgent-block li { font-size: 13px; color: var(--red); font-weight: 600; list-style: none; }
 
-    .results-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+    .results-list { display: flex; flex-direction: column; gap: var(--space-2); margin-bottom: var(--space-5); }
 
     .result-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
-    .result-card-head { display: flex; align-items: center; gap: 10px; padding: 14px 18px; cursor: pointer; transition: background 0.12s; }
+    .result-card-head { display: flex; align-items: center; gap: 10px; padding: var(--space-3) var(--space-4); cursor: pointer; transition: background 0.12s; }
     .result-card-head:hover { background: var(--surface-alt); }
 
     .status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
@@ -639,7 +670,7 @@
 
     .results-footer {
       background: var(--surface-alt); border: 1px solid var(--border); border-radius: var(--radius-md);
-      padding: 18px 20px; font-size: 13px; color: var(--text-secondary); line-height: 1.7;
+      padding: var(--space-4) var(--space-5); font-size: 13px; color: var(--text-secondary); line-height: 1.7;
     }
     .results-footer strong { display: block; font-size: 14px; margin-bottom: 4px; }
 
@@ -663,7 +694,7 @@
       width: 100%; max-width: 520px;
       max-height: 80vh;
       overflow-y: auto;
-      padding: 36px;
+      padding: var(--space-6);
       position: relative;
       transform: translateY(12px) scale(0.98);
       transition: transform 0.25s ease;
@@ -726,7 +757,7 @@
 
     /* ── Responsive ── */
     @media (max-width: 680px) {
-      .sidebar { display: none; }
+      .topbar { display: none; }
       .bottom-nav { display: flex; }
       .main { padding-bottom: 60px; }
       .page-inner { padding: 32px 20px 60px; }
@@ -745,13 +776,16 @@
 </head>
 <body>
 
-  <!-- ── Sidebar ── -->
-  <aside class="sidebar">
-    <div class="sidebar-logo">
+  <!-- ── Top bar / nav ── -->
+  <header class="topbar">
+    <div class="topbar-logo">
       <img src="logo.png" alt="PocketNick">
-      <span class="sidebar-logo-text">Pocket<span>Nick</span></span>
+      <span class="topbar-logo-text">Pocket<span>Nick</span></span>
     </div>
-    <nav class="sidebar-nav">
+    <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="dropdown-nav" id="dropdownNav">
       <button class="nav-item active" data-page="home">
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 6.5L8 2l6 4.5V14a1 1 0 01-1 1H3a1 1 0 01-1-1V6.5z"/></svg>
         Home
@@ -772,12 +806,12 @@
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M5 8h6M5 5.5h4M5 10.5h3"/></svg>
         Lab Interpreter
       </button>
+      <div class="dropdown-footer">
+        Not medical advice.<br>
+        Always work with a qualified physician.
+      </div>
     </nav>
-    <div class="sidebar-footer">
-      Not medical advice.<br>
-      Always work with a qualified physician.
-    </div>
-  </aside>
+  </header>
 
   <!-- ── Mobile bottom nav ── -->
   <nav class="bottom-nav">
@@ -934,15 +968,7 @@
           <!-- SYNC:supplements-intro --><p>Researched, vetted, and personally used. Brands and dosing notes being added over time.</p><!-- /SYNC:supplements-intro -->
         </div>
 
-        <div class="card-grid" id="suppGrid"></div>
-
-        <div class="fullscript-banner">
-          <div>
-            <h4>Buy on Fullscript</h4>
-            <!-- SYNC:fullscript-banner --><p>Dispensary-grade quality, good pricing, fast shipping. The link gives you a public discount — not an affiliate link, just a discount for you. Amazon can sometimes be cheaper, worth comparing.</p><!-- /SYNC:fullscript-banner -->
-          </div>
-          <a href="#" class="btn btn-primary btn-sm">[Add Fullscript link]</a>
-        </div>
+        <div class="item-list" id="suppGrid"></div>
       </div>
     </div>
 
@@ -952,7 +978,57 @@
         <div class="page-header">
           <span class="section-label">Shop</span>
           <h2>Products &amp; where to buy</h2>
-          <p>Vetted products I use at home, plus where I order supplements from.</p>
+          <p>Where I order supplements from, plus vetted products I use at home.</p>
+        </div>
+
+        <!-- HOW TO: add a Nick's note to a product-card or buy-item — paste this inside the
+             item's text column, right after the <p> description. Doesn't need to be one tidy
+             sentence — add as many short lines as you want:
+        <div class="nick-note">
+          <span class="nick-note-label">Nick's note</span>
+          <span class="nick-note-line">Short unpolished aside here.</span>
+          <span class="nick-note-line">Another line if you want it.</span>
+        </div>
+        -->
+
+        <div class="page-header" style="margin-bottom: 20px;">
+          <span class="section-label">Where to Buy</span>
+          <h2 style="font-size: 22px;">Where I actually order from</h2>
+          <p>Short answer: Fullscript first, then Amazon. TrueMed if you have an HSA.</p>
+        </div>
+
+        <div class="buy-list">
+          <div class="buy-item">
+            <div class="buy-item-icon">🏥</div>
+            <div>
+              <h3>Fullscript</h3>
+              <!-- SYNC:buy-fullscript --><p>Dispensary-grade supplements. Authentic products, good pricing, fast shipping. My default first stop. Use the link for a public discount — not affiliate, just a discount for you.</p><!-- /SYNC:buy-fullscript -->
+              <a href="#" class="btn btn-primary btn-sm">[Add Fullscript link]</a>
+            </div>
+          </div>
+          <div class="buy-item">
+            <div class="buy-item-icon">📦</div>
+            <div>
+              <h3>Amazon</h3>
+              <!-- SYNC:buy-amazon --><p>Sometimes cheaper than Fullscript for the same products — worth checking both before buying. Stick to brands with third-party testing (NSF, USP, or Informed Sport certified).</p><!-- /SYNC:buy-amazon -->
+            </div>
+          </div>
+          <div class="buy-item">
+            <div class="buy-item-icon">💳</div>
+            <div>
+              <h3>TrueMed / HSA</h3>
+              <!-- SYNC:buy-truemed --><p>If you have an HSA or FSA, TrueMed lets you use pre-tax dollars on eligible supplements. Legitimate way to save 20–40% depending on your tax bracket.</p><!-- /SYNC:buy-truemed -->
+              <a href="#" class="btn btn-secondary btn-sm">[Add TrueMed link]</a>
+            </div>
+          </div>
+        </div>
+
+        <hr class="divider">
+
+        <div class="page-header" style="margin-bottom: 20px;">
+          <span class="section-label">Product Recs</span>
+          <h2 style="font-size: 22px;">Clean home essentials</h2>
+          <p>Vetted, non-toxic products I actually use at home.</p>
         </div>
 
         <div class="product-category">
@@ -1003,40 +1079,6 @@
               <div class="product-card-meta"><span class="card-badge">No affiliate</span></div>
             </div>
           </a>
-        </div>
-
-        <hr class="divider">
-
-        <div class="page-header" style="margin-bottom: 20px;">
-          <span class="section-label">Where to Buy</span>
-          <h2 style="font-size: 22px;">Where I actually order from</h2>
-          <p>Short answer: Fullscript first, then Amazon. TrueMed if you have an HSA.</p>
-        </div>
-
-        <div class="buy-list">
-          <div class="buy-item">
-            <div class="buy-item-icon">🏥</div>
-            <div>
-              <h3>Fullscript</h3>
-              <!-- SYNC:buy-fullscript --><p>Dispensary-grade supplements. Authentic products, good pricing, fast shipping. My default first stop. Use the link for a public discount — not affiliate, just a discount for you.</p><!-- /SYNC:buy-fullscript -->
-              <a href="#" class="btn btn-primary btn-sm">[Add Fullscript link]</a>
-            </div>
-          </div>
-          <div class="buy-item">
-            <div class="buy-item-icon">📦</div>
-            <div>
-              <h3>Amazon</h3>
-              <!-- SYNC:buy-amazon --><p>Sometimes cheaper than Fullscript for the same products — worth checking both before buying. Stick to brands with third-party testing (NSF, USP, or Informed Sport certified).</p><!-- /SYNC:buy-amazon -->
-            </div>
-          </div>
-          <div class="buy-item">
-            <div class="buy-item-icon">💳</div>
-            <div>
-              <h3>TrueMed / HSA</h3>
-              <!-- SYNC:buy-truemed --><p>If you have an HSA or FSA, TrueMed lets you use pre-tax dollars on eligible supplements. Legitimate way to save 20–40% depending on your tax bracket.</p><!-- /SYNC:buy-truemed -->
-              <a href="#" class="btn btn-secondary btn-sm">[Add TrueMed link]</a>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -1096,6 +1138,9 @@
 
   <script>
   // ── Supplements data & modal ─────────────────────────────
+  // Each entry can optionally carry a `nickNote` field — a personal aside shown in
+  // the modal below the main write-up. Doesn't need to be one tidy sentence:
+  // nickNote: `<span class="nick-note-line">Short unpolished aside.</span><span class="nick-note-line">Another line.</span>`
   const SUPPLEMENTS = [
     {
       badge: "Daily", badgeClass: "",
@@ -1132,15 +1177,15 @@
   function renderSupplements() {
     const grid = document.getElementById('suppGrid');
     grid.innerHTML = SUPPLEMENTS.map((s, i) => `
-      <div class="card">
-        <div class="card-badge ${s.badgeClass}">${s.badge}</div>
+      <div class="item-row">
+        <span class="card-badge ${s.badgeClass}">${s.badge}</span>
         <h3>${s.name}</h3>
         <p>${s.preview}</p>
         <button class="read-more-btn" data-supp="${i}">Read more →</button>
       </div>
     `).join('') + `
-      <div class="card card-placeholder">
-        <h3 style="font-family:var(--font-sans);font-size:14px;font-weight:600;font-style:normal;color:var(--text-muted);">More coming soon</h3>
+      <div class="item-row placeholder">
+        <h3>More coming soon</h3>
         <p>Additional supplements added as I finalize my notes.</p>
       </div>`;
 
@@ -1153,7 +1198,8 @@
     const s = SUPPLEMENTS[i];
     document.getElementById('modalBadge').innerHTML = `<span class="card-badge ${s.badgeClass}">${s.badge}</span>`;
     document.getElementById('modalTitle').textContent = s.name;
-    document.getElementById('modalBody').innerHTML = s.full;
+    document.getElementById('modalBody').innerHTML = s.full +
+      (s.nickNote ? `<div class="nick-note"><span class="nick-note-label">Nick's note</span>${s.nickNote}</div>` : '');
     document.getElementById('modalBackdrop').classList.add('open');
     document.body.style.overflow = 'hidden';
   }
@@ -1239,12 +1285,15 @@
     [33,"Gamma-Glutamyl Transferase (GGT)","001958","Z13.88","<!-- SYNC:lab-f-ggt -->An early liver stress and oxidative stress marker. Can flag problems before other liver enzymes shift.<!-- /SYNC:lab-f-ggt -->"],
   ];
 
+  // Optional 6th element per row (r[5]) is a Nick's-note aside, e.g.:
+  // `<span class="nick-note-line">Short unpolished aside.</span><span class="nick-note-line">Another line.</span>`
+  // Only shown in the Full Guide table — the doctor view intentionally stays clean.
   function labsTable(rows) {
     const trs = rows.map(r => `<tr>
       <td>${r[0]}</td>
       <td>${r[1]}</td>
       <td>${r[2]}</td>
-      <td>${r[4]}</td>
+      <td>${r[4]}${r[5] ? `<div class="nick-note"><span class="nick-note-label">Nick's note</span>${r[5]}</div>` : ''}</td>
     </tr>`).join('');
     return `<div class="labs-table-wrap"><table class="labs-table">
       <thead><tr><th>#</th><th>Lab</th><th>Code</th><th>Why it matters</th></tr></thead>
@@ -1297,7 +1346,28 @@
   }
 
   document.querySelectorAll('[data-page]').forEach(el => {
-    el.addEventListener('click', () => navigate(el.dataset.page));
+    el.addEventListener('click', () => {
+      navigate(el.dataset.page);
+      dropdownNav.classList.remove('open');
+      hamburgerBtn.classList.remove('open');
+      hamburgerBtn.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // ── Hamburger dropdown nav ─────────────────────────────────
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const dropdownNav = document.getElementById('dropdownNav');
+  hamburgerBtn.addEventListener('click', () => {
+    const open = dropdownNav.classList.toggle('open');
+    hamburgerBtn.classList.toggle('open', open);
+    hamburgerBtn.setAttribute('aria-expanded', open);
+  });
+  document.addEventListener('click', e => {
+    if (dropdownNav.classList.contains('open') && !dropdownNav.contains(e.target) && !hamburgerBtn.contains(e.target)) {
+      dropdownNav.classList.remove('open');
+      hamburgerBtn.classList.remove('open');
+      hamburgerBtn.setAttribute('aria-expanded', 'false');
+    }
   });
 
   // ── Labs read more ────────────────────────────────────────
