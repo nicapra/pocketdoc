@@ -11,6 +11,23 @@ module.exports = async function handler(req, res) {
     const { name, value, functionalRange, standardRange, status } = req.body || {};
     if (!name) return res.status(400).json({ error: 'Missing marker name' });
 
+    const isOptimal = status === 'optimal';
+    const prompt = `Lab marker: ${name}
+Patient value: ${value}
+Functional medicine optimal range: ${functionalRange}
+Standard lab reference range: ${standardRange}
+Status: ${status}
+
+Write an explanation for a general audience, functional-medicine-informed but not medical advice.
+
+1. One sentence on what this marker measures.
+2. One sentence on what the patient's result means for their health${isOptimal ? '' : ', including why it matters — what being elevated/low or otherwise suboptimal can lead to if left unaddressed'}.
+${isOptimal
+  ? '3. One closing sentence affirming this result is in a good range — no action needed here.'
+  : '3. Then 2-3 sentences giving a basic functional-medicine-lens approach to improving it: relevant diet changes, lifestyle habits (sleep, exercise, stress), and general supplement categories worth asking a doctor about. Supplement categories only (e.g. "magnesium glycinate" or "an omega-3 fish oil"), never exact dosages, brand names, or prescription medications.'}
+
+End with no disclaimer — the site already has one.`;
+
     const anthropicRes = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -20,17 +37,8 @@ module.exports = async function handler(req, res) {
       },
       body: JSON.stringify({
         model: 'claude-sonnet-5',
-        max_tokens: 300,
-        messages: [{
-          role: 'user',
-          content: `Lab marker: ${name}
-Patient value: ${value}
-Functional medicine optimal range: ${functionalRange}
-Standard lab reference range: ${standardRange}
-Status: ${status}
-
-Write 2-3 sentences explaining what this marker measures, what the patient's result means for their health, and (if suboptimal) what direction to consider discussing with their doctor. Do not recommend specific supplements or medications. End with no disclaimer — the site already has one.`
-        }]
+        max_tokens: 500,
+        messages: [{ role: 'user', content: prompt }]
       })
     });
 
