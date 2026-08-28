@@ -37,53 +37,65 @@ Do NOT include explanations. Status and ranges only.`;
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) return res.status(500).json({ error: 'API key not configured' });
-
-  // fileBase64/mediaType is current; pdfBase64 kept for back-compat with older clients.
-  const { pdfBase64, fileBase64, mediaType } = req.body;
-  const base64 = fileBase64 || pdfBase64;
-  if (!base64) return res.status(400).json({ error: 'No file provided' });
-
-  const resolvedMediaType = mediaType || 'application/pdf';
-  const isImage = resolvedMediaType.startsWith('image/');
-  const fileBlock = isImage
-    ? { type: 'image', source: { type: 'base64', media_type: resolvedMediaType, data: base64 } }
-    : { type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: base64 } };
-
-  const anthropicRes = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01'
-    },
-    body: JSON.stringify({
-      model: 'claude-sonnet-5',
-      max_tokens: 2048,
-      system: SYSTEM_PROMPT,
-      messages: [{
-        role: 'user',
-        content: [
-          fileBlock,
-          { type: 'text', text: 'Scan these lab results. Return JSON only — no explanations.' }
-        ]
-      }]
-    })
-  });
-
-  if (!anthropicRes.ok) {
-    const err = await anthropicRes.text();
-    return res.status(502).json({ error: 'Anthropic API error', detail: err });
-  }
-
-  const data = await anthropicRes.json();
-  const rawText = data.content[0].text.trim();
-  const jsonText = rawText.replace(/^```json?\s*/i, '').replace(/\s*```$/i, '');
-
   try {
-    return res.status(200).json(JSON.parse(jsonText));
+    const apiKey = process.env.ANTHROPIC_API_KEY;
+    if (!apiKey) return res.status(500).json({ error: 'API key not configured' });
+
+    // fileBase64/mediaType is current; pdfBase64 kept for back-compat with older clients.
+    const { pdfBase64, fileBase64, mediaType } = req.body || {};
+    const base64 = fileBase64 || pdfBase64;
+    if (!base64) return res.status(400).json({ error: 'No file provided' });
+
+    const resolvedMediaType = mediaType || 'application/pdf';
+    const isImage = resolvedMediaType.startsWith('image/');
+    const fileBlock = isImage
+      ? { type: 'image', source: { type: 'base64', media_type: resolvedMediaType, data: base64 } }
+      : { type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: base64 } };
+
+    const anthropicRes = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-5',
+        max_tokens: 2048,
+        system: SYSTEM_PROMPT,
+        messages: [{
+          role: 'user',
+          content: [
+            fileBlock,
+            { type: 'text', text: 'Scan these lab results. Return JSON only — no explanations.' }
+          ]
+        }]
+      })
+    });
+
+    if (!anthropicRes.ok) {
+      const err = await anthropicRes.text();
+      console.error('Anthropic API error', anthropicRes.status, err);
+      return res.status(502).json({ error: 'Anthropic API error', detail: err.slice(0, 500) });
+    }
+
+    const data = await anthropicRes.json();
+    const textBlock = Array.isArray(data.content) ? data.content.find(c => c.type === 'text') : null;
+    if (!textBlock) {
+      console.error('Unexpected Anthropic response shape', JSON.stringify(data).slice(0, 500));
+      return res.status(500).json({ error: 'Unexpected AI response shape', raw: JSON.stringify(data).slice(0, 500) });
+    }
+
+    const rawText = textBlock.text.trim();
+    const jsonText = rawText.replace(/^```json?\s*/i, '').replace(/\s*```$/i, '');
+
+    try {
+      return res.status(200).json(JSON.parse(jsonText));
+    } catch (e) {
+      return res.status(500).json({ error: 'Failed to parse response', raw: jsonText.slice(0, 500) });
+    }
   } catch (e) {
-    return res.status(500).json({ error: 'Failed to parse response', raw: jsonText.slice(0, 500) });
+    console.error('interpret handler crashed', e);
+    return res.status(500).json({ error: 'Server error', detail: e.message });
   }
 };
