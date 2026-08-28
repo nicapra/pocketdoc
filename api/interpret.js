@@ -73,7 +73,13 @@ module.exports = async function handler(req, res) {
       },
       body: JSON.stringify({
         model: 'claude-sonnet-5',
-        max_tokens: 4096,
+        max_tokens: 8000,
+        // Sonnet 5 runs adaptive thinking by default, and thinking tokens count
+        // against max_tokens. This is mechanical extraction against explicit
+        // rules, not open-ended reasoning, so cap effort — otherwise a dense,
+        // multi-page panel can burn the whole budget on thinking and return
+        // zero visible text (stop_reason "max_tokens", no text content block).
+        output_config: { effort: 'medium' },
         system: SYSTEM_PROMPT,
         messages: [{
           role: 'user',

@@ -37,7 +37,11 @@ End with no disclaimer — the site already has one.`;
       },
       body: JSON.stringify({
         model: 'claude-sonnet-5',
-        max_tokens: 500,
+        max_tokens: 1024,
+        // See api/interpret.js — Sonnet 5's default adaptive thinking counts
+        // against max_tokens, and this is a short, well-specified writing
+        // task that doesn't need deep reasoning.
+        output_config: { effort: 'low' },
         messages: [{ role: 'user', content: prompt }]
       })
     });
