@@ -73,7 +73,7 @@ module.exports = async function handler(req, res) {
       },
       body: JSON.stringify({
         model: 'claude-sonnet-5',
-        max_tokens: 2048,
+        max_tokens: 4096,
         system: SYSTEM_PROMPT,
         messages: [{
           role: 'user',
@@ -94,8 +94,9 @@ module.exports = async function handler(req, res) {
     const data = await anthropicRes.json();
     const textBlock = Array.isArray(data.content) ? data.content.find(c => c.type === 'text') : null;
     if (!textBlock) {
-      console.error('Unexpected Anthropic response shape', JSON.stringify(data).slice(0, 500));
-      return res.status(500).json({ error: 'Unexpected AI response shape', raw: JSON.stringify(data).slice(0, 500) });
+      const diag = `stop_reason=${data.stop_reason} content=${JSON.stringify(data.content).slice(0, 300)}`;
+      console.error('Unexpected Anthropic response shape', diag);
+      return res.status(500).json({ error: 'Unexpected AI response shape', detail: diag });
     }
 
     const rawText = textBlock.text.trim();
@@ -104,7 +105,9 @@ module.exports = async function handler(req, res) {
     try {
       return res.status(200).json(JSON.parse(jsonText));
     } catch (e) {
-      return res.status(500).json({ error: 'Failed to parse response', raw: jsonText.slice(0, 500) });
+      const diag = `stop_reason=${data.stop_reason} raw=${jsonText.slice(0, 400)}`;
+      console.error('Failed to parse Anthropic JSON response', diag);
+      return res.status(500).json({ error: 'Failed to parse response', detail: diag });
     }
   } catch (e) {
     console.error('interpret handler crashed', e);
