@@ -40,8 +40,16 @@ module.exports = async function handler(req, res) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) return res.status(500).json({ error: 'API key not configured' });
 
-  const { pdfBase64 } = req.body;
-  if (!pdfBase64) return res.status(400).json({ error: 'No PDF provided' });
+  // fileBase64/mediaType is current; pdfBase64 kept for back-compat with older clients.
+  const { pdfBase64, fileBase64, mediaType } = req.body;
+  const base64 = fileBase64 || pdfBase64;
+  if (!base64) return res.status(400).json({ error: 'No file provided' });
+
+  const resolvedMediaType = mediaType || 'application/pdf';
+  const isImage = resolvedMediaType.startsWith('image/');
+  const fileBlock = isImage
+    ? { type: 'image', source: { type: 'base64', media_type: resolvedMediaType, data: base64 } }
+    : { type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: base64 } };
 
   const anthropicRes = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
@@ -51,16 +59,13 @@ module.exports = async function handler(req, res) {
       'anthropic-version': '2023-06-01'
     },
     body: JSON.stringify({
-      model: 'claude-sonnet-4-6',
+      model: 'claude-sonnet-5',
       max_tokens: 2048,
       system: SYSTEM_PROMPT,
       messages: [{
         role: 'user',
         content: [
-          {
-            type: 'document',
-            source: { type: 'base64', media_type: 'application/pdf', data: pdfBase64 }
-          },
+          fileBlock,
           { type: 'text', text: 'Scan these lab results. Return JSON only — no explanations.' }
         ]
       }]
