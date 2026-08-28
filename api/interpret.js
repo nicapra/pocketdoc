@@ -76,10 +76,10 @@ module.exports = async function handler(req, res) {
         max_tokens: 8000,
         // Sonnet 5 runs adaptive thinking by default, and thinking tokens count
         // against max_tokens. This is mechanical extraction against explicit
-        // rules, not open-ended reasoning, so cap effort — otherwise a dense,
-        // multi-page panel can burn the whole budget on thinking and return
-        // zero visible text (stop_reason "max_tokens", no text content block).
-        output_config: { effort: 'medium' },
+        // rules, not open-ended reasoning, so cap effort low — otherwise a
+        // dense, multi-page panel burns the budget on thinking (returning no
+        // visible text) or just takes too long and hits the function timeout.
+        output_config: { effort: 'low' },
         system: SYSTEM_PROMPT,
         messages: [{
           role: 'user',
