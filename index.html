@@ -1016,7 +1016,7 @@
           <!-- SYNC:supplements-intro --><p>These are the specific brands I actually take and recommend, but you don't have to buy the exact ones I use. For each one I explain why I chose it, so you can use the same thinking to evaluate any other brand.</p><!-- /SYNC:supplements-intro -->
         </div>
 
-        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: var(--space-4);">🚧 Magnesium brand pick still coming. Buy on Fullscript under Shop → Where to Buy.</p>
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: var(--space-4);">🚧 More categories being added over time. Buy on Fullscript under Shop → Where to Buy.</p>
 
         <div class="item-list" id="suppGrid"></div>
       </div>
@@ -1198,14 +1198,14 @@
       badge: "Daily", badgeClass: "",
       name: "Multivitamin",
       topPick: "Seeking Health Multivitamin One",
-      why: `All the vitamins are in their active forms, and it includes antioxidants. If you're sensitive to methylated B vitamins, go with the "MF" (methyl-free) version instead.`
+      why: `All vitmains are in their active form, includes antioxidants, the "MF" version is methyl free for those that are sensitive`
     },
     {
       badge: "Daily", badgeClass: "",
       name: "Probiotic",
       topPick: "Microbiome Labs MegaSporeBiotic",
       alternative: "Just Thrive Probiotic & Antioxidant, or Atrantil Pro",
-      why: `I don't think everyone needs to prioritize a probiotic in their supplement stack. Focus first on getting as many fermented foods into your diet as you can, things like kefir, yogurt, kimchi, sauerkraut, tempeh, and miso. That said, spore-based probiotics like these are hard to get from diet alone, and they're actually shown to colonize the gut with real benefits. So if you are going to spend money on a probiotic, these are my picks.`
+      why: `I currently don't think everyone needs to prioritize a probiotic in their supplement stack, and instead should focus on incorporating as many fermented foods as possible (kefir, yogurt, kimchi, saurkraut, tempeh, miso, etc). However, these 'spore based' probiotics are hard to get from diet and are actually shown to colonize the gut and have a ton of benefits. So if you're going to spend on a probiotic, these are my picks`
     },
     {
       badge: "Affiliate link", badgeClass: "affiliate",
@@ -1218,7 +1218,11 @@
     {
       badge: "Daily", badgeClass: "",
       name: "Magnesium",
-      why: `Most people are deficient in magnesium and don't know it, and the form you take matters a lot. Glycinate is best for sleep and general deficiency, the most absorbable form and least likely to cause GI issues. Threonate crosses the blood-brain barrier, making it better for cognitive function and anxiety. Oxide is cheap, poorly absorbed, and mostly just a laxative, so avoid it. Brand recommendation and dosing coming soon.`
+      topPick: "Magnesium Glycinate (Douglas Laboratories, Vital Nutrients, Pure Encapsulations)",
+      alternative: "NOW Brand, Toniiq on amazon",
+      why: `Magnesium is a non negotiable daily for me, and probably most people since most are deficient. one of the most important minerals, and is depleted with caffeine and stress. Glycinate is the cheapest but most bioavailable form, Threonate is better for brain health but more $ - Citrate is for helping with 💩 same with Oxide, both are poorly absorbed, draw water into the colon and create a laxative effect. Glycinate won't do this.`,
+      dosing: `300-400mg daily before bed, 400-600mg if correcting deficiency.`,
+      testing: `Ask your doc for a Magnesium RBC test (red blood cell). This measures mag inside the cell, not serum. This is where you'll see a deficiency first while blood levels look normal.`
     },
   ];
 
@@ -1259,6 +1263,12 @@
     }
     if (s.why) {
       body += `<div class="pick-block"><span class="pick-label">Why I chose this</span><p>${s.why}</p></div>`;
+    }
+    if (s.dosing) {
+      body += `<div class="pick-block"><span class="pick-label">Dosing</span><p>${s.dosing}</p></div>`;
+    }
+    if (s.testing) {
+      body += `<div class="pick-block"><span class="pick-label">Testing</span><p>${s.testing}</p></div>`;
     }
     if (s.nickNote) {
       body += `<div class="nick-note"><span class="nick-note-label">Nick's note</span>${s.nickNote}</div>`;
