@@ -772,6 +772,18 @@
     .modal-body strong { color: var(--text-primary); }
     .modal-body a { color: var(--accent); }
 
+    .pick-block { margin-bottom: var(--space-4); }
+    .pick-block:last-child { margin-bottom: 0; }
+    .pick-label {
+      display: block; font-family: var(--font-sans); font-size: 10px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 4px;
+    }
+    .pick-brand { font-family: var(--font-sans); font-size: 16px; font-weight: 700; color: var(--text-primary); line-height: 1.4; }
+    .pick-brand a { color: var(--text-primary); }
+    .pick-brand a:hover { color: var(--accent); }
+    .pick-brand.alt { font-size: 14px; font-weight: 600; color: var(--text-secondary); }
+    .pick-link-note { font-size: 12px; font-weight: 500; color: var(--text-muted); }
+
     /* Read more link in cards */
     .read-more-btn {
       background: none; border: none; padding: 0;
@@ -1001,10 +1013,10 @@
         <div class="page-header">
           <span class="section-label">Supplements</span>
           <h2>What I actually take</h2>
-          <!-- SYNC:supplements-intro --><p>Researched, vetted, and personally used. Brands and dosing notes being added over time.</p><!-- /SYNC:supplements-intro -->
+          <!-- SYNC:supplements-intro --><p>These are the specific brands I actually take and recommend, but you don't have to buy the exact ones I use. For each one I explain why I chose it, so you can use the same thinking to evaluate any other brand.</p><!-- /SYNC:supplements-intro -->
         </div>
 
-        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: var(--space-4);">🚧 Brands, dosing, and notes below are still being finalized. Buy on Fullscript under Shop → Where to Buy.</p>
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: var(--space-4);">🚧 Magnesium brand pick still coming. Buy on Fullscript under Shop → Where to Buy.</p>
 
         <div class="item-list" id="suppGrid"></div>
       </div>
@@ -1176,39 +1188,37 @@
 
   <script>
   // ── Supplements data & modal ─────────────────────────────
-  // Each entry can optionally carry a `nickNote` field, a personal aside shown in
-  // the modal below the main write-up. Doesn't need to be one tidy sentence:
+  // Each entry: badge/badgeClass (frequency or disclosure tag), name, topPick (brand),
+  // optional topPickLink + topPickLinkNote (e.g. a discount), optional alternative
+  // (other reputable brands, string), why (why this pick), optional nickNote (a
+  // personal aside, doesn't need to be one tidy sentence):
   // nickNote: `<span class="nick-note-line">Short unpolished aside.</span><span class="nick-note-line">Another line.</span>`
   const SUPPLEMENTS = [
     {
       badge: "Daily", badgeClass: "",
       name: "Multivitamin",
-      preview: "Brand, form factor, and what to look for on labels.",
-      full: `<!-- SYNC:supp-multivitamin --><p>[PLACEHOLDER] Brand, form factor, why I chose this one over others. What to look for and what to avoid.</p><!-- /SYNC:supp-multivitamin -->`
+      topPick: "Seeking Health Multivitamin One",
+      why: `All the vitamins are in their active forms, and it includes antioxidants. If you're sensitive to methylated B vitamins, go with the "MF" (methyl-free) version instead.`
     },
     {
       badge: "Daily", badgeClass: "",
       name: "Probiotic",
-      preview: "Strain specificity matters more than most people think.",
-      full: `<!-- SYNC:supp-probiotic --><p>[PLACEHOLDER] Brand, strain info, why strain specificity matters. Refrigerated vs. shelf-stable, and why it makes a difference.</p><!-- /SYNC:supp-probiotic -->`
+      topPick: "Microbiome Labs MegaSporeBiotic",
+      alternative: "Just Thrive Probiotic & Antioxidant, or Atrantil Pro",
+      why: `I don't think everyone needs to prioritize a probiotic in their supplement stack. Focus first on getting as many fermented foods into your diet as you can, things like kefir, yogurt, kimchi, sauerkraut, tempeh, and miso. That said, spore-based probiotics like these are hard to get from diet alone, and they're actually shown to colonize the gut with real benefits. So if you are going to spend money on a probiotic, these are my picks.`
     },
     {
       badge: "Affiliate link", badgeClass: "affiliate",
-      name: "Organs (Heart & Soil)",
-      preview: "Desiccated capsule option with peptides and nutrients most diets miss.",
-      full: `<!-- SYNC:supp-organ-meat --><p>Organs yo. Desiccated capsule option that contains peptides and nutrients most of us are missing even with a "healthy diet".</p>
-             <p>Heart & Soil is super high quality, 3rd party tested for metals, and they have the best Colostrum on the market (better quality than ARMRA).</p>
-             <p><a href="https://refer.heartandsoil.co/f5x74qey" target="_blank">20% off with this link →</a></p><!-- /SYNC:supp-organ-meat -->`
+      name: "Organs",
+      topPick: "Heart & Soil Desiccated Organs",
+      topPickLink: "https://refer.heartandsoil.co/f5x74qey",
+      topPickLinkNote: "20% off with this link",
+      why: `Desiccated organs contain peptides and nutrients that most of us are missing even with a "healthy diet." Heart & Soil is high quality, third-party tested for metals, and their Colostrum is some of the best on the market, better quality than ARMRA in my opinion.`
     },
     {
       badge: "Daily", badgeClass: "",
       name: "Magnesium",
-      preview: "Most people are deficient, and form matters a lot, glycinate vs. oxide vs. threonate.",
-      full: `<!-- SYNC:supp-magnesium --><p>Most people are deficient in magnesium and don't know it. The form you take matters a lot.</p>
-             <p><strong>Glycinate</strong> is best for sleep and general deficiency, the most absorbable form and least likely to cause GI issues.</p>
-             <p><strong>Threonate</strong> crosses the blood-brain barrier, making it better for cognitive function and anxiety.</p>
-             <p><strong>Oxide</strong> is cheap, poorly absorbed, and mostly just a laxative. Avoid.</p>
-             <p>[Brand rec and dosing coming soon.]</p><!-- /SYNC:supp-magnesium -->`
+      why: `Most people are deficient in magnesium and don't know it, and the form you take matters a lot. Glycinate is best for sleep and general deficiency, the most absorbable form and least likely to cause GI issues. Threonate crosses the blood-brain barrier, making it better for cognitive function and anxiety. Oxide is cheap, poorly absorbed, and mostly just a laxative, so avoid it. Brand recommendation and dosing coming soon.`
     },
   ];
 
@@ -1218,13 +1228,13 @@
       <div class="item-row">
         <span class="card-badge ${s.badgeClass}">${s.badge}</span>
         <h3>${s.name}</h3>
-        <p>${s.preview}</p>
-        <button class="read-more-btn" data-supp="${i}">Read more →</button>
+        <p>${s.topPick ? `Top Pick: <strong>${s.topPick}</strong>` : `<em style="color:var(--text-muted);">Brand pick coming soon</em>`}</p>
+        <button class="read-more-btn" data-supp="${i}">Details →</button>
       </div>
     `).join('') + `
       <div class="item-row placeholder">
         <h3>More coming soon</h3>
-        <p>Additional supplements added as I finalize my notes.</p>
+        <p>Additional categories added as I finalize my notes.</p>
       </div>`;
 
     grid.querySelectorAll('.read-more-btn').forEach(btn => {
@@ -1236,8 +1246,24 @@
     const s = SUPPLEMENTS[i];
     document.getElementById('modalBadge').innerHTML = `<span class="card-badge ${s.badgeClass}">${s.badge}</span>`;
     document.getElementById('modalTitle').textContent = s.name;
-    document.getElementById('modalBody').innerHTML = s.full +
-      (s.nickNote ? `<div class="nick-note"><span class="nick-note-label">Nick's note</span>${s.nickNote}</div>` : '');
+
+    let body = '';
+    if (s.topPick) {
+      const pickText = s.topPickLink
+        ? `<a href="${s.topPickLink}" target="_blank">${s.topPick} →</a>${s.topPickLinkNote ? ` <span class="pick-link-note">(${s.topPickLinkNote})</span>` : ''}`
+        : s.topPick;
+      body += `<div class="pick-block"><span class="pick-label">Top Pick</span><p class="pick-brand">${pickText}</p></div>`;
+    }
+    if (s.alternative) {
+      body += `<div class="pick-block"><span class="pick-label">Alternative</span><p class="pick-brand alt">${s.alternative}</p></div>`;
+    }
+    if (s.why) {
+      body += `<div class="pick-block"><span class="pick-label">Why I chose this</span><p>${s.why}</p></div>`;
+    }
+    if (s.nickNote) {
+      body += `<div class="nick-note"><span class="nick-note-label">Nick's note</span>${s.nickNote}</div>`;
+    }
+    document.getElementById('modalBody').innerHTML = body;
     document.getElementById('modalBackdrop').classList.add('open');
     document.body.style.overflow = 'hidden';
   }

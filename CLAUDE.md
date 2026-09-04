@@ -26,14 +26,8 @@ When Nick says **"sync my health website"** or **"sync the site"**:
 | `hero-eyebrow` | Hero → Eyebrow line |
 | `hero-h1` | Hero → H1 line |
 | `hero-sub` | Hero → Sub line |
-| `start-here` | Start Here (full body, rendered as `<p>` tags) |
 | `labs-intro` | Labs intro paragraph |
 | `supplements-intro` | Supplements intro paragraph |
-| `supp-multivitamin` | Supplements → ### Multivitamin |
-| `supp-probiotic` | Supplements → ### Probiotic |
-| `supp-organ-meat` | Supplements → ### Organ Meat / Beef Liver |
-| `supp-magnesium` | Supplements → ### Magnesium |
-| `fullscript-banner` | Supplements → ### Fullscript Banner |
 | `prod-cloud-ro` | Product Recs → ### Cloud Reverse Osmosis System |
 | `prod-branch-basics` | Product Recs → ### Branch Basics |
 | `prod-blueland` | Product Recs → ### Blueland |
@@ -103,6 +97,10 @@ When Nick says **"sync my health website"** or **"sync the site"**:
 
 ## Notes
 
+- **`start-here` and `fullscript-banner` no longer exist** — there is no Start Here page, and the Supplements-page Fullscript banner was removed as a duplicate of the one under Shop → Where to Buy (`buy-fullscript`). Ignore these two rows if they still appear anywhere as leftover references.
+- **Supplements are no longer single-blob SYNC anchors.** As of 2026-08-01, each entry in the `SUPPLEMENTS` array (in the `<script>` block, search for `const SUPPLEMENTS`) is a structured JS object instead of one `<!-- SYNC:supp-* -->` blob:
+  `{ badge, badgeClass, name, topPick, topPickLink?, topPickLinkNote?, alternative?, why, nickNote? }`
+  — `topPick` is the recommended brand, `topPickLink`/`topPickLinkNote` are an optional affiliate link and its caption (e.g. "20% off with this link"), `alternative` is an optional other-brand string, `why` is the reasoning paragraph, `nickNote` is an optional personal aside. To update a supplement, edit its object directly in that array — there's no Obsidian-note sync for this section right now. If Nick wants Obsidian sync back for Supplements, the sync flow needs new instructions matching this field shape (and a matching structure in his Obsidian note) before it can work again.
 - The `[link: ...]` and `[meta]` lines in Obsidian are not rendered as copy — they're metadata only.
 - Lab table structure (row numbers, lab names, LabCorp codes, frequency badges, ICD-10 codes) is NOT synced — only the "Why it matters" description text inside each `<td>` is synced via the `lab-m-*` and `lab-f-*` keys above.
 - The Lab Interpreter section is not synced — it's code-driven.
