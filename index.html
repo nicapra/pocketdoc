@@ -1,1702 +1,829 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PocketNick: Nick's Health Resource</title>
-  <meta name="description" content="Nick's personal health resource for labs, supplements, and clean products. Like having Nick in your pocket.">
-  <meta name="robots" content="noindex, nofollow">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://pocketnick.com">
-  <meta property="og:title" content="PocketNick">
-  <meta property="og:description" content="Nick's personal health resource for labs, supplements, and clean products.">
-  <meta property="og:image" content="https://pocketnick.com/logo.png">
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="PocketNick">
-  <meta name="twitter:description" content="Nick's personal health resource for labs, supplements, and clean products.">
-  <meta name="twitter:image" content="https://pocketnick.com/logo.png">
-  <link rel="icon" href="logo.png">
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg:           #F5EEE1;
-      --surface:      #FEFCF7;
-      --surface-alt:  #F0E9DA;
-      --border:       #E4D9C6;
-      --border-light: #EDE5D5;
-      --text-primary: #1C1917;
-      --text-secondary: #6B6254;
-      --text-muted:   #9B9082;
-      --accent:       #E0764E;
-      --accent-hover: #C96940;
-      --accent-light: #FAE8DC;
-      --green:        #3D9268;
-      --green-bg:     #E8F4EE;
-      --yellow:       #B8860A;
-      --yellow-bg:    #FEF6DC;
-      --red:          #C03838;
-      --red-bg:       #FDEAEA;
-      --font-sans:    'Open Sans', system-ui, sans-serif;
-      --font-serif:   'PT Serif', Georgia, serif;
-      --sidebar-w:    220px;
-      --topbar-h:     60px;
-      --radius-sm:    8px;
-      --radius-md:    12px;
-      --shadow-sm:    0 1px 3px rgba(0,0,0,0.06);
-      --shadow-md:    0 4px 16px rgba(0,0,0,0.08);
-      --shadow-hover: 0 2px 8px rgba(0,0,0,0.05);
-      --border-hairline: 1px solid var(--border-light);
-      --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
-      --space-5: 24px; --space-6: 32px; --space-7: 48px; --space-8: 64px;
-    }
-
-    html, body { height: 100%; }
-
-    body {
-      font-family: var(--font-sans);
-      font-size: 15px;
-      line-height: 1.6;
-      color: var(--text-primary);
-      background: var(--bg);
-      -webkit-font-smoothing: antialiased;
-      display: flex;
-      flex-direction: row;
-    }
-
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { color: var(--accent-hover); }
-
-    h1, h2, h3 { font-family: var(--font-serif); line-height: 1.2; color: var(--text-primary); }
-    h1 { font-size: clamp(30px, 4vw, 44px); font-weight: 700; }
-    h2 { font-size: clamp(22px, 3vw, 30px); font-weight: 700; }
-    h3 { font-size: 18px; font-weight: 400; font-style: italic; }
-    h4 { font-family: var(--font-sans); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); }
-    p { color: var(--text-secondary); }
-    strong { color: var(--text-primary); font-weight: 600; }
-
-    /* ── Sidebar (desktop) ── */
-    .sidebar {
-      width: var(--sidebar-w);
-      flex-shrink: 0;
-      height: 100vh;
-      position: sticky;
-      top: 0;
-      display: flex;
-      flex-direction: column;
-      background: var(--surface);
-      border-right: 1px solid var(--border);
-      overflow: hidden;
-    }
-
-    .sidebar-logo {
-      padding: var(--space-5) var(--space-5) var(--space-4);
-      border-bottom: 1px solid var(--border-light);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .sidebar-logo img { width: 28px; height: 28px; border-radius: 6px; object-fit: cover; }
-    .sidebar-logo-text {
-      font-family: var(--font-serif);
-      font-size: 16px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: var(--text-primary);
-    }
-    .sidebar-logo-text span { color: var(--accent); }
-
-    .sidebar-nav {
-      flex: 1;
-      padding: var(--space-4) var(--space-3);
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .sidebar-footer {
-      padding: var(--space-4) var(--space-5);
-      border-top: 1px solid var(--border-light);
-      font-size: 11px;
-      color: var(--text-muted);
-      line-height: 1.5;
-    }
-
-    /* ── Top bar / nav (mobile) ── */
-    .topbar {
-      display: none;
-      height: var(--topbar-h);
-      flex-shrink: 0;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 var(--space-5);
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      position: relative;
-      z-index: 60;
-    }
-
-    .topbar-logo { display: flex; align-items: center; gap: 10px; }
-    .topbar-logo img { width: 26px; height: 26px; border-radius: 6px; object-fit: cover; }
-
-    .topbar-logo-text {
-      font-family: var(--font-serif);
-      font-size: 16px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: var(--text-primary);
-    }
-
-    .topbar-logo-text span { color: var(--accent); }
-
-    .hamburger-btn {
-      width: 36px; height: 36px; border-radius: var(--radius-sm);
-      border: 1px solid var(--border); background: var(--surface);
-      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
-      cursor: pointer; transition: background 0.15s ease;
-    }
-    .hamburger-btn:hover { background: var(--surface-alt); }
-    .hamburger-btn span { width: 16px; height: 2px; background: var(--text-secondary); border-radius: 1px; transition: all 0.2s ease; }
-    .hamburger-btn.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
-    .hamburger-btn.open span:nth-child(2) { opacity: 0; }
-    .hamburger-btn.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
-
-    .dropdown-nav {
-      position: absolute; top: 100%; right: var(--space-5);
-      margin-top: var(--space-2);
-      width: 230px;
-      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);
-      box-shadow: var(--shadow-md);
-      padding: var(--space-2);
-      display: flex; flex-direction: column; gap: 2px;
-      opacity: 0; pointer-events: none; transform: translateY(-6px);
-      transition: opacity 0.15s ease, transform 0.15s ease;
-    }
-    .dropdown-nav.open { opacity: 1; pointer-events: all; transform: translateY(0); }
-
-    .nav-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 9px 12px;
-      border-radius: var(--radius-sm);
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-secondary);
-      cursor: pointer;
-      transition: all 0.15s ease;
-      border: none;
-      background: none;
-      width: 100%;
-      text-align: left;
-      text-decoration: none;
-    }
-
-    .nav-item:hover { background: var(--surface-alt); color: var(--text-primary); }
-
-    .nav-item.active {
-      background: var(--accent-light);
-      color: var(--accent);
-      font-weight: 600;
-    }
-
-    .nav-item svg { width: 15px; height: 15px; flex-shrink: 0; opacity: 0.7; }
-    .nav-item.active svg { opacity: 1; }
-
-    .dropdown-footer {
-      padding: var(--space-3) var(--space-3) var(--space-2);
-      border-top: 1px solid var(--border-light);
-      margin-top: 2px;
-      font-size: 11px;
-      color: var(--text-muted);
-      line-height: 1.5;
-    }
-
-    /* ── Main content ── */
-    .main {
-      flex: 1;
-      height: 100vh;
-      overflow-y: auto;
-      scroll-behavior: smooth;
-    }
-
-    .page { display: none; min-height: 100vh; }
-    .page.active { display: block; }
-
-    .page-inner {
-      max-width: 780px;
-      margin: 0 auto;
-      padding: var(--space-7) var(--space-6) var(--space-7);
-    }
-
-    .page-header {
-      margin-bottom: var(--space-6);
-    }
-
-    .section-label {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent);
-      display: block;
-      margin-bottom: 10px;
-    }
-
-    .page-header h2 { margin-bottom: 10px; }
-    .page-header p { font-size: 16px; line-height: 1.7; max-width: 560px; }
-
-    /* ── Buttons ── */
-    .btn {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 10px 20px;
-      border-radius: var(--radius-sm);
-      font-family: var(--font-sans); font-size: 13px; font-weight: 600;
-      cursor: pointer; border: none; text-decoration: none;
-      transition: all 0.15s ease;
-    }
-    .btn-primary { background: var(--accent); color: #fff; }
-    .btn-primary:hover { background: var(--accent-hover); color: #fff; }
-    .btn-secondary { background: var(--surface); color: var(--text-primary); border: 1px solid var(--border); }
-    .btn-secondary:hover { background: var(--surface-alt); color: var(--text-primary); }
-    .btn-ghost { background: transparent; color: var(--text-secondary); padding: 8px 14px; }
-    .btn-ghost:hover { background: var(--surface-alt); color: var(--text-primary); }
-    .btn-sm { padding: 7px 14px; font-size: 12px; }
-
-    /* ── Home ── */
-    .home-hero {
-      padding: var(--space-7) var(--space-6) var(--space-6);
-      max-width: 780px;
-      margin: 0 auto;
-    }
-
-    .home-hero .eyebrow {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent);
-      display: block;
-      margin-bottom: 16px;
-    }
-
-    .home-hero h1 { margin-bottom: 16px; }
-
-    .home-hero .sub {
-      font-size: 16px;
-      line-height: 1.75;
-      color: var(--text-secondary);
-      max-width: 520px;
-      margin-bottom: var(--space-6);
-    }
-
-    .home-cards {
-      padding: 0 var(--space-6) var(--space-7);
-      max-width: 780px;
-      margin: 0 auto;
-    }
-
-    .home-cards-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: var(--space-3);
-      margin-bottom: var(--space-6);
-    }
-
-    .home-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: var(--space-4);
-      cursor: pointer;
-      transition: all 0.15s ease;
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-2);
-    }
-
-    .home-card:hover {
-      box-shadow: var(--shadow-hover);
-      border-color: var(--accent-light);
-    }
-
-    .home-card-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
-    .home-card h3 { font-family: var(--font-sans); font-size: 15px; font-weight: 700; font-style: normal; color: var(--text-primary); }
-    .home-card p { font-size: 13px; color: var(--text-muted); max-width: none; line-height: 1.5; }
-
-    .disclaimer-strip {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--accent);
-      border-radius: var(--radius-sm);
-      padding: var(--space-3) var(--space-4);
-      font-size: 13px;
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
-
-    /* -- Nick's note (personal aside, optional, not required to be one tidy sentence) -- */
-    .nick-note {
-      margin-top: var(--space-2);
-      padding-left: var(--space-3);
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-    .nick-note-label {
-      display: block;
-      font-family: var(--font-sans);
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 2px;
-    }
-    .nick-note-line { display: block; margin-bottom: 2px; }
-    .nick-note-line:last-child { margin-bottom: 0; }
-
-    /* -- Item list (lightweight rows, Supplements, Shop) -- */
-    .item-list {
-      border: var(--border-hairline);
-      border-radius: var(--radius-sm);
-      background: var(--surface);
-      overflow: hidden;
-    }
-    .item-row {
-      padding: var(--space-3) var(--space-4);
-      border-bottom: var(--border-hairline);
-      transition: background 0.12s ease;
-    }
-    .item-row:last-child { border-bottom: none; }
-    .item-row:hover { background: var(--surface-alt); }
-    .item-row h3 { font-family: var(--font-sans); font-size: 14px; font-weight: 700; font-style: normal; color: var(--text-primary); margin-bottom: 4px; }
-    .item-row p { font-size: 13px; line-height: 1.6; color: var(--text-secondary); max-width: none; }
-    .item-row.placeholder h3 { color: var(--text-muted); font-weight: 600; }
-
-    /* ── Divider ── */
-    .divider { border: none; border-top: 1px solid var(--border); margin: var(--space-6) 0; }
-
-    /* ── Labs ── */
-    .labs-intro-note {
-      font-size: 15px;
-      line-height: 1.75;
-      color: var(--text-secondary);
-      margin-bottom: 6px;
-    }
-
-    .labs-read-more-btn {
-      background: none; border: none; padding: 0;
-      font-family: var(--font-sans); font-size: 13px; font-weight: 600;
-      color: var(--accent); cursor: pointer;
-      display: inline-flex; align-items: center; gap: 4px;
-      margin-bottom: 32px;
-    }
-
-    .labs-read-more-btn:hover { opacity: 0.75; }
-
-    .labs-more { display: none; }
-    .labs-more.open { display: block; margin-bottom: 16px; }
-    .labs-more p { font-size: 14px; line-height: 1.75; color: var(--text-secondary); margin-bottom: 14px; max-width: none; }
-
-    .accordion {
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      background: var(--surface);
-      margin-bottom: var(--space-3);
-    }
-
-    .accordion-head {
-      width: 100%; display: flex; align-items: center; justify-content: space-between;
-      padding: var(--space-4) var(--space-5);
-      background: var(--surface); border: none; cursor: pointer;
-      text-align: left; transition: background 0.15s ease; gap: 16px;
-    }
-
-    .accordion-head:hover { background: var(--surface-alt); }
-    .accordion-head.open { border-bottom: 1px solid var(--border); }
-
-    .accordion-head-left { display: flex; align-items: center; gap: 14px; }
-
-    .acc-symbol {
-      width: 34px; height: 34px; border-radius: 8px;
-      background: var(--accent-light);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 16px; flex-shrink: 0;
-      color: var(--accent); font-weight: 700;
-    }
-
-    .acc-title { font-family: var(--font-sans); font-size: 15px; font-weight: 700; color: var(--text-primary); }
-    .acc-sub { font-size: 12px; color: var(--text-muted); margin-top: 1px; }
-
-    .acc-chevron {
-      font-size: 10px; color: var(--text-muted); flex-shrink: 0;
-      transition: transform 0.2s ease;
-    }
-    .accordion-head.open .acc-chevron { transform: rotate(180deg); }
-
-    .accordion-body { display: none; padding: var(--space-5); background: var(--bg); }
-    .accordion-body.open { display: block; }
-
-    /* View toggle */
-    .view-bar {
-      display: flex; align-items: center; gap: 12px;
-      margin-bottom: var(--space-5);
-    }
-
-    .view-bar-label { font-size: 12px; font-weight: 600; color: var(--text-secondary); }
-
-    .toggle-group {
-      display: flex;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      overflow: hidden;
-    }
-
-    .toggle-opt {
-      padding: 6px 14px; font-size: 12px; font-weight: 600;
-      border: none; background: transparent; color: var(--text-secondary);
-      cursor: pointer; transition: all 0.15s ease;
-    }
-
-    .toggle-opt.active {
-      background: var(--accent); color: #fff;
-    }
-
-    /* Day label */
-    .day-label {
-      font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--accent); padding-bottom: var(--space-2); border-bottom: 1px solid var(--border);
-      margin-bottom: var(--space-4); margin-top: var(--space-6);
-    }
-    .day-label:first-of-type { margin-top: 0; }
-
-    .labs-context {
-      font-size: 13px; line-height: 1.7; color: var(--text-secondary);
-      background: var(--surface); border: 1px solid var(--border);
-      border-left: 3px solid var(--accent); border-radius: var(--radius-sm);
-      padding: var(--space-3) var(--space-4); margin-bottom: var(--space-5); max-width: none;
-    }
-
-    /* Full Guide table */
-    .labs-table-wrap {
-      overflow-x: auto;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      background: var(--surface);
-      margin-bottom: 0;
-    }
-    .labs-table {
-      width: 100%; border-collapse: collapse; font-size: 13px;
-    }
-    .labs-table th {
-      font-family: var(--font-sans); font-size: 10px; font-weight: 700;
-      letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted);
-      padding: 10px 14px; text-align: left;
-      background: var(--surface-alt); border-bottom: 1px solid var(--border);
-    }
-    .labs-table th:first-child { width: 28px; }
-    .labs-table th:nth-child(3) { width: 80px; }
-    .labs-table td {
-      padding: 11px 14px; border-bottom: 1px solid var(--border-light);
-      vertical-align: top; color: var(--text-secondary); line-height: 1.5;
-    }
-    .labs-table tbody tr:last-child td { border-bottom: none; }
-    .labs-table td:first-child {
-      color: var(--text-muted); font-size: 11px;
-      font-variant-numeric: tabular-nums; padding-right: 0;
-    }
-    .labs-table td:nth-child(2) { font-weight: 600; color: var(--text-primary); }
-    .labs-table td:nth-child(3) {
-      font-family: monospace; font-size: 12px;
-      color: var(--text-muted); white-space: nowrap;
-    }
-
-    /* Labs rows, expandable */
-    .labs-list {
-      border: 1px solid var(--border); border-radius: var(--radius-sm);
-      background: var(--surface); overflow: hidden;
-    }
-
-    .lab-row { border-bottom: 1px solid var(--border-light); }
-    .lab-row:last-child { border-bottom: none; }
-
-    .lab-row-head {
-      display: flex; align-items: center; gap: 10px;
-      padding: 11px 14px; cursor: pointer;
-      transition: background 0.12s; width: 100%;
-      background: none; border: none; text-align: left;
-    }
-    .lab-row-head:hover { background: var(--accent-light); }
-    .lab-row.open .lab-row-head { background: var(--accent-light); }
-
-    .lab-num {
-      font-size: 11px; color: var(--text-muted); flex-shrink: 0;
-      width: 20px; text-align: right; font-variant-numeric: tabular-nums;
-    }
-
-    .lab-name {
-      flex: 1; font-size: 13px; font-weight: 600; color: var(--text-primary);
-      line-height: 1.4; text-align: left;
-    }
-
-    .lab-code {
-      font-family: monospace; font-size: 11px; color: var(--text-muted);
-      flex-shrink: 0; white-space: nowrap;
-    }
-
-    .lab-chevron {
-      font-size: 9px; color: var(--text-muted); flex-shrink: 0;
-      transition: transform 0.2s ease;
-    }
-    .lab-row.open .lab-chevron { transform: rotate(180deg); }
-
-    .lab-row-body {
-      display: none; padding: 0 14px 13px 44px;
-    }
-    .lab-row.open .lab-row-body { display: block; }
-
-    .lab-row-body p {
-      font-size: 13px; line-height: 1.7; color: var(--text-secondary);
-      max-width: none;
-    }
-
-    .freq-badge {
-      display: inline-block; font-size: 9px; font-weight: 700;
-      font-family: var(--font-sans); letter-spacing: 0.04em; text-transform: uppercase;
-      border-radius: 3px; padding: 1px 5px; margin-left: 5px; vertical-align: middle;
-    }
-    .freq-badge.once { background: #e8f4fd; color: #2471a3; border: 1px solid #aed6f1; }
-    .freq-badge.infrequent { background: #f4f6f7; color: #626567; border: 1px solid #cacfd2; }
-
-    /* Doctor view */
-    .doctor-header {
-      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
-      padding: 18px 20px; margin-bottom: 16px;
-    }
-    .doctor-header h3 { font-family: var(--font-sans); font-size: 15px; font-weight: 700; font-style: normal; margin-bottom: 4px; }
-    .doctor-header p { font-size: 13px; color: var(--text-secondary); max-width: none; }
-
-    .doctor-list { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; }
-    .doctor-item {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 11px 18px; border-bottom: 1px solid var(--border-light); gap: 12px;
-    }
-    .doctor-item:last-child { border-bottom: none; }
-    .doctor-item strong { font-size: 13px; flex: 1; }
-    .doctor-item code {
-      font-family: monospace; font-size: 12px; color: var(--text-secondary);
-      background: var(--surface-alt); border-radius: 3px; padding: 2px 7px; flex-shrink: 0;
-    }
-    .icd { font-family: monospace; font-size: 11px; color: var(--text-muted); flex-shrink: 0; }
-    .icd::before { content: '('; }
-    .icd::after { content: ')'; }
-
-    .print-row { display: flex; justify-content: flex-end; margin-top: 14px; }
-
-    /* ── Supplements ── */
-    .card-badge {
-      display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.05em;
-      text-transform: uppercase; padding: 2px 6px; border-radius: 3px;
-      background: var(--surface-alt); border: 1px solid var(--border);
-      color: var(--text-muted); margin-bottom: var(--space-2);
-    }
-    .card-badge.affiliate { background: var(--accent-light); border-color: #f0c9b0; color: var(--accent); }
-
-    /* ── Shop ── */
-    .product-category { margin-bottom: var(--space-6); }
-    .product-category h4 { margin-bottom: var(--space-3); display: flex; align-items: center; gap: 6px; font-size: 11px; }
-
-    .product-card {
-      background: var(--surface); border: var(--border-hairline); border-radius: var(--radius-sm);
-      padding: var(--space-3) var(--space-4); display: flex; align-items: flex-start; gap: var(--space-4);
-      transition: all 0.15s ease; text-decoration: none; color: inherit;
-      margin-bottom: var(--space-2);
-    }
-    .product-card:hover { background: var(--surface-alt); border-color: var(--border); color: inherit; }
-
-    .product-card h3 { font-family: var(--font-sans); font-size: 14px; font-weight: 700; font-style: normal; color: var(--text-primary); margin-bottom: 4px; }
-    .product-card p { font-size: 13px; color: var(--text-secondary); max-width: none; line-height: 1.6; }
-
-    .product-card-body { flex: 1; }
-    .product-card-meta { display: flex; align-items: center; gap: 8px; margin-top: var(--space-2); }
-
-    .buy-list { display: flex; flex-direction: column; gap: var(--space-3); }
-    .buy-item {
-      background: var(--surface); border: var(--border-hairline); border-radius: var(--radius-sm);
-      padding: var(--space-3) var(--space-4); display: flex; align-items: flex-start; gap: var(--space-4);
-    }
-    .buy-item-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
-    .buy-item h3 { font-family: var(--font-sans); font-size: 14px; font-weight: 700; font-style: normal; margin-bottom: 4px; }
-    .buy-item p { font-size: 13px; color: var(--text-secondary); max-width: none; margin-bottom: var(--space-2); }
-
-    /* ── Interpreter ── */
-    .gate-box {
-      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);
-      padding: var(--space-6); max-width: 440px; margin: 0 auto; text-align: center;
-    }
-    .gate-box h3 { font-family: var(--font-sans); font-size: 16px; font-weight: 700; font-style: normal; margin-bottom: 8px; }
-    .gate-box p { font-size: 13px; color: var(--text-secondary); max-width: none; margin-bottom: 24px; }
-
-    .pw-row { display: flex; gap: 8px; margin-bottom: 8px; }
-    .pw-row input {
-      flex: 1; padding: 9px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm);
-      font-family: var(--font-sans); font-size: 14px; background: var(--bg); color: var(--text-primary);
-      outline: none; transition: border-color 0.15s;
-    }
-    .pw-row input:focus { border-color: var(--accent); }
-
-    .pw-error { font-size: 12px; color: var(--red); display: none; }
-    .pw-error.show { display: block; }
-
-    .interp-form { display: none; max-width: 580px; margin: 0 auto; }
-    .interp-form.show { display: block; }
-
-    .privacy-note {
-      background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent);
-      border-radius: var(--radius-sm); padding: var(--space-3) var(--space-4); font-size: 13px; color: var(--text-secondary);
-      margin-bottom: var(--space-5); display: flex; gap: 10px;
-    }
-
-    .upload-zone {
-      border: 2px dashed var(--border); border-radius: var(--radius-md); padding: var(--space-6);
-      text-align: center; cursor: pointer; transition: all 0.15s; margin-bottom: var(--space-4);
-      background: var(--surface); position: relative;
-    }
-    .upload-zone:hover, .upload-zone.drag { border-color: var(--accent); background: var(--accent-light); }
-    .upload-zone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
-    .upload-zone p { font-size: 14px; color: var(--text-secondary); max-width: none; margin: 8px 0 4px; }
-    .upload-zone small { font-size: 12px; color: var(--text-muted); }
-    .upload-icon { font-size: 32px; }
-    .upload-name { font-size: 13px; color: var(--green); font-weight: 600; margin-top: 8px; display: none; }
-    .upload-name.show { display: block; }
-
-    .interp-loading { display: none; text-align: center; padding: 48px 0; }
-    .interp-loading.show { display: block; }
-    .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 14px; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .interp-loading p { font-size: 14px; color: var(--text-secondary); max-width: none; text-align: center; }
-
-    .interp-results { display: none; }
-    .interp-results.show { display: block; }
-    .results-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-5); }
-    .results-head h3 { font-family: var(--font-sans); font-size: 16px; font-weight: 700; font-style: normal; }
-
-    .urgent-block { background: var(--red-bg); border: 1px solid #f0c0c0; border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); margin-bottom: var(--space-5); }
-    .urgent-block h4 { color: var(--red); margin-bottom: 8px; }
-    .urgent-block li { font-size: 13px; color: var(--red); font-weight: 600; list-style: none; }
-
-    .results-list { display: flex; flex-direction: column; gap: var(--space-2); margin-bottom: var(--space-5); }
-
-    .result-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
-    .result-card-head { display: flex; align-items: center; gap: 10px; padding: var(--space-3) var(--space-4); cursor: pointer; transition: background 0.12s; }
-    .result-card-head:hover { background: var(--surface-alt); }
-
-    .status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-    .status-dot.green { background: var(--green); }
-    .status-dot.yellow { background: var(--yellow); }
-    .status-dot.red { background: var(--red); }
-
-    .result-name { flex: 1; font-weight: 600; font-size: 14px; }
-    .result-val { font-size: 13px; font-weight: 600; }
-    .result-val.green { color: var(--green); }
-    .result-val.yellow { color: var(--yellow); }
-    .result-val.red { color: var(--red); }
-    .result-range { font-size: 12px; color: var(--text-muted); }
-
-    .status-badge { font-size: 10px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; }
-    .status-badge.green { background: var(--green-bg); color: var(--green); }
-    .status-badge.yellow { background: var(--yellow-bg); color: var(--yellow); }
-    .status-badge.red { background: var(--red-bg); color: var(--red); }
-
-    .result-card-body { display: none; padding: 0 18px 16px; border-top: 1px solid var(--border); }
-    .result-card.open .result-card-body { display: block; }
-    .result-card-body p { font-size: 13px; color: var(--text-secondary); max-width: none; margin-top: 12px; line-height: 1.7; }
-
-    .results-footer {
-      background: var(--surface-alt); border: 1px solid var(--border); border-radius: var(--radius-md);
-      padding: var(--space-4) var(--space-5); font-size: 13px; color: var(--text-secondary); line-height: 1.7;
-    }
-    .results-footer strong { display: block; font-size: 14px; margin-bottom: 4px; }
-
-    /* ── Supplement Modal ── */
-    .modal-backdrop {
-      position: fixed; inset: 0; z-index: 200;
-      background: rgba(28, 25, 23, 0.55);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      opacity: 0; pointer-events: none;
-      transition: opacity 0.25s ease;
-      display: flex; align-items: center; justify-content: center;
-      padding: 24px;
-    }
-    .modal-backdrop.open { opacity: 1; pointer-events: all; }
-
-    .modal {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      width: 100%; max-width: 520px;
-      max-height: 80vh;
-      overflow-y: auto;
-      padding: var(--space-6);
-      position: relative;
-      transform: translateY(12px) scale(0.98);
-      transition: transform 0.25s ease;
-      box-shadow: 0 24px 64px rgba(0,0,0,0.18);
-    }
-    .modal-backdrop.open .modal { transform: translateY(0) scale(1); }
-
-    .modal-close {
-      position: absolute; top: 16px; right: 16px;
-      width: 30px; height: 30px; border-radius: 50%;
-      background: var(--surface-alt); border: 1px solid var(--border);
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-      font-size: 14px; color: var(--text-muted); transition: all 0.15s;
-      line-height: 1;
-    }
-    .modal-close:hover { background: var(--border); color: var(--text-primary); }
-
-    .modal-badge { display: inline-block; margin-bottom: 12px; }
-
-    .modal h2 {
-      font-family: var(--font-sans); font-size: 20px; font-weight: 700;
-      color: var(--text-primary); margin-bottom: 16px; line-height: 1.3;
-    }
-
-    .modal-body { font-size: 14px; line-height: 1.8; color: var(--text-secondary); }
-    .modal-body p { max-width: none; margin-bottom: 14px; }
-    .modal-body p:last-child { margin-bottom: 0; }
-    .modal-body strong { color: var(--text-primary); }
-    .modal-body a { color: var(--accent); }
-
-    .pick-block { margin-bottom: var(--space-4); }
-    .pick-block:last-child { margin-bottom: 0; }
-    .pick-label {
-      display: block; font-family: var(--font-sans); font-size: 10px; font-weight: 700;
-      letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 4px;
-    }
-    .pick-brand { font-family: var(--font-sans); font-size: 16px; font-weight: 700; color: var(--text-primary); line-height: 1.4; }
-    .pick-brand a { color: var(--text-primary); }
-    .pick-brand a:hover { color: var(--accent); }
-    .pick-brand.alt { font-size: 14px; font-weight: 600; color: var(--text-secondary); }
-    .pick-link-note { font-size: 12px; font-weight: 500; color: var(--text-muted); }
-
-    /* Read more link in cards */
-    .read-more-btn {
-      background: none; border: none; padding: 0;
-      font-family: var(--font-sans); font-size: 13px; font-weight: 600;
-      color: var(--accent); cursor: pointer;
-      display: inline-flex; align-items: center; gap: 3px;
-      margin-top: 8px; transition: opacity 0.15s;
-      text-decoration: underline; text-decoration-color: transparent;
-      text-underline-offset: 2px;
-    }
-    .read-more-btn:hover { text-decoration-color: var(--accent); opacity: 0.8; }
-
-    /* ── Responsive ── */
-    @media (max-width: 680px) {
-      body { flex-direction: column; }
-      .sidebar { display: none; }
-      .topbar { display: flex; }
-      .main { height: auto; }
-      .page-inner { padding: 32px 20px 60px; }
-      .home-hero { padding: 40px 20px 32px; }
-      .home-cards { padding: 0 20px 40px; }
-      .home-cards-grid { grid-template-columns: 1fr; }
-      .labs-table thead { display: none; }
-      .labs-table tbody tr { display: block; margin-bottom: 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px; background: var(--surface); }
-      .labs-table td { display: block; padding: 0; border: none; }
-      .labs-table td:first-child { display: none; }
-      .labs-table td:nth-child(2) { font-size: 13px; margin-bottom: 4px; }
-      .labs-table td:nth-child(3)::before { content: 'Code: '; }
-      .labs-table td:nth-child(3) { font-size: 11px; color: var(--text-muted); margin-bottom: 6px; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
 </head>
 <body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/organic-52b62620-07d9-4248-a83f-b5d51e7086fc/styles.css">
+  <script src="_ds/organic-52b62620-07d9-4248-a83f-b5d51e7086fc/_ds_bundle.js"></script>
+  <style>
+    html, body { margin: 0; }
+    a { color: var(--color-accent); }
+    a:hover { color: var(--color-accent-700); }
+    @keyframes pn-spin { to { transform: rotate(360deg); } }
+    :root {
+      --color-labs-300: oklch(90% 0.06 35);
+      --color-labs-600: oklch(50% 0.16 32);
+      --color-labs-700: oklch(40% 0.15 31);
+    }
+  </style>
+</helmet>
 
-  <!-- ── Sidebar (desktop) ── -->
-  <aside class="sidebar">
-    <div class="sidebar-logo">
-      <img src="logo.png" alt="PocketNick">
-      <span class="sidebar-logo-text">Pocket<span>Nick</span></span>
-    </div>
-    <nav class="sidebar-nav">
-      <button class="nav-item active" data-page="home">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 6.5L8 2l6 4.5V14a1 1 0 01-1 1H3a1 1 0 01-1-1V6.5z"/></svg>
-        Home
-      </button>
-      <button class="nav-item" data-page="labs">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 2v5.5L2 13h12L11 7.5V2"/><path d="M4 2h8"/></svg>
-        Labs
-      </button>
-      <button class="nav-item" data-page="supplements">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><ellipse cx="8" cy="8" rx="5" ry="3" transform="rotate(-45 8 8)"/><line x1="4.5" y1="4.5" x2="11.5" y2="11.5"/></svg>
-        Supplements
-      </button>
-      <button class="nav-item" data-page="shop">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2h1.5l2 8h7l1.5-5H5"/><circle cx="7" cy="13" r="1"/><circle cx="12" cy="13" r="1"/></svg>
-        Shop
-      </button>
-      <button class="nav-item" data-page="interpreter">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M5 8h6M5 5.5h4M5 10.5h3"/></svg>
-        Lab Interpreter
-      </button>
-    </nav>
-    <div class="sidebar-footer">
-      Not medical advice.<br>
-      Always work with a qualified physician.
-    </div>
-  </aside>
+<div style="min-height:100vh;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);">
 
-  <!-- ── Top bar / nav (mobile) ── -->
-  <header class="topbar">
-    <div class="topbar-logo">
-      <img src="logo.png" alt="PocketNick">
-      <span class="topbar-logo-text">Pocket<span>Nick</span></span>
-    </div>
-    <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-    <nav class="dropdown-nav" id="dropdownNav">
-      <button class="nav-item active" data-page="home">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 6.5L8 2l6 4.5V14a1 1 0 01-1 1H3a1 1 0 01-1-1V6.5z"/></svg>
-        Home
-      </button>
-      <button class="nav-item" data-page="labs">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 2v5.5L2 13h12L11 7.5V2"/><path d="M4 2h8"/></svg>
-        Labs
-      </button>
-      <button class="nav-item" data-page="supplements">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><ellipse cx="8" cy="8" rx="5" ry="3" transform="rotate(-45 8 8)"/><line x1="4.5" y1="4.5" x2="11.5" y2="11.5"/></svg>
-        Supplements
-      </button>
-      <button class="nav-item" data-page="shop">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2h1.5l2 8h7l1.5-5H5"/><circle cx="7" cy="13" r="1"/><circle cx="12" cy="13" r="1"/></svg>
-        Shop
-      </button>
-      <button class="nav-item" data-page="interpreter">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M5 8h6M5 5.5h4M5 10.5h3"/></svg>
-        Lab Interpreter
-      </button>
-      <div class="dropdown-footer">
-        Not medical advice.<br>
-        Always work with a qualified physician.
+  <div style="width:100%;background:var(--color-neutral-100);">
+    <nav class="nav" style="max-width:940px;margin:0 auto;width:100%;box-sizing:border-box;">
+      <div onClick="{{ goHome }}" style="display:flex;align-items:center;gap:10px;margin-right:auto;cursor:pointer;">
+        <img src="logo.png" alt="" style="width:26px;height:26px;border-radius:8px;object-fit:cover;">
+        <span class="nav-brand" style="margin-right:0;">pocket<span style="color:var(--color-accent);">nick</span></span>
       </div>
+      <a href="#" onClick="{{ goLabs }}" style="color:{{ labsLinkColor }};font-weight:600;" style-hover="color:var(--color-labs-600);">Labs</a>
+      <a href="#" onClick="{{ goSupplements }}" style="color:{{ suppLinkColor }};font-weight:600;" style-hover="color:var(--color-accent-2-600);">Supplements</a>
+      <a href="#" onClick="{{ goProducts }}" style="color:{{ prodLinkColor }};font-weight:600;" style-hover="color:var(--color-accent);">Products</a>
     </nav>
-  </header>
-
-  <!-- ── Supplement Modal ── -->
-  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true">
-    <div class="modal" id="modal">
-      <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
-      <div class="modal-badge" id="modalBadge"></div>
-      <h2 id="modalTitle"></h2>
-      <div class="modal-body" id="modalBody"></div>
-    </div>
   </div>
 
-  <!-- ── Main content ── -->
-  <main class="main" id="main">
+  <sc-if value="{{ overlayActive }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;left:{{ overlayLeftPx }};top:{{ overlayTopPx }};width:{{ overlaySizePx }};height:{{ overlaySizePx }};transform:translate(-50%,-50%);border-radius:50%;background:{{ overlayColor }};opacity:{{ overlayOpacity }};transition:width 0.36s cubic-bezier(.4,0,.2,1),height 0.36s cubic-bezier(.4,0,.2,1),left 0.36s cubic-bezier(.4,0,.2,1),top 0.36s cubic-bezier(.4,0,.2,1),opacity 0.22s ease;pointer-events:none;z-index:9999;"></div>
+  </sc-if>
 
-    <!-- HOME -->
-    <div class="page active" id="page-home">
-      <div class="home-hero">
-        <!-- SYNC:hero-eyebrow --><span class="eyebrow">A personal health resource</span><!-- /SYNC:hero-eyebrow -->
-        <!-- SYNC:hero-h1 --><h1>All of my recs in one place.</h1><!-- /SYNC:hero-h1 -->
-        <!-- SYNC:hero-sub --><p class="sub">I'm not a doctor, just a health nut who's passionate about finding the best resources for my family and friends. This is a place to share that ever-changing database ♥️</p><!-- /SYNC:hero-sub -->
-      </div>
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;background:var(--color-bg);color:var(--color-text);text-align:center;">
+      <span style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--color-accent-700);margin-top:var(--space-8);margin-bottom:var(--space-4);">A personal health resource</span>
 
-      <div class="home-cards">
-        <div class="home-cards-grid">
-          <div class="home-card" data-page="labs">
-            <span class="home-card-label">Labs</span>
-            <h3>What to get tested, and why</h3>
-            <p>Male &amp; female panels with Labcorp codes, ICD-10 billing, and plain-English explanations.</p>
-          </div>
-          <div class="home-card" data-page="supplements">
-            <span class="home-card-label">Supplements</span>
-            <h3>What I actually take</h3>
-            <p>Researched and vetted, covering brands, dosing, and what to look for on labels.</p>
-          </div>
-          <div class="home-card" data-page="shop">
-            <span class="home-card-label">Shop</span>
-            <h3>Clean home essentials</h3>
-            <p>Non-toxic household products and where I order supplements from.</p>
-          </div>
-          <div class="home-card" data-page="interpreter">
-            <span class="home-card-label">Lab Interpreter</span>
-            <h3>What do your results mean?</h3>
-            <p>Upload a lab PDF and get a functional medicine read that flags suboptimal ranges.</p>
-          </div>
-        </div>
-        <div class="disclaimer-strip">
-          <strong>Not medical advice.</strong> I'm not a doctor or licensed healthcare provider. Use this as a starting point for conversations with your own doctor, not a replacement for one.
+      <div style="flex:1;display:flex;align-items:center;justify-content:center;width:100%;min-height:0;padding:var(--space-4) 0;">
+        <div style="position:relative;width:min(380px,80vw,50vh);aspect-ratio:1;" onMouseMove="{{ onHubMouseMove }}" onMouseLeave="{{ onHubMouseLeave }}">
+          <svg viewBox="-15 -15 230 230" style="position:absolute;inset:0;width:100%;height:100%;overflow:visible;">
+            <g ref="{{ suppRingRef }}" style="transform-origin:100px 100px;transition:transform 0.2s cubic-bezier(0.33,1,0.68,1);">
+              <circle cx="100" cy="100" r="95" fill="none" stroke="var(--color-accent-2-600)" stroke-width="1"></circle>
+              <path id="pn-ring-supp" d="M -3,100 A 103,103 0 0 1 203,100" fill="none"></path>
+              <text onClick="{{ goSupplements }}" style="cursor:pointer;font-size:9px;font-weight:400;letter-spacing:0.14em;text-transform:uppercase;fill:var(--color-accent-2-600);font-family:var(--font-body);"><textPath href="#pn-ring-supp" startOffset="50%" text-anchor="middle">Supplements</textPath></text>
+            </g>
+            <g ref="{{ prodRingRef }}" style="transform-origin:100px 100px;transition:transform 0.2s cubic-bezier(0.33,1,0.68,1);">
+              <circle cx="100" cy="100" r="65" fill="none" stroke="var(--color-accent)" stroke-width="1"></circle>
+              <path id="pn-ring-prod" d="M 27,100 A 73,73 0 0 1 173,100" fill="none"></path>
+              <text onClick="{{ goProducts }}" style="cursor:pointer;font-size:9px;font-weight:400;letter-spacing:0.14em;text-transform:uppercase;fill:var(--color-accent);font-family:var(--font-body);"><textPath href="#pn-ring-prod" startOffset="50%" text-anchor="middle">Products</textPath></text>
+            </g>
+            <g ref="{{ labsRingRef }}" style="transform-origin:100px 100px;transition:transform 0.2s cubic-bezier(0.33,1,0.68,1);">
+              <circle cx="100" cy="100" r="35" fill="none" stroke="var(--color-labs-600)" stroke-width="1"></circle>
+              <path id="pn-ring-labs" d="M 57,100 A 43,43 0 0 1 143,100" fill="none"></path>
+              <text onClick="{{ goLabs }}" style="cursor:pointer;font-size:9px;font-weight:400;letter-spacing:0.14em;text-transform:uppercase;fill:var(--color-labs-600);font-family:var(--font-body);"><textPath href="#pn-ring-labs" startOffset="50%" text-anchor="middle">Labs</textPath></text>
+            </g>
+          </svg>
         </div>
       </div>
+
+      <p style="font-size:11px;font-style:italic;color:var(--color-neutral-600);max-width:360px;margin-bottom:var(--space-6);">Not medical advice. Always work with a qualified physician.</p>
     </div>
+  </sc-if>
 
-    <!-- LABS -->
-    <div class="page" id="page-labs">
-      <div class="page-inner">
-        <div class="page-header">
-          <span class="section-label">Labs</span>
-          <h2>What to get tested, and why</h2>
-          <!-- SYNC:labs-intro --><p class="labs-intro-note">Once-a-year labs to build a baseline you can track over time. Codes included are for Labcorp, covered by most insurance with the correct billing codes (ICD-10).</p>
-          <button class="labs-read-more-btn" id="labsMoreBtn">Read more ▾</button>
-          <div class="labs-more" id="labsMore">
-            <p>At your doctor visit, explain that "you're looking to establish a 'normal baseline' that you can track over time." The idea is you want to know which biomarkers are <em>optimal</em>, not just "normal".</p>
-            <p>Some docs may push back (ego-dependent) but ideally your doctor is open to working with you and your goals. If not, it might be worth trying another doctor who is prevention-focused.</p>
-            <p>Framing matters. State your goals clearly, things like longevity, preventative care, and spotting early warning signs. If they still question it, say you have a friend who is a 'health nerd' who put this together.</p>
-            <p>On insurance, they may say some won't be covered. That comes down to the doctor using the correct ICD-10 code. Personally, I've done these labs multiple times a year for four years and haven't paid anything. But mileage may vary.</p>
-          </div><!-- /SYNC:labs-intro -->
+  <sc-if value="{{ isLabs }}" hint-placeholder-val="{{ false }}">
+    <div style="flex:1;max-width:760px;margin:0 auto;width:100%;padding:var(--space-8) var(--space-4) var(--space-8);box-sizing:border-box;">
+      <h2 style="margin:0 0 var(--space-3);color:var(--color-labs-700);">Labs</h2>
+      <p style="opacity:0.85;max-width:560px;line-height:1.7;margin-bottom:2px;">Once-a-year labs to build a baseline you can track over time. Codes included are for Labcorp, covered by most insurance with the correct billing codes (ICD-10).</p>
+      <button class="btn btn-ghost" onClick="{{ toggleLabsIntro }}" style="padding-left:0;margin-bottom:var(--space-6);">{{ labsIntroToggleLabel }}</button>
+      <sc-if value="{{ labsIntroOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="margin:0 0 var(--space-6);display:flex;flex-direction:column;gap:var(--space-3);font-size:14px;line-height:1.75;opacity:0.85;max-width:620px;">
+          <p>At your doctor visit, explain that "you're looking to establish a 'normal baseline' that you can track over time." The idea is you want to know which biomarkers are optimal, not just "normal".</p>
+          <p>Some docs may push back (ego-dependent) but ideally your doctor is open to working with you and your goals. If not, it might be worth trying another doctor who is prevention-focused.</p>
+          <p>Framing matters. State your goals clearly, things like longevity, preventative care, and spotting early warning signs. If they still question it, say you have a friend who is a 'health nerd' who put this together.</p>
+          <p>On insurance, they may say some won't be covered. That comes down to the doctor using the correct ICD-10 code. Personally, I've done these labs multiple times a year for four years and haven't paid anything. But mileage may vary.</p>
         </div>
+      </sc-if>
 
-        <!-- Male accordion -->
-        <div class="accordion" id="acc-male">
-          <button class="accordion-head" data-acc="male">
-            <div class="accordion-head-left">
-              <div class="acc-symbol">♂</div>
-              <div>
-                <div class="acc-title">Male Panel</div>
-                <div class="acc-sub">24 labs · Two fasting draws · Via Labcorp</div>
+      <div style="border:1px solid var(--color-divider);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:var(--space-4);background:var(--color-surface);">
+        <button onClick="{{ toggleMalePanel }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);padding:var(--space-4);background:none;border:none;cursor:pointer;text-align:left;font:inherit;color:inherit;">
+          <div style="display:flex;align-items:center;gap:var(--space-3);">
+            <div style="width:38px;height:38px;border-radius:50%;background:var(--color-accent-100);color:var(--color-accent-700);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;">♂</div>
+            <div>
+              <div style="font-family:var(--font-heading);font-size:16px;">Male Panel</div>
+              <div style="font-size:12px;color:var(--color-neutral-600);">24 labs · Two fasting draws · Via Labcorp</div>
+            </div>
+          </div>
+          <span style="font-size:12px;color:var(--color-neutral-600);">{{ maleToggleLabel }}</span>
+        </button>
+        <sc-if value="{{ maleOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:0 var(--space-4) var(--space-6);border-top:1px solid var(--color-divider);">
+            <div style="display:flex;align-items:center;gap:var(--space-3);margin:var(--space-4) 0;">
+              <span style="font-size:12px;font-weight:600;color:var(--color-neutral-700);">View:</span>
+              <div class="seg">
+                <label class="seg-opt"><input type="radio" name="maleView" checked="{{ maleViewFull }}" onChange="{{ setMaleFull }}"> Full Guide</label>
+                <label class="seg-opt"><input type="radio" name="maleView" checked="{{ maleViewDoctor }}" onChange="{{ setMaleDoctor }}"> For Your Doctor</label>
               </div>
             </div>
-            <span class="acc-chevron">▼</span>
+            <p style="font-size:13px;line-height:1.7;background:var(--color-accent-100);border-radius:var(--radius-md);padding:var(--space-3);margin-bottom:var(--space-4);">Ask for labs to check that everything is optimal, not just normal. Day 1 requires a 12-hour fast. Day 2 does not. Hydrate well.</p>
+
+            <sc-if value="{{ maleViewFull }}" hint-placeholder-val="{{ true }}">
+              <sc-for list="{{ maleRows }}" as="row" hint-placeholder-count="6">
+                <sc-if value="{{ row.isDay }}">
+                  <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-accent-700);border-bottom:1px solid var(--color-divider);padding-bottom:var(--space-2);margin:var(--space-6) 0 var(--space-3);">{{ row.label }}</div>
+                </sc-if>
+                <sc-if value="{{ row.isRow }}">
+                  <div style="border-bottom:1px solid var(--color-divider);">
+                    <button onClick="{{ row.toggle }}" style="width:100%;display:flex;align-items:baseline;gap:var(--space-2);padding:10px 4px;background:none;border:none;cursor:pointer;text-align:left;font:inherit;color:inherit;">
+                      <span style="font-size:11px;color:var(--color-neutral-500);width:18px;flex-shrink:0;">{{ row.num }}</span>
+                      <span style="flex:1;font-weight:600;font-size:14px;">{{ row.name }}</span>
+                      <sc-if value="{{ row.freqLabel }}"><span class="tag tag-neutral" style="font-size:9px;">{{ row.freqLabel }}</span></sc-if>
+                    </button>
+                    <sc-if value="{{ row.isOpen }}">
+                      <p style="font-size:13px;line-height:1.7;opacity:0.8;padding:0 4px 12px 26px;">{{ row.desc }}</p>
+                    </sc-if>
+                  </div>
+                </sc-if>
+              </sc-for>
+            </sc-if>
+
+            <sc-if value="{{ maleViewDoctor }}" hint-placeholder-val="{{ false }}">
+              <p style="font-size:13px;opacity:0.8;margin:0 0 var(--space-3);">Show this to your doctor or print it out. ICD-10 codes help them order the correct tests through Labcorp.</p>
+              <table class="table">
+                <thead><tr><th>Lab</th><th>Code</th><th>ICD-10</th></tr></thead>
+                <tbody>
+                <sc-for list="{{ maleRows }}" as="row" hint-placeholder-count="6">
+                  <sc-if value="{{ row.isDay }}"><tr><td colspan="3" style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700);background:var(--color-neutral-100);">{{ row.label }}</td></tr></sc-if>
+                  <sc-if value="{{ row.isRow }}"><tr><td style="font-weight:600;">{{ row.name }}</td><td style="font-family:monospace;">{{ row.code }}</td><td style="font-family:monospace;color:var(--color-neutral-600);">{{ row.icd }}</td></tr></sc-if>
+                </sc-for>
+                </tbody>
+              </table>
+              <div style="display:flex;justify-content:flex-end;margin-top:var(--space-3);">
+                <button class="btn btn-secondary" onClick="{{ printPanel }}">Print / Save PDF</button>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+      </div>
+
+      <div style="border:1px solid var(--color-divider);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:var(--space-4);background:var(--color-surface);">
+        <button onClick="{{ toggleFemalePanel }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);padding:var(--space-4);background:none;border:none;cursor:pointer;text-align:left;font:inherit;color:inherit;">
+          <div style="display:flex;align-items:center;gap:var(--space-3);">
+            <div style="width:38px;height:38px;border-radius:50%;background:var(--color-accent-2-100);color:var(--color-accent-2-700);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;">♀</div>
+            <div>
+              <div style="font-family:var(--font-heading);font-size:16px;">Female Panel</div>
+              <div style="font-size:12px;color:var(--color-neutral-600);">33 labs · Two fasting draws · Timed to your cycle</div>
+            </div>
+          </div>
+          <span style="font-size:12px;color:var(--color-neutral-600);">{{ femaleToggleLabel }}</span>
+        </button>
+        <sc-if value="{{ femaleOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:0 var(--space-4) var(--space-6);border-top:1px solid var(--color-divider);">
+            <div style="display:flex;align-items:center;gap:var(--space-3);margin:var(--space-4) 0;">
+              <span style="font-size:12px;font-weight:600;color:var(--color-neutral-700);">View:</span>
+              <div class="seg">
+                <label class="seg-opt"><input type="radio" name="femaleView" checked="{{ femaleViewFull }}" onChange="{{ setFemaleFull }}"> Full Guide</label>
+                <label class="seg-opt"><input type="radio" name="femaleView" checked="{{ femaleViewDoctor }}" onChange="{{ setFemaleDoctor }}"> For Your Doctor</label>
+              </div>
+            </div>
+            <p style="font-size:13px;line-height:1.7;background:var(--color-accent-2-100);border-radius:var(--radius-md);padding:var(--space-3);margin-bottom:var(--space-4);"><strong>Day 1 (Cycle Day 3):</strong> book your draw on days 2, 3, or 4 of your cycle. <strong>Day 2 (Cycle Day 19–21):</strong> count 7 days back from your expected next period. Fast 10–12 hours for both draws.</p>
+
+            <sc-if value="{{ femaleViewFull }}" hint-placeholder-val="{{ true }}">
+              <sc-for list="{{ femaleRows }}" as="row" hint-placeholder-count="6">
+                <sc-if value="{{ row.isDay }}">
+                  <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-accent-2-700);border-bottom:1px solid var(--color-divider);padding-bottom:var(--space-2);margin:var(--space-6) 0 var(--space-3);">{{ row.label }}</div>
+                </sc-if>
+                <sc-if value="{{ row.isRow }}">
+                  <div style="border-bottom:1px solid var(--color-divider);">
+                    <button onClick="{{ row.toggle }}" style="width:100%;display:flex;align-items:baseline;gap:var(--space-2);padding:10px 4px;background:none;border:none;cursor:pointer;text-align:left;font:inherit;color:inherit;">
+                      <span style="font-size:11px;color:var(--color-neutral-500);width:18px;flex-shrink:0;">{{ row.num }}</span>
+                      <span style="flex:1;font-weight:600;font-size:14px;">{{ row.name }}</span>
+                      <sc-if value="{{ row.freqLabel }}"><span class="tag tag-neutral" style="font-size:9px;">{{ row.freqLabel }}</span></sc-if>
+                    </button>
+                    <sc-if value="{{ row.isOpen }}">
+                      <p style="font-size:13px;line-height:1.7;opacity:0.8;padding:0 4px 12px 26px;">{{ row.desc }}</p>
+                    </sc-if>
+                  </div>
+                </sc-if>
+              </sc-for>
+            </sc-if>
+
+            <sc-if value="{{ femaleViewDoctor }}" hint-placeholder-val="{{ false }}">
+              <p style="font-size:13px;opacity:0.8;margin:0 0 var(--space-3);">Show this to your doctor or print it out. Day 1 labs on Cycle Day 3; Day 2 (progesterone) on Cycle Day 19–21.</p>
+              <table class="table">
+                <thead><tr><th>Lab</th><th>Code</th><th>ICD-10</th></tr></thead>
+                <tbody>
+                <sc-for list="{{ femaleRows }}" as="row" hint-placeholder-count="6">
+                  <sc-if value="{{ row.isDay }}"><tr><td colspan="3" style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-2-700);background:var(--color-neutral-100);">{{ row.label }}</td></tr></sc-if>
+                  <sc-if value="{{ row.isRow }}"><tr><td style="font-weight:600;">{{ row.name }}</td><td style="font-family:monospace;">{{ row.code }}</td><td style="font-family:monospace;color:var(--color-neutral-600);">{{ row.icd }}</td></tr></sc-if>
+                </sc-for>
+                </tbody>
+              </table>
+              <div style="display:flex;justify-content:flex-end;margin-top:var(--space-3);">
+                <button class="btn btn-secondary" onClick="{{ printPanel }}">Print / Save PDF</button>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+      </div>
+
+      <div style="border:1px solid var(--color-divider);border-radius:var(--radius-lg);background:var(--color-surface);margin-top:var(--space-6);overflow:hidden;">
+        <button onClick="{{ toggleInterp }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);padding:var(--space-4);background:none;border:none;cursor:pointer;text-align:left;font:inherit;color:inherit;">
+          <div style="display:flex;align-items:center;gap:var(--space-3);">
+            <span class="tag tag-accent">Beta</span>
+            <span style="font-family:var(--font-heading);font-size:16px;">Lab Interpreter</span>
+          </div>
+          <span style="font-size:12px;color:var(--color-neutral-600);">{{ interpToggleLabel }}</span>
+        </button>
+        <sc-if value="{{ interpOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:0 var(--space-4) var(--space-6);border-top:1px solid var(--color-divider);">
+            <p style="font-size:13px;line-height:1.7;opacity:0.8;margin:var(--space-4) 0;">Upload your lab results PDF. This reads them through a functional medicine lens and flags results that may be suboptimal even if your lab marked them "normal."</p>
+
+            <sc-if value="{{ interpLocked }}" hint-placeholder-val="{{ true }}">
+              <div style="background:var(--color-neutral-100);border-radius:var(--radius-md);padding:var(--space-4);max-width:380px;">
+                <p style="font-size:13px;margin-bottom:var(--space-3);opacity:0.8;">This feature uses AI and has a usage cost. It's available to people I've shared the access code with directly.</p>
+                <div style="display:flex;gap:8px;margin-bottom:6px;">
+                  <input class="input" type="password" placeholder="Enter access code" value="{{ pw }}" onChange="{{ onPwChange }}">
+                  <button class="btn btn-primary" onClick="{{ tryUnlock }}">Unlock</button>
+                </div>
+                <sc-if value="{{ pwError }}"><p style="font-size:12px;color:oklch(45% 0.13 25);">Incorrect code. Ask Nick.</p></sc-if>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ interpUnlocked }}" hint-placeholder-val="{{ false }}">
+              <sc-if value="{{ interpShowForm }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;gap:10px;background:var(--color-accent-100);border-radius:var(--radius-md);padding:var(--space-3);font-size:13px;margin-bottom:var(--space-4);max-width:520px;">
+                  <span>🔒</span>
+                  <span>Feel free to black out your name and date of birth before uploading. The AI only needs the lab values, not your identifying information.</span>
+                </div>
+                <div style="border:2px dashed var(--color-divider);border-radius:var(--radius-md);padding:var(--space-6);text-align:center;position:relative;margin-bottom:var(--space-3);max-width:520px;">
+                  <input type="file" accept=".pdf,application/pdf,image/*" onChange="{{ onFileChange }}" style="position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;">
+                  <p style="font-size:14px;margin-bottom:4px;">Drag your lab results PDF or photo here, or click to select</p>
+                  <p style="font-size:12px;color:var(--color-neutral-600);">PDF or photo · Results are not stored</p>
+                  <sc-if value="{{ interpFileName }}"><p style="font-size:13px;color:var(--color-accent-2-700);font-weight:600;margin-top:8px;">✓ {{ interpFileName }}</p></sc-if>
+                </div>
+                <button class="btn btn-primary btn-block" disabled="{{ interpretDisabled }}" onClick="{{ submitInterpret }}" style="max-width:520px;">Interpret My Labs</button>
+                <sc-if value="{{ interpError }}"><p style="font-size:13px;color:oklch(45% 0.13 25);margin-top:8px;">{{ interpError }}</p></sc-if>
+              </sc-if>
+
+              <sc-if value="{{ interpShowLoading }}" hint-placeholder-val="{{ false }}">
+                <div style="text-align:center;padding:var(--space-6) 0;">
+                  <div style="width:34px;height:34px;border:3px solid var(--color-divider);border-top-color:var(--color-accent);border-radius:50%;margin:0 auto var(--space-3);animation:pn-spin 0.8s linear infinite;"></div>
+                  <p style="font-size:13px;opacity:0.7;">Reading your results through a functional medicine lens… this takes 20–40 seconds.</p>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ interpShowResults }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-3);">
+                  <span style="font-family:var(--font-heading);font-size:16px;">Your Results</span>
+                  <button class="btn btn-ghost" onClick="{{ resetInterp }}">Upload new file</button>
+                </div>
+                <sc-if value="{{ interpUrgent }}">
+                  <div style="background:oklch(93% 0.03 25);border-radius:var(--radius-md);padding:var(--space-3);margin-bottom:var(--space-3);">
+                    <strong style="font-size:12px;color:oklch(45% 0.13 25);">Urgent: review with your doctor promptly</strong>
+                    <sc-for list="{{ interpUrgentList }}" as="f" hint-placeholder-count="1"><p style="font-size:13px;color:oklch(45% 0.13 25);font-weight:600;margin:4px 0 0;">{{ f }}</p></sc-for>
+                  </div>
+                </sc-if>
+                <sc-for list="{{ interpMarkers }}" as="m" hint-placeholder-count="3">
+                  <div style="border:1px solid var(--color-divider);border-radius:var(--radius-md);margin-bottom:var(--space-2);overflow:hidden;background:var(--color-surface);">
+                    <button onClick="{{ m.toggle }}" style="width:100%;display:flex;align-items:center;gap:10px;padding:var(--space-3);background:none;border:none;cursor:pointer;text-align:left;font:inherit;color:inherit;">
+                      <span style="width:8px;height:8px;border-radius:50%;background:{{ m.dotColor }};flex-shrink:0;"></span>
+                      <span style="flex:1;font-weight:600;font-size:14px;">{{ m.name }}</span>
+                      <span style="font-size:13px;font-weight:600;color:{{ m.dotColor }};">{{ m.value }}</span>
+                      <span style="font-size:12px;color:var(--color-neutral-600);">{{ m.functionalRange }}</span>
+                    </button>
+                    <sc-if value="{{ m.isOpen }}">
+                      <div style="padding:0 var(--space-3) var(--space-3);border-top:1px solid var(--color-divider);font-size:13px;">
+                        <p style="font-size:12px;color:var(--color-neutral-600);margin:var(--space-2) 0 6px;">Standard lab range: {{ m.standardRange }}</p>
+                        <p style="opacity:0.8;">{{ m.explanation }}</p>
+                      </div>
+                    </sc-if>
+                  </div>
+                </sc-for>
+              </sc-if>
+            </sc-if>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isSupplements }}" hint-placeholder-val="{{ false }}">
+    <div style="flex:1;max-width:680px;margin:0 auto;width:100%;padding:var(--space-8) var(--space-4) var(--space-8);box-sizing:border-box;">
+      <h2 style="margin:0 0 var(--space-3);color:var(--color-accent-2-700);">Supplements</h2>
+      <p style="opacity:0.85;max-width:560px;line-height:1.7;margin-bottom:var(--space-2);">These are the specific brands I actually take and recommend, but you don't have to buy the exact ones I use. For each one I explain why I chose it, so you can use the same thinking to evaluate any other brand.</p>
+      <p style="font-size:12px;color:var(--color-neutral-600);margin-bottom:var(--space-4);">What I actually take right now. This is an everchanging list.</p>
+
+      <div style="border:1px solid var(--color-divider);border-radius:var(--radius-lg);overflow:hidden;background:var(--color-surface);margin-bottom:var(--space-8);">
+        <sc-for list="{{ supplements }}" as="s" hint-placeholder-count="4">
+          <div onClick="{{ s.openModal }}" style="padding:var(--space-3) var(--space-4);border-bottom:1px solid var(--color-divider);cursor:pointer;" style-hover="background:var(--color-neutral-100);">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
+              <span style="font-family:var(--font-heading);font-size:16px;">{{ s.name }}</span>
+              <span class="{{ s.tagClass }}">{{ s.badge }}</span>
+            </div>
+            <sc-if value="{{ s.topPick }}"><p style="font-size:13px;opacity:0.75;margin:4px 0 0;">Top pick: <strong>{{ s.topPick }}</strong></p></sc-if>
+          </div>
+        </sc-for>
+      </div>
+
+      <h3 style="font-size:20px;margin:0 0 var(--space-4);color:var(--color-accent-2-700);">Where to buy</h3>
+      <sc-for list="{{ buy }}" as="b" hint-placeholder-count="3">
+        <div style="border:1px solid var(--color-divider);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4);margin-bottom:var(--space-3);background:var(--color-surface);">
+          <button onClick="{{ b.toggle }}" style="width:100%;display:flex;justify-content:space-between;align-items:center;background:none;border:none;cursor:pointer;text-align:left;font:inherit;color:inherit;padding:0;">
+            <span style="font-family:var(--font-heading);font-size:16px;">{{ b.name }}</span>
+            <span style="font-size:12px;color:var(--color-neutral-600);">{{ b.toggleLabel }}</span>
           </button>
-          <div class="accordion-body" id="body-male">
-            <div class="view-bar">
-              <span class="view-bar-label">View:</span>
-              <div class="toggle-group" role="group">
-                <button class="toggle-opt active" data-target="male" data-view="full">Full Guide</button>
-                <button class="toggle-opt" data-target="male" data-view="doctor">For Your Doctor</button>
+          <sc-if value="{{ b.isOpen }}">
+            <p style="font-size:13px;opacity:0.8;margin:var(--space-2) 0 0;">{{ b.desc }}</p>
+            <sc-if value="{{ b.cta }}"><a class="btn btn-primary" href="{{ b.ctaHref }}" target="_blank" style="margin-top:var(--space-2);">{{ b.ctaLabel }}</a></sc-if>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isProducts }}" hint-placeholder-val="{{ false }}">
+    <div style="flex:1;max-width:680px;margin:0 auto;width:100%;padding:var(--space-8) var(--space-4) var(--space-8);box-sizing:border-box;">
+      <h2 style="margin:0 0 var(--space-3);color:var(--color-accent-700);">Products</h2>
+      <p style="opacity:0.85;max-width:560px;line-height:1.7;margin-bottom:var(--space-6);">Vetted products I use at home.</p>
+
+      <sc-for list="{{ products }}" as="cat" hint-placeholder-count="3">
+        <div style="margin-bottom:var(--space-6);">
+          <h4 style="font-family:var(--font-body);font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-600);margin-bottom:var(--space-3);">{{ cat.category }}</h4>
+          <div style="border:1px solid var(--color-divider);border-radius:var(--radius-lg);overflow:hidden;background:var(--color-surface);">
+            <sc-for list="{{ cat.items }}" as="item" hint-placeholder-count="2">
+              <div style="border-bottom:1px solid var(--color-divider);">
+                <button onClick="{{ item.toggle }}" style="width:100%;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:var(--space-4);background:none;border:none;cursor:pointer;text-align:left;font:inherit;color:inherit;">
+                  <span style="font-family:var(--font-heading);font-size:16px;">{{ item.name }}</span>
+                  <span class="{{ item.tagClass }}">{{ item.tagLabel }}</span>
+                </button>
+                <sc-if value="{{ item.isOpen }}">
+                  <div style="padding:0 var(--space-4) var(--space-4);">
+                    <p style="font-size:13px;opacity:0.8;margin:0 0 8px;">{{ item.desc }}</p>
+                    <sc-if value="{{ item.affiliate }}"><a class="btn btn-secondary" href="{{ item.href }}" target="_blank">View · {{ item.note }}</a></sc-if>
+                  </div>
+                </sc-if>
               </div>
-            </div>
-            <div id="male-full"></div>
-            <div id="male-doctor" style="display:none;"></div>
+            </sc-for>
           </div>
         </div>
-
-        <!-- Female accordion -->
-        <div class="accordion" id="acc-female">
-          <button class="accordion-head" data-acc="female">
-            <div class="accordion-head-left">
-              <div class="acc-symbol">♀</div>
-              <div>
-                <div class="acc-title">Female Panel</div>
-                <div class="acc-sub">33 labs · Two fasting draws · Timed to your cycle</div>
-              </div>
-            </div>
-            <span class="acc-chevron">▼</span>
-          </button>
-          <div class="accordion-body" id="body-female">
-            <div class="view-bar">
-              <span class="view-bar-label">View:</span>
-              <div class="toggle-group" role="group">
-                <button class="toggle-opt active" data-target="female" data-view="full">Full Guide</button>
-                <button class="toggle-opt" data-target="female" data-view="doctor">For Your Doctor</button>
-              </div>
-            </div>
-            <div id="female-full"></div>
-            <div id="female-doctor" style="display:none;"></div>
-          </div>
-        </div>
-      </div>
+      </sc-for>
     </div>
+  </sc-if>
 
-    <!-- SUPPLEMENTS -->
-    <div class="page" id="page-supplements">
-      <div class="page-inner">
-        <div class="page-header">
-          <span class="section-label">Supplements</span>
-          <h2>What I actually take</h2>
-          <!-- SYNC:supplements-intro --><p>These are the specific brands I actually take and recommend, but you don't have to buy the exact ones I use. For each one I explain why I chose it, so you can use the same thinking to evaluate any other brand.</p><!-- /SYNC:supplements-intro -->
-        </div>
-
-        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: var(--space-4);">🚧 More categories being added over time. Buy on Fullscript under Shop → Where to Buy.</p>
-
-        <div class="item-list" id="suppGrid"></div>
-      </div>
-    </div>
-
-    <!-- SHOP -->
-    <div class="page" id="page-shop">
-      <div class="page-inner">
-        <div class="page-header">
-          <span class="section-label">Shop</span>
-          <h2>Products &amp; where to buy</h2>
-          <p>Where I order supplements from, plus vetted products I use at home.</p>
-        </div>
-
-        <!-- HOW TO: add a Nick's note to a product-card or buy-item, paste this inside the
-             item's text column, right after the <p> description. Doesn't need to be one tidy
-             sentence, add as many short lines as you want:
-        <div class="nick-note">
-          <span class="nick-note-label">Nick's note</span>
-          <span class="nick-note-line">Short unpolished aside here.</span>
-          <span class="nick-note-line">Another line if you want it.</span>
-        </div>
-        -->
-
-        <div class="page-header" style="margin-bottom: 20px;">
-          <span class="section-label">Where to Buy</span>
-          <h2 style="font-size: 22px;">Where I actually order from</h2>
-          <p>Short answer: Fullscript first, then Amazon. TrueMed if you have an HSA.</p>
-        </div>
-
-        <div class="buy-list">
-          <div class="buy-item">
-            <div class="buy-item-icon">🏥</div>
+  <sc-if value="{{ suppModalOpen }}" hint-placeholder-val="{{ false }}">
+    <div class="dialog-backdrop" style="z-index:200;" onClick="{{ closeSuppOnBackdrop }}">
+      <div class="dialog" style="max-width:480px;max-height:80vh;overflow-y:auto;position:relative;">
+        <button class="btn btn-icon btn-secondary" onClick="{{ closeSupp }}" style="position:absolute;top:12px;right:12px;">✕</button>
+        <span class="{{ selectedSupp.tagClass }}">{{ selectedSupp.badge }}</span>
+        <h2 class="dialog-title" style="margin-top:8px;">{{ selectedSupp.name }}</h2>
+        <div class="dialog-body" style="display:flex;flex-direction:column;gap:var(--space-3);">
+          <sc-if value="{{ selectedSupp.topPick }}">
             <div>
-              <h3>Fullscript</h3>
-              <!-- SYNC:buy-fullscript --><p>Dispensary-grade supplements. Authentic products, good pricing, fast shipping. My default first stop. Use the link for a public discount, since it's an affiliate link that also supports the site.</p><!-- /SYNC:buy-fullscript -->
-              <a href="https://us.fullscript.com/welcome/asiebecker/store-start" class="btn btn-primary btn-sm">Shop Fullscript</a>
+              <span style="display:block;font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent);margin-bottom:4px;">Top Pick</span>
+              <sc-if value="{{ selectedSupp.topPickLink }}">
+                <p style="margin:0;font-weight:700;"><a href="{{ selectedSupp.topPickLink }}" target="_blank">{{ selectedSupp.topPick }} →</a> <sc-if value="{{ selectedSupp.topPickLinkNote }}"><span style="font-size:12px;font-weight:500;color:var(--color-neutral-600);">({{ selectedSupp.topPickLinkNote }})</span></sc-if></p>
+              </sc-if>
+              <sc-if value="{{ selectedSupp.noTopPickLink }}"><p style="margin:0;font-weight:700;">{{ selectedSupp.topPick }}</p></sc-if>
             </div>
-          </div>
-          <div class="buy-item">
-            <div class="buy-item-icon">📦</div>
-            <div>
-              <h3>Amazon</h3>
-              <!-- SYNC:buy-amazon --><p>Sometimes cheaper than Fullscript for the same products, so it's worth checking both before buying. Stick to brands with third-party testing (NSF, USP, or Informed Sport certified).</p><!-- /SYNC:buy-amazon -->
-            </div>
-          </div>
-          <div class="buy-item">
-            <div class="buy-item-icon">💳</div>
-            <div>
-              <h3>TrueMed / HSA</h3>
-              <!-- SYNC:buy-truemed --><p>If you have an HSA or FSA, TrueMed lets you use pre-tax dollars on eligible supplements. Legitimate way to save 20–40% depending on your tax bracket.</p><!-- /SYNC:buy-truemed -->
-              <a href="#" class="btn btn-secondary btn-sm">[Add TrueMed link]</a>
-            </div>
-          </div>
-        </div>
-
-        <hr class="divider">
-
-        <div class="page-header" style="margin-bottom: 20px;">
-          <span class="section-label">Product Recs</span>
-          <h2 style="font-size: 22px;">Clean home essentials</h2>
-          <p>Vetted, non-toxic products I actually use at home.</p>
-        </div>
-
-        <div class="product-category">
-          <h4>Water Filtration</h4>
-          <a href="#" class="product-card">
-            <div class="product-card-body">
-              <h3>Cloud Reverse Osmosis System</h3>
-              <!-- SYNC:prod-cloud-ro --><p>Under-sink RO system. Removes fluoride, chlorine, heavy metals, and pharmaceuticals. The one I have at home.</p><!-- /SYNC:prod-cloud-ro -->
-              <div class="product-card-meta">
-                <span class="card-badge affiliate">Affiliate</span>
-                <span style="font-size: 12px; color: var(--text-muted);">$100 off with this link</span>
-              </div>
-            </div>
-          </a>
-        </div>
-
-        <div class="product-category">
-          <h4>Household Cleaners</h4>
-          <a href="#" class="product-card">
-            <div class="product-card-body">
-              <h3>Branch Basics</h3>
-              <!-- SYNC:prod-branch-basics --><p>Concentrate-based, non-toxic, works on everything.</p><!-- /SYNC:prod-branch-basics -->
-              <div class="product-card-meta"><span class="card-badge">No affiliate</span></div>
-            </div>
-          </a>
-          <a href="#" class="product-card">
-            <div class="product-card-body">
-              <h3>Blueland</h3>
-              <!-- SYNC:prod-blueland --><p>Tablet-based, zero plastic. Good for surfaces and glass.</p><!-- /SYNC:prod-blueland -->
-              <div class="product-card-meta"><span class="card-badge">No affiliate</span></div>
-            </div>
-          </a>
-          <a href="#" class="product-card">
-            <div class="product-card-body">
-              <h3>Force Of Nature</h3>
-              <!-- SYNC:prod-force-of-nature --><p>Best all-purpose cleaner / disinfectant that is actually non-toxic. Uses salt and vinegar solution in a cool electrolyzer to make Hypochlorous acid.</p><!-- /SYNC:prod-force-of-nature -->
-              <div class="product-card-meta"><span class="card-badge">No affiliate</span></div>
-            </div>
-          </a>
-        </div>
-
-        <div class="product-category">
-          <h4>Dishwasher</h4>
-          <a href="#" class="product-card">
-            <div class="product-card-body">
-              <h3>Blueland Dishwasher Tabs</h3>
-              <!-- SYNC:prod-blueland-dish --><p>Tablet-based, plastic-free. No phosphates or chlorine bleach.</p><!-- /SYNC:prod-blueland-dish -->
-              <div class="product-card-meta"><span class="card-badge">No affiliate</span></div>
-            </div>
-          </a>
+          </sc-if>
+          <sc-if value="{{ selectedSupp.alternative }}">
+            <div><span style="display:block;font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent);margin-bottom:4px;">Alternative</span><p style="margin:0;font-weight:600;font-size:14px;">{{ selectedSupp.alternative }}</p></div>
+          </sc-if>
+          <sc-if value="{{ selectedSupp.why }}">
+            <div><span style="display:block;font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent);margin-bottom:4px;">Why I chose this</span><p style="margin:0;">{{ selectedSupp.why }}</p></div>
+          </sc-if>
+          <sc-if value="{{ selectedSupp.dosing }}">
+            <div><span style="display:block;font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent);margin-bottom:4px;">Dosing</span><p style="margin:0;">{{ selectedSupp.dosing }}</p></div>
+          </sc-if>
+          <sc-if value="{{ selectedSupp.testing }}">
+            <div><span style="display:block;font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent);margin-bottom:4px;">Testing</span><p style="margin:0;">{{ selectedSupp.testing }}</p></div>
+          </sc-if>
         </div>
       </div>
     </div>
+  </sc-if>
 
-    <!-- INTERPRETER -->
-    <div class="page" id="page-interpreter">
-      <div class="page-inner">
-        <div class="page-header">
-          <span class="section-label">Lab Interpreter</span>
-          <h2>What do your results actually mean?</h2>
-          <p>Upload your lab results PDF. This reads them through a functional medicine lens and flags results that may be suboptimal even if your lab marked them "normal."</p>
-        </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const OPT_COLOR = 'var(--color-accent-2-700)';
+const BORD_COLOR = 'var(--color-accent-600)';
+const RED_COLOR = 'oklch(45% 0.13 25)';
 
-        <div class="gate-box" id="interpGate">
-          <h3>Access required</h3>
-          <p>This feature uses AI and has a usage cost. It's available to people I've shared the access code with directly.</p>
-          <div class="pw-row">
-            <input type="password" id="pwInput" placeholder="Enter access code" autocomplete="off">
-            <button class="btn btn-primary" id="unlockBtn">Unlock</button>
-          </div>
-          <div class="pw-error" id="pwError">Incorrect code. Ask Nick.</div>
-        </div>
+const SUPPLEMENTS = [
+  { badge: "Daily", badgeClass: "", name: "Multivitamin", topPick: "Seeking Health Multivitamin One",
+    why: `All vitmains are in their active form, includes antioxidants, the "MF" version is methyl free for those that are sensitive` },
+  { badge: "Daily", badgeClass: "", name: "Probiotic", topPick: "Microbiome Labs MegaSporeBiotic",
+    alternative: "Just Thrive Probiotic & Antioxidant, or Atrantil Pro",
+    why: `I currently don't think everyone needs to prioritize a probiotic in their supplement stack, and instead should focus on incorporating as many fermented foods as possible (kefir, yogurt, kimchi, saurkraut, tempeh, miso, etc). However, these 'spore based' probiotics are hard to get from diet and are actually shown to colonize the gut and have a ton of benefits. So if you're going to spend on a probiotic, these are my picks` },
+  { badge: "Affiliate link", badgeClass: "affiliate", name: "Organs", topPick: "Heart & Soil Desiccated Organs",
+    topPickLink: "https://refer.heartandsoil.co/f5x74qey", topPickLinkNote: "20% off with this link",
+    why: `Desiccated organs contain peptides and nutrients that most of us are missing even with a "healthy diet." Heart & Soil is high quality, third-party tested for metals, and their Colostrum is some of the best on the market, better quality than ARMRA in my opinion.` },
+  { badge: "Daily", badgeClass: "", name: "Magnesium", topPick: "Magnesium Glycinate (Douglas Laboratories, Vital Nutrients, Pure Encapsulations)",
+    alternative: "NOW Brand, Toniiq on amazon",
+    why: `Magnesium is a non negotiable daily for me, and probably most people since most are deficient. one of the most important minerals, and is depleted with caffeine and stress. Glycinate is the cheapest but most bioavailable form, Threonate is better for brain health but more $ - Citrate is for helping with 💩 same with Oxide, both are poorly absorbed, draw water into the colon and create a laxative effect. Glycinate won't do this.`,
+    dosing: `300-400mg daily before bed, 400-600mg if correcting deficiency.`,
+    testing: `Ask your doc for a Magnesium RBC test (red blood cell). This measures mag inside the cell, not serum. This is where you'll see a deficiency first while blood levels look normal.` },
+];
 
-        <div class="interp-form" id="interpForm">
-          <div class="privacy-note">
-            <span>🔒</span>
-            <span>Feel free to black out your name and date of birth before uploading. The AI only needs the lab values, not your identifying information.</span>
-          </div>
-          <div class="upload-zone" id="uploadZone">
-            <input type="file" id="labFile" accept=".pdf,application/pdf,image/*">
-            <div class="upload-icon">📄</div>
-            <p>Drag your lab results PDF or photo here, or click to select</p>
-            <small>PDF or photo (JPG, PNG, HEIC) · Results are not stored</small>
-            <div class="upload-name" id="uploadName"></div>
-          </div>
-          <button class="btn btn-primary" id="interpretBtn" style="width:100%;justify-content:center;padding:12px;" disabled>Interpret My Labs</button>
-        </div>
+const PRODUCTS = [
+  { category: 'Water Filtration', items: [
+    { slug: 'cloud-ro', name: 'Cloud Reverse Osmosis System', desc: 'Under-sink RO system. Removes fluoride, chlorine, heavy metals, and pharmaceuticals. The one I have at home.', affiliate: true, note: '$100 off with this link', href: '#' },
+  ]},
+  { category: 'Household Cleaners', items: [
+    { slug: 'branch-basics', name: 'Branch Basics', desc: 'Concentrate-based, non-toxic, works on everything.', affiliate: false, href: '#' },
+    { slug: 'blueland', name: 'Blueland', desc: 'Tablet-based, zero plastic. Good for surfaces and glass.', affiliate: false, href: '#' },
+    { slug: 'force-of-nature', name: 'Force Of Nature', desc: 'Best all-purpose cleaner / disinfectant that is actually non-toxic. Uses salt and vinegar solution in a cool electrolyzer to make Hypochlorous acid.', affiliate: false, href: '#' },
+  ]},
+  { category: 'Dishwasher', items: [
+    { slug: 'blueland-dish', name: 'Blueland Dishwasher Tabs', desc: 'Tablet-based, plastic-free. No phosphates or chlorine bleach.', affiliate: false, href: '#' },
+  ]},
+];
 
-        <div class="interp-loading" id="interpLoading">
-          <div class="spinner"></div>
-          <p>Reading your results through a functional medicine lens…<br>This takes 20–40 seconds.</p>
-        </div>
+const BUY = [
+  { key: 'fullscript', name: 'Fullscript', desc: "Dispensary-grade supplements. Authentic products, good pricing, fast shipping. My default first stop. Use the link for a public discount, since it's an affiliate link that also supports the site.", ctaLabel: 'Shop Fullscript', ctaHref: 'https://us.fullscript.com/welcome/asiebecker/store-start' },
+  { key: 'amazon', name: 'Amazon', desc: "Sometimes cheaper than Fullscript for the same products, so it's worth checking both before buying. Stick to brands with third-party testing (NSF, USP, or Informed Sport certified).", ctaLabel: null, ctaHref: null },
+  { key: 'truemed', name: 'TrueMed / HSA', desc: 'If you have an HSA or FSA, TrueMed lets you use pre-tax dollars on eligible supplements. Legitimate way to save 20–40% depending on your tax bracket.', ctaLabel: '[Add TrueMed link]', ctaHref: '#' },
+];
 
-        <div class="interp-results" id="interpResults">
-          <div class="results-head">
-            <h3>Your Results</h3>
-            <button class="btn btn-ghost btn-sm" id="resetBtn">Upload new file</button>
-          </div>
-          <div id="urgentBlock"></div>
-          <div class="results-list" id="resultsList"></div>
-          <div class="results-footer" id="resultsFooter" style="display:none;"></div>
-        </div>
-      </div>
-    </div>
+function row(num, name, code, icd, desc, freq) { return { isRow: true, isDay: false, num, name, code, icd, desc, freq: freq || null }; }
+function day(label) { return { isDay: true, isRow: false, label }; }
 
-  </main>
+const MALE_ROWS_RAW = [
+  day('Day 1: Fasting'),
+  row(1,"Comprehensive Metabolic Panel (CMP)","322000","E78.5","Screens kidney function, liver enzymes, electrolytes, and blood sugar in one draw. Your metabolic foundation."),
+  row(2,"CBC with Differential","005009","E78.5","Checks red and white blood cells and platelets. Flags anemia, infection, and immune abnormalities."),
+  row(3,"Urinalysis, Complete with Microscopic","003772","Z00.00","Kidney and bladder health, plus early metabolic issues that show up in urine before blood markers shift."),
+  row(4,"NMR LipoProfile with Lipids","884247","E78.5","The standard cholesterol test is 70+ year old technology. NMR measures actual particle size and number, which makes it a far better cardiovascular risk predictor."),
+  row(5,"Apolipoprotein B","167015","E78.5","One of the most accurate single markers for cardiovascular risk. Each ApoB particle can deposit in artery walls."),
+  row(6,"Lipoprotein(a)","120188","E78.5","A genetically determined cardiovascular risk factor. Only need to measure it once since it rarely changes.","Test once"),
+  row(7,"Hemoglobin A1c","001453","Z13.1","Your 3-month average blood sugar. More reliable than a fasting glucose snapshot."),
+  row(8,"Insulin, Fasting","004333","Z13.1","Elevated fasting insulin is one of the earliest signs of metabolic dysfunction, often elevated years before glucose is."),
+  row(9,"C-Reactive Protein, Cardiac (hs-CRP)","120766","E78.5","Measures systemic inflammation. Elevated levels predict cardiovascular events better than cholesterol alone."),
+  row(10,"Iron and Total Iron Binding Capacity (TIBC)","001321","E61.1","Iron deficiency is the most common nutrient deficiency worldwide. TIBC gives context to your iron level."),
+  row(11,"Ferritin","004598","E61.1","Your iron storage marker. Both very low and very high ferritin are problematic and often missed on standard panels."),
+  row(12,"Phosphorus","001024","Z13.88","Involved in bone health, energy production, and kidney function. Often depleted in processed food-heavy diets."),
+  day('Day 2: No fast required'),
+  row(13,"Homocysteine","706994","E78.5","Elevated levels indicate B-vitamin deficiency and raise risk for cardiovascular disease and cognitive decline."),
+  row(14,"Thyroid Panel: TSH and Free T4","224576","Z13.29","Standard thyroid check. TSH alone misses a lot, but Free T4 shows how much hormone is actually circulating."),
+  row(15,"Free T3","010389","Z13.29","The active thyroid hormone your cells actually use. Often suboptimal even when TSH looks fine."),
+  row(16,"Thyroid Peroxidase (TPO) Antibody","006676","Z13.29","Detects Hashimoto's thyroiditis, the most common cause of hypothyroidism, often missed for years.","Every 3–5 yrs"),
+  row(17,"Thyroid Stimulating Immunoglobulin (TSI)","140747","Z13.29","Detects Graves' disease (autoimmune hyperthyroidism). Rules out the other side of the thyroid autoimmune spectrum.","Every 3–5 yrs"),
+  row(18,"Testosterone, Free and Total","140103","Z13.29","Total testosterone is often normal while free testosterone is low. You need both to get the full picture."),
+  row(19,"Follicle-Stimulating Hormone (FSH)","004309","Z13.29","In men, elevated FSH can indicate testicular dysfunction. Useful context alongside testosterone levels."),
+  row(20,"Vitamin D, 25-Hydroxy","081950","E55.9","Most people are deficient. Affects immune function, mood, bone health, testosterone production, and more."),
+  row(21,"Vitamin B12 and Folate","000810","E72.11","Essential for nerve function, DNA synthesis, and methylation. Deficiency is common and consistently underdiagnosed."),
+  row(22,"Magnesium, RBC","080283","Z13.88","Serum magnesium is nearly useless, but RBC magnesium shows what's actually inside your cells. Most people are low."),
+  row(23,"OmegaCheck (Omega-3 and Omega-6 Profile)","823738","Z13.88","Measures your omega-3 index and omega-6/omega-3 ratio. Most people are severely omega-3 deficient."),
+  row(24,"Gamma-Glutamyl Transferase (GGT)","001958","Z13.88","An early liver stress marker. Elevated GGT can precede other liver enzymes and correlates with oxidative stress."),
+];
 
-  <script>
-  // ── Supplements data & modal ─────────────────────────────
-  // Each entry: badge/badgeClass (frequency or disclosure tag), name, topPick (brand),
-  // optional topPickLink + topPickLinkNote (e.g. a discount), optional alternative
-  // (other reputable brands, string), why (why this pick), optional nickNote (a
-  // personal aside, doesn't need to be one tidy sentence):
-  // nickNote: `<span class="nick-note-line">Short unpolished aside.</span><span class="nick-note-line">Another line.</span>`
-  const SUPPLEMENTS = [
-    {
-      badge: "Daily", badgeClass: "",
-      name: "Multivitamin",
-      topPick: "Seeking Health Multivitamin One",
-      why: `All vitmains are in their active form, includes antioxidants, the "MF" version is methyl free for those that are sensitive`
-    },
-    {
-      badge: "Daily", badgeClass: "",
-      name: "Probiotic",
-      topPick: "Microbiome Labs MegaSporeBiotic",
-      alternative: "Just Thrive Probiotic & Antioxidant, or Atrantil Pro",
-      why: `I currently don't think everyone needs to prioritize a probiotic in their supplement stack, and instead should focus on incorporating as many fermented foods as possible (kefir, yogurt, kimchi, saurkraut, tempeh, miso, etc). However, these 'spore based' probiotics are hard to get from diet and are actually shown to colonize the gut and have a ton of benefits. So if you're going to spend on a probiotic, these are my picks`
-    },
-    {
-      badge: "Affiliate link", badgeClass: "affiliate",
-      name: "Organs",
-      topPick: "Heart & Soil Desiccated Organs",
-      topPickLink: "https://refer.heartandsoil.co/f5x74qey",
-      topPickLinkNote: "20% off with this link",
-      why: `Desiccated organs contain peptides and nutrients that most of us are missing even with a "healthy diet." Heart & Soil is high quality, third-party tested for metals, and their Colostrum is some of the best on the market, better quality than ARMRA in my opinion.`
-    },
-    {
-      badge: "Daily", badgeClass: "",
-      name: "Magnesium",
-      topPick: "Magnesium Glycinate (Douglas Laboratories, Vital Nutrients, Pure Encapsulations)",
-      alternative: "NOW Brand, Toniiq on amazon",
-      why: `Magnesium is a non negotiable daily for me, and probably most people since most are deficient. one of the most important minerals, and is depleted with caffeine and stress. Glycinate is the cheapest but most bioavailable form, Threonate is better for brain health but more $ - Citrate is for helping with 💩 same with Oxide, both are poorly absorbed, draw water into the colon and create a laxative effect. Glycinate won't do this.`,
-      dosing: `300-400mg daily before bed, 400-600mg if correcting deficiency.`,
-      testing: `Ask your doc for a Magnesium RBC test (red blood cell). This measures mag inside the cell, not serum. This is where you'll see a deficiency first while blood levels look normal.`
-    },
-  ];
+const FEMALE_ROWS_RAW = [
+  day('Day 1: Cycle Day 3 (Fasting)'),
+  row(1,"Follicle-Stimulating Hormone (FSH)","004309","Z13.29","On cycle day 3, FSH reflects ovarian reserve. Rising FSH over time can indicate diminishing egg supply."),
+  row(2,"Luteinizing Hormone (LH)","004283","Z13.29","The LH-to-FSH ratio on Day 3 gives important context for hormonal balance and PCOS risk assessment."),
+  row(3,"Estradiol","004515","Z13.29","Baseline estradiol on Day 3 should be low. Elevated levels can suppress FSH and obscure ovarian reserve results."),
+  row(4,"Anti-Mullerian Hormone (AMH)","500183","Z13.29","The best single marker for ovarian reserve. Stable across the cycle, giving a clear picture of remaining egg supply."),
+  row(5,"Testosterone, Total (Women/Children)","070001","Z13.29","Low testosterone in women causes low libido, fatigue, and poor muscle recovery. Frequently overlooked."),
+  row(6,"Sex Hormone-Binding Globulin (SHBG)","500848","Z13.29","High SHBG binds free testosterone and estrogen, leaving less bioavailable for your cells to use."),
+  row(7,"DHEA-Sulfate","004020","Z13.29","An adrenal hormone and testosterone precursor. Low levels correlate with fatigue, low libido, and poor stress response."),
+  row(8,"Prolactin","004465","Z13.29","Elevated prolactin can suppress ovulation. A common hidden cause of irregular cycles and fertility issues."),
+  row(9,"Insulin, Fasting","004333","Z13.1","Elevated fasting insulin is one of the earliest signs of metabolic dysfunction, often rising years before glucose."),
+  row(10,"Hemoglobin A1c","001453","Z13.1","Your 3-month average blood sugar. More reliable than a fasting glucose snapshot for tracking metabolic health."),
+  row(11,"Thyroid Panel: TSH and Free T4","224576","Z13.29","Standard thyroid check. TSH alone misses a lot, but Free T4 shows how much hormone is actually circulating."),
+  row(12,"Free T3","010389","Z13.29","The active thyroid hormone your cells actually use. Often suboptimal even when TSH looks fine."),
+  row(13,"Thyroid Peroxidase (TPO) Antibody","006676","Z13.29","Detects Hashimoto's thyroiditis, the most common thyroid condition in women, often undiagnosed for years.","Every 3–5 yrs"),
+  row(14,"Thyroid Stimulating Immunoglobulin (TSI)","140747","Z13.29","Detects Graves' disease (autoimmune hyperthyroidism). Rules out the other side of the thyroid autoimmune spectrum.","Every 3–5 yrs"),
+  row(15,"Thyroglobulin Antibody (TgAb)","006685","Z13.29","A second thyroid autoimmune marker. Some people make TgAb but not TPO antibodies, so you need both to catch all cases.","Every 3–5 yrs"),
+  row(16,"17-OH Progesterone","070085","Z13.29","Screens for congenital adrenal hyperplasia, a common cause of androgen excess and irregular cycles often missed.","Test once"),
+  day('Day 2: Cycle Day 19–21 (Fasting)'),
+  row(17,"Progesterone","004317","Z13.29","Peak progesterone mid-luteal phase confirms ovulation occurred. Low levels indicate anovulatory cycles or luteal phase defect."),
+  row(18,"Comprehensive Metabolic Panel (CMP)","322000","E78.5","Screens kidney function, liver enzymes, electrolytes, and blood sugar in one draw."),
+  row(19,"CBC with Differential","005009","E78.5","Checks red and white blood cells and platelets. Women are at higher risk for iron-deficiency anemia."),
+  row(20,"Urinalysis, Complete with Microscopic","003772","Z00.00","Kidney and bladder health, plus early metabolic issues that show up in urine before blood markers shift."),
+  row(21,"NMR LipoProfile with Lipids","884247","E78.5","Particle-level cardiovascular risk assessment. More accurate than a standard cholesterol panel."),
+  row(22,"Apolipoprotein B","167015","E78.5","The most accurate single marker for cardiovascular risk. Each ApoB particle can deposit in artery walls."),
+  row(23,"Lipoprotein(a)","120188","E78.5","A genetically determined cardiovascular risk factor. Only need to measure it once, since it rarely changes.","Test once"),
+  row(24,"C-Reactive Protein, Cardiac (hs-CRP)","120766","E78.5","Systemic inflammation marker. Predicts cardiovascular events better than standard cholesterol panels."),
+  row(25,"Iron and Total Iron Binding Capacity (TIBC)","001321","E61.1","Women are at much higher risk for iron deficiency due to menstruation. TIBC gives essential context."),
+  row(26,"Ferritin","004598","E61.1","Iron storage marker. The most sensitive indicator of deficiency, often depleted before anemia develops."),
+  row(27,"Phosphorus","001024","Z13.88","Involved in bone health, energy production, and kidney function. Often low in processed food-heavy diets."),
+  row(28,"Homocysteine","706994","E78.5","Elevated levels indicate B-vitamin deficiency and raise risk for cardiovascular disease and cognitive decline."),
+  row(29,"Vitamin D, 25-Hydroxy","081950","E55.9","Most people are deficient. Critical for immune function, mood, bone density, and hormonal balance."),
+  row(30,"Vitamin B12 and Folate","000810","E72.11","Essential for nerve function, DNA synthesis, and fetal development. Deficiency is common and often missed."),
+  row(31,"Magnesium, RBC","080283","Z13.88","RBC magnesium shows intracellular stores, far more accurate than serum magnesium."),
+  row(32,"OmegaCheck (Omega-3 and Omega-6 Profile)","823738","Z13.88","Measures your omega-3 index and fatty acid ratios. Most people are severely omega-3 deficient."),
+  row(33,"Gamma-Glutamyl Transferase (GGT)","001958","Z13.88","An early liver stress and oxidative stress marker. Can flag problems before other liver enzymes shift."),
+];
 
-  function renderSupplements() {
-    const grid = document.getElementById('suppGrid');
-    grid.innerHTML = SUPPLEMENTS.map((s, i) => `
-      <div class="item-row">
-        <span class="card-badge ${s.badgeClass}">${s.badge}</span>
-        <h3>${s.name}</h3>
-        <p>${s.topPick ? `Top Pick: <strong>${s.topPick}</strong>` : `<em style="color:var(--text-muted);">Brand pick coming soon</em>`}</p>
-        <button class="read-more-btn" data-supp="${i}">Details →</button>
-      </div>
-    `).join('') + `
-      <div class="item-row placeholder">
-        <h3>More coming soon</h3>
-        <p>Additional categories added as I finalize my notes.</p>
-      </div>`;
+const SITE_PASSWORD = 'markhyman';
 
-    grid.querySelectorAll('.read-more-btn').forEach(btn => {
-      btn.addEventListener('click', () => openModal(parseInt(btn.dataset.supp)));
+class Component extends DCLogic {
+  state = {
+    route: 'home',
+    labsIntroOpen: false,
+    labsOpenPanel: null,
+    maleView: 'full',
+    femaleView: 'full',
+    openLabRow: {},
+    suppModalIdx: null,
+    prodOpen: {},
+    buyOpen: {},
+    interpOpen: false,
+    interpUnlocked: false,
+    pw: '',
+    pwError: false,
+    interpFile: null,
+    interpStep: 'form',
+    interpMarkersRaw: null,
+    interpUrgentFlags: [],
+    interpError: null,
+    openResult: {},
+    explanations: {},
+  };
+
+  suppRingRef = React.createRef();
+  prodRingRef = React.createRef();
+  labsRingRef = React.createRef();
+
+  applyRingScale(ref, dist, r) {
+    if (!ref.current) return;
+    const diff = Math.abs(dist - r);
+    const influence = Math.max(0, 1 - diff / 28);
+    const scale = 1 + influence * 0.07;
+    ref.current.style.transform = 'scale(' + scale.toFixed(4) + ')';
+  }
+  onHubMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const scaleFactor = 200 / rect.width;
+    const vx = (e.clientX - rect.left) * scaleFactor;
+    const vy = (e.clientY - rect.top) * scaleFactor;
+    const dist = Math.hypot(vx - 100, vy - 100);
+    this.applyRingScale(this.suppRingRef, dist, 95);
+    this.applyRingScale(this.prodRingRef, dist, 65);
+    this.applyRingScale(this.labsRingRef, dist, 35);
+  };
+  onHubMouseLeave = () => {
+    [this.suppRingRef, this.prodRingRef, this.labsRingRef].forEach(ref => {
+      if (ref.current) ref.current.style.transform = 'scale(1)';
     });
+  };
+
+  static ROUTE_COLOR = { labs: 'var(--color-labs-600)', supplements: 'var(--color-accent-2-600)', products: 'var(--color-accent)' };
+
+  componentDidMount() {
+    if (super.componentDidMount) super.componentDidMount();
+    if (!history.state) history.replaceState({ route: 'home' }, '');
+    window.addEventListener('popstate', this.onPopState);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('popstate', this.onPopState);
+    this.clearNavTimers();
+    if (super.componentWillUnmount) super.componentWillUnmount();
   }
 
-  function openModal(i) {
-    const s = SUPPLEMENTS[i];
-    document.getElementById('modalBadge').innerHTML = `<span class="card-badge ${s.badgeClass}">${s.badge}</span>`;
-    document.getElementById('modalTitle').textContent = s.name;
+  onPopState = (e) => {
+    const target = (e.state && e.state.route) || 'home';
+    if (target === this.state.route) return;
+    if (target === 'home') this.navigateBackHome();
+    else {
+      const cx = window.innerWidth / 2, cy = window.innerHeight / 2;
+      this.navigateForwardRect(target, { left: cx - 1, top: cy - 1, width: 2, height: 2 }, Component.ROUTE_COLOR[target]);
+    }
+  };
 
-    let body = '';
-    if (s.topPick) {
-      const pickText = s.topPickLink
-        ? `<a href="${s.topPickLink}" target="_blank">${s.topPick} →</a>${s.topPickLinkNote ? ` <span class="pick-link-note">(${s.topPickLinkNote})</span>` : ''}`
-        : s.topPick;
-      body += `<div class="pick-block"><span class="pick-label">Top Pick</span><p class="pick-brand">${pickText}</p></div>`;
-    }
-    if (s.alternative) {
-      body += `<div class="pick-block"><span class="pick-label">Alternative</span><p class="pick-brand alt">${s.alternative}</p></div>`;
-    }
-    if (s.why) {
-      body += `<div class="pick-block"><span class="pick-label">Why I chose this</span><p>${s.why}</p></div>`;
-    }
-    if (s.dosing) {
-      body += `<div class="pick-block"><span class="pick-label">Dosing</span><p>${s.dosing}</p></div>`;
-    }
-    if (s.testing) {
-      body += `<div class="pick-block"><span class="pick-label">Testing</span><p>${s.testing}</p></div>`;
-    }
-    if (s.nickNote) {
-      body += `<div class="nick-note"><span class="nick-note-label">Nick's note</span>${s.nickNote}</div>`;
-    }
-    document.getElementById('modalBody').innerHTML = body;
-    document.getElementById('modalBackdrop').classList.add('open');
-    document.body.style.overflow = 'hidden';
+  clearNavTimers() {
+    [this._navT1, this._navT2, this._navT3, this._navFailsafe].forEach(t => t && clearTimeout(t));
   }
 
-  function closeModal() {
-    document.getElementById('modalBackdrop').classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  document.getElementById('modalClose').addEventListener('click', closeModal);
-  document.getElementById('modalBackdrop').addEventListener('click', e => {
-    if (e.target === e.currentTarget) closeModal();
-  });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-
-  renderSupplements();
-
-  // ── Lab data ────────────────────────────────────────────────
-  const MALE_D1 = [
-    [1,"Comprehensive Metabolic Panel (CMP)","322000","E78.5","<!-- SYNC:lab-m-cmp -->Screens kidney function, liver enzymes, electrolytes, and blood sugar in one draw. Your metabolic foundation.<!-- /SYNC:lab-m-cmp -->"],
-    [2,"CBC with Differential","005009","E78.5","<!-- SYNC:lab-m-cbc -->Checks red and white blood cells and platelets. Flags anemia, infection, and immune abnormalities.<!-- /SYNC:lab-m-cbc -->"],
-    [3,"Urinalysis, Complete with Microscopic","003772","Z00.00","<!-- SYNC:lab-m-ua -->Kidney and bladder health, plus early metabolic issues that show up in urine before blood markers shift.<!-- /SYNC:lab-m-ua -->"],
-    [4,"NMR LipoProfile with Lipids","884247","E78.5","<!-- SYNC:lab-m-nmr -->The standard cholesterol test is 70+ year old technology. NMR measures actual particle size and number, which makes it a far better cardiovascular risk predictor.<!-- /SYNC:lab-m-nmr -->"],
-    [5,"Apolipoprotein B","167015","E78.5","<!-- SYNC:lab-m-apob -->One of the most accurate single markers for cardiovascular risk. Each ApoB particle can deposit in artery walls.<!-- /SYNC:lab-m-apob -->"],
-    [6,"Lipoprotein(a) <span class='freq-badge once'>Test once</span>","120188","E78.5","<!-- SYNC:lab-m-lpa -->A genetically determined cardiovascular risk factor. Only need to measure it once since it rarely changes.<!-- /SYNC:lab-m-lpa -->"],
-    [7,"Hemoglobin A1c","001453","Z13.1","<!-- SYNC:lab-m-a1c -->Your 3-month average blood sugar. More reliable than a fasting glucose snapshot.<!-- /SYNC:lab-m-a1c -->"],
-    [8,"Insulin, Fasting","004333","Z13.1","<!-- SYNC:lab-m-insulin -->Elevated fasting insulin is one of the earliest signs of metabolic dysfunction, often elevated years before glucose is.<!-- /SYNC:lab-m-insulin -->"],
-    [9,"C-Reactive Protein, Cardiac (hs-CRP)","120766","E78.5","<!-- SYNC:lab-m-crp -->Measures systemic inflammation. Elevated levels predict cardiovascular events better than cholesterol alone.<!-- /SYNC:lab-m-crp -->"],
-    [10,"Iron and Total Iron Binding Capacity (TIBC)","001321","E61.1","<!-- SYNC:lab-m-iron -->Iron deficiency is the most common nutrient deficiency worldwide. TIBC gives context to your iron level.<!-- /SYNC:lab-m-iron -->"],
-    [11,"Ferritin","004598","E61.1","<!-- SYNC:lab-m-ferritin -->Your iron storage marker. Both very low and very high ferritin are problematic and often missed on standard panels.<!-- /SYNC:lab-m-ferritin -->"],
-    [12,"Phosphorus","001024","Z13.88","<!-- SYNC:lab-m-phosphorus -->Involved in bone health, energy production, and kidney function. Often depleted in processed food-heavy diets.<!-- /SYNC:lab-m-phosphorus -->"],
-  ];
-  const MALE_D2 = [
-    [13,"Homocysteine","706994","E78.5","<!-- SYNC:lab-m-homocys -->Elevated levels indicate B-vitamin deficiency and raise risk for cardiovascular disease and cognitive decline.<!-- /SYNC:lab-m-homocys -->"],
-    [14,"Thyroid Panel: TSH and Free T4","224576","Z13.29","<!-- SYNC:lab-m-tsh-t4 -->Standard thyroid check. TSH alone misses a lot, but Free T4 shows how much hormone is actually circulating.<!-- /SYNC:lab-m-tsh-t4 -->"],
-    [15,"Free T3","010389","Z13.29","<!-- SYNC:lab-m-freet3 -->The active thyroid hormone your cells actually use. Often suboptimal even when TSH looks fine.<!-- /SYNC:lab-m-freet3 -->"],
-    [16,"Thyroid Peroxidase (TPO) Antibody <span class='freq-badge infrequent'>Every 3–5 yrs</span>","006676","Z13.29","<!-- SYNC:lab-m-tpo -->Detects Hashimoto's thyroiditis, the most common cause of hypothyroidism, often missed for years.<!-- /SYNC:lab-m-tpo -->"],
-    [17,"Thyroid Stimulating Immunoglobulin (TSI) <span class='freq-badge infrequent'>Every 3–5 yrs</span>","140747","Z13.29","<!-- SYNC:lab-m-tsi -->Detects Graves' disease (autoimmune hyperthyroidism). Rules out the other side of the thyroid autoimmune spectrum.<!-- /SYNC:lab-m-tsi -->"],
-    [18,"Testosterone, Free and Total","140103","Z13.29","<!-- SYNC:lab-m-testosterone -->Total testosterone is often normal while free testosterone is low. You need both to get the full picture.<!-- /SYNC:lab-m-testosterone -->"],
-    [19,"Follicle-Stimulating Hormone (FSH)","004309","Z13.29","<!-- SYNC:lab-m-fsh -->In men, elevated FSH can indicate testicular dysfunction. Useful context alongside testosterone levels.<!-- /SYNC:lab-m-fsh -->"],
-    [20,"Vitamin D, 25-Hydroxy","081950","E55.9","<!-- SYNC:lab-m-vitd -->Most people are deficient. Affects immune function, mood, bone health, testosterone production, and more.<!-- /SYNC:lab-m-vitd -->"],
-    [21,"Vitamin B12 and Folate","000810","E72.11","<!-- SYNC:lab-m-b12 -->Essential for nerve function, DNA synthesis, and methylation. Deficiency is common and consistently underdiagnosed.<!-- /SYNC:lab-m-b12 -->"],
-    [22,"Magnesium, RBC","080283","Z13.88","<!-- SYNC:lab-m-mag -->Serum magnesium is nearly useless, but RBC magnesium shows what's actually inside your cells. Most people are low.<!-- /SYNC:lab-m-mag -->"],
-    [23,"OmegaCheck (Omega-3 and Omega-6 Profile)","823738","Z13.88","<!-- SYNC:lab-m-omega -->Measures your omega-3 index and omega-6/omega-3 ratio. Most people are severely omega-3 deficient.<!-- /SYNC:lab-m-omega -->"],
-    [24,"Gamma-Glutamyl Transferase (GGT)","001958","Z13.88","<!-- SYNC:lab-m-ggt -->An early liver stress marker. Elevated GGT can precede other liver enzymes and correlates with oxidative stress.<!-- /SYNC:lab-m-ggt -->"],
-  ];
-
-  const FEMALE_D1 = [
-    [1,"Follicle-Stimulating Hormone (FSH)","004309","Z13.29","<!-- SYNC:lab-f-fsh -->On cycle day 3, FSH reflects ovarian reserve. Rising FSH over time can indicate diminishing egg supply.<!-- /SYNC:lab-f-fsh -->"],
-    [2,"Luteinizing Hormone (LH)","004283","Z13.29","<!-- SYNC:lab-f-lh -->The LH-to-FSH ratio on Day 3 gives important context for hormonal balance and PCOS risk assessment.<!-- /SYNC:lab-f-lh -->"],
-    [3,"Estradiol","004515","Z13.29","<!-- SYNC:lab-f-estradiol -->Baseline estradiol on Day 3 should be low. Elevated levels can suppress FSH and obscure ovarian reserve results.<!-- /SYNC:lab-f-estradiol -->"],
-    [4,"Anti-Mullerian Hormone (AMH)","500183","Z13.29","<!-- SYNC:lab-f-amh -->The best single marker for ovarian reserve. Stable across the cycle, giving a clear picture of remaining egg supply.<!-- /SYNC:lab-f-amh -->"],
-    [5,"Testosterone, Total (Women/Children)","070001","Z13.29","<!-- SYNC:lab-f-testosterone -->Low testosterone in women causes low libido, fatigue, and poor muscle recovery. Frequently overlooked.<!-- /SYNC:lab-f-testosterone -->"],
-    [6,"Sex Hormone-Binding Globulin (SHBG)","500848","Z13.29","<!-- SYNC:lab-f-shbg -->High SHBG binds free testosterone and estrogen, leaving less bioavailable for your cells to use.<!-- /SYNC:lab-f-shbg -->"],
-    [7,"DHEA-Sulfate","004020","Z13.29","<!-- SYNC:lab-f-dhea -->An adrenal hormone and testosterone precursor. Low levels correlate with fatigue, low libido, and poor stress response.<!-- /SYNC:lab-f-dhea -->"],
-    [8,"Prolactin","004465","Z13.29","<!-- SYNC:lab-f-prolactin -->Elevated prolactin can suppress ovulation. A common hidden cause of irregular cycles and fertility issues.<!-- /SYNC:lab-f-prolactin -->"],
-    [9,"Insulin, Fasting","004333","Z13.1","<!-- SYNC:lab-f-insulin -->Elevated fasting insulin is one of the earliest signs of metabolic dysfunction, often rising years before glucose.<!-- /SYNC:lab-f-insulin -->"],
-    [10,"Hemoglobin A1c","001453","Z13.1","<!-- SYNC:lab-f-a1c -->Your 3-month average blood sugar. More reliable than a fasting glucose snapshot for tracking metabolic health.<!-- /SYNC:lab-f-a1c -->"],
-    [11,"Thyroid Panel: TSH and Free T4","224576","Z13.29","<!-- SYNC:lab-f-tsh-t4 -->Standard thyroid check. TSH alone misses a lot, but Free T4 shows how much hormone is actually circulating.<!-- /SYNC:lab-f-tsh-t4 -->"],
-    [12,"Free T3","010389","Z13.29","<!-- SYNC:lab-f-freet3 -->The active thyroid hormone your cells actually use. Often suboptimal even when TSH looks fine.<!-- /SYNC:lab-f-freet3 -->"],
-    [13,"Thyroid Peroxidase (TPO) Antibody <span class='freq-badge infrequent'>Every 3–5 yrs</span>","006676","Z13.29","<!-- SYNC:lab-f-tpo -->Detects Hashimoto's thyroiditis, the most common thyroid condition in women, often undiagnosed for years.<!-- /SYNC:lab-f-tpo -->"],
-    [14,"Thyroid Stimulating Immunoglobulin (TSI) <span class='freq-badge infrequent'>Every 3–5 yrs</span>","140747","Z13.29","<!-- SYNC:lab-f-tsi -->Detects Graves' disease (autoimmune hyperthyroidism). Rules out the other side of the thyroid autoimmune spectrum.<!-- /SYNC:lab-f-tsi -->"],
-    [15,"Thyroglobulin Antibody (TgAb) <span class='freq-badge infrequent'>Every 3–5 yrs</span>","006685","Z13.29","<!-- SYNC:lab-f-tgab -->A second thyroid autoimmune marker. Some people make TgAb but not TPO antibodies, so you need both to catch all cases.<!-- /SYNC:lab-f-tgab -->"],
-    [16,"17-OH Progesterone <span class='freq-badge once'>Test once</span>","070085","Z13.29","<!-- SYNC:lab-f-17oh -->Screens for congenital adrenal hyperplasia, a common cause of androgen excess and irregular cycles often missed.<!-- /SYNC:lab-f-17oh -->"],
-  ];
-  const FEMALE_D2 = [
-    [17,"Progesterone","004317","Z13.29","<!-- SYNC:lab-f-prog -->Peak progesterone mid-luteal phase confirms ovulation occurred. Low levels indicate anovulatory cycles or luteal phase defect.<!-- /SYNC:lab-f-prog -->"],
-    [18,"Comprehensive Metabolic Panel (CMP)","322000","E78.5","<!-- SYNC:lab-f-cmp -->Screens kidney function, liver enzymes, electrolytes, and blood sugar in one draw.<!-- /SYNC:lab-f-cmp -->"],
-    [19,"CBC with Differential","005009","E78.5","<!-- SYNC:lab-f-cbc -->Checks red and white blood cells and platelets. Women are at higher risk for iron-deficiency anemia.<!-- /SYNC:lab-f-cbc -->"],
-    [20,"Urinalysis, Complete with Microscopic","003772","Z00.00","<!-- SYNC:lab-f-ua -->Kidney and bladder health, plus early metabolic issues that show up in urine before blood markers shift.<!-- /SYNC:lab-f-ua -->"],
-    [21,"NMR LipoProfile with Lipids","884247","E78.5","<!-- SYNC:lab-f-nmr -->Particle-level cardiovascular risk assessment. More accurate than a standard cholesterol panel.<!-- /SYNC:lab-f-nmr -->"],
-    [22,"Apolipoprotein B","167015","E78.5","<!-- SYNC:lab-f-apob -->The most accurate single marker for cardiovascular risk. Each ApoB particle can deposit in artery walls.<!-- /SYNC:lab-f-apob -->"],
-    [23,"Lipoprotein(a) <span class='freq-badge once'>Test once</span>","120188","E78.5","<!-- SYNC:lab-f-lpa -->A genetically determined cardiovascular risk factor. Only need to measure it once, since it rarely changes.<!-- /SYNC:lab-f-lpa -->"],
-    [24,"C-Reactive Protein, Cardiac (hs-CRP)","120766","E78.5","<!-- SYNC:lab-f-crp -->Systemic inflammation marker. Predicts cardiovascular events better than standard cholesterol panels.<!-- /SYNC:lab-f-crp -->"],
-    [25,"Iron and Total Iron Binding Capacity (TIBC)","001321","E61.1","<!-- SYNC:lab-f-iron -->Women are at much higher risk for iron deficiency due to menstruation. TIBC gives essential context.<!-- /SYNC:lab-f-iron -->"],
-    [26,"Ferritin","004598","E61.1","<!-- SYNC:lab-f-ferritin -->Iron storage marker. The most sensitive indicator of deficiency, often depleted before anemia develops.<!-- /SYNC:lab-f-ferritin -->"],
-    [27,"Phosphorus","001024","Z13.88","<!-- SYNC:lab-f-phosphorus -->Involved in bone health, energy production, and kidney function. Often low in processed food-heavy diets.<!-- /SYNC:lab-f-phosphorus -->"],
-    [28,"Homocysteine","706994","E78.5","<!-- SYNC:lab-f-homocys -->Elevated levels indicate B-vitamin deficiency and raise risk for cardiovascular disease and cognitive decline.<!-- /SYNC:lab-f-homocys -->"],
-    [29,"Vitamin D, 25-Hydroxy","081950","E55.9","<!-- SYNC:lab-f-vitd -->Most people are deficient. Critical for immune function, mood, bone density, and hormonal balance.<!-- /SYNC:lab-f-vitd -->"],
-    [30,"Vitamin B12 and Folate","000810","E72.11","<!-- SYNC:lab-f-b12 -->Essential for nerve function, DNA synthesis, and fetal development. Deficiency is common and often missed.<!-- /SYNC:lab-f-b12 -->"],
-    [31,"Magnesium, RBC","080283","Z13.88","<!-- SYNC:lab-f-mag -->RBC magnesium shows intracellular stores, far more accurate than serum magnesium.<!-- /SYNC:lab-f-mag -->"],
-    [32,"OmegaCheck (Omega-3 and Omega-6 Profile)","823738","Z13.88","<!-- SYNC:lab-f-omega -->Measures your omega-3 index and fatty acid ratios. Most people are severely omega-3 deficient.<!-- /SYNC:lab-f-omega -->"],
-    [33,"Gamma-Glutamyl Transferase (GGT)","001958","Z13.88","<!-- SYNC:lab-f-ggt -->An early liver stress and oxidative stress marker. Can flag problems before other liver enzymes shift.<!-- /SYNC:lab-f-ggt -->"],
-  ];
-
-  // Optional 6th element per row (r[5]) is a Nick's-note aside, e.g.:
-  // `<span class="nick-note-line">Short unpolished aside.</span><span class="nick-note-line">Another line.</span>`
-  // Only shown in the Full Guide table, the doctor view intentionally stays clean.
-  function labsTable(rows) {
-    const trs = rows.map(r => `<tr>
-      <td>${r[0]}</td>
-      <td>${r[1]}</td>
-      <td>${r[2]}</td>
-      <td>${r[4]}${r[5] ? `<div class="nick-note"><span class="nick-note-label">Nick's note</span>${r[5]}</div>` : ''}</td>
-    </tr>`).join('');
-    return `<div class="labs-table-wrap"><table class="labs-table">
-      <thead><tr><th>#</th><th>Lab</th><th>Code</th><th>Why it matters</th></tr></thead>
-      <tbody>${trs}</tbody>
-    </table></div>`;
-  }
-
-  function doctorList(rows) {
-    return `<div class="doctor-list">${rows.map(r=>`<div class="doctor-item">
-      <strong>${r[0]}. ${r[1]}</strong>
-      <code>${r[2]}</code>
-      <span class="icd">${r[3]}</span>
-    </div>`).join('')}</div>`;
-  }
-
-  // Render male labs
-  document.getElementById('male-full').innerHTML =
-    `<p class="labs-context">Ask for labs to check that everything is <em>optimal</em>, not just normal. That word matters. Day 1 requires a 12-hour fast. Day 2 does not. Hydrate well.</p>` +
-    `<div class="day-label">Day 1: Fasting</div>${labsTable(MALE_D1)}` +
-    `<div class="day-label">Day 2: No fast required</div>${labsTable(MALE_D2)}`;
-
-  document.getElementById('male-doctor').innerHTML =
-    `<div class="doctor-header"><h3>Male Lab Panel: 24 Labs</h3><p>Show this to your doctor or print it out. ICD-10 codes help them order the correct tests through Labcorp.</p></div>` +
-    `<div class="day-label">Day 1: Fasting</div>${doctorList(MALE_D1)}` +
-    `<div class="day-label">Day 2: No fast required</div>${doctorList(MALE_D2)}` +
-    `<div class="print-row"><button class="btn btn-secondary btn-sm" onclick="printPanel('Male')">Print / Save PDF</button></div>`;
-
-  // Render female labs
-  document.getElementById('female-full').innerHTML =
-    `<p class="labs-context"><strong>Day 1 (Cycle Day 3):</strong> Book your draw on days 2, 3, or 4 of your cycle. <strong>Day 2 (Cycle Day 19–21):</strong> Count 7 days back from your expected next period. Fast 10–12 hours for both draws. Book the same cycle days each year for consistent comparisons.</p>` +
-    `<div class="day-label">Day 1: Cycle Day 3 (Fasting)</div>${labsTable(FEMALE_D1)}` +
-    `<div class="day-label">Day 2: Cycle Day 19–21 (Fasting)</div>${labsTable(FEMALE_D2)}`;
-
-  document.getElementById('female-doctor').innerHTML =
-    `<div class="doctor-header"><h3>Female Lab Panel: 33 Labs</h3><p>Show this to your doctor or print it out. Day 1 labs on Cycle Day 3; Day 2 (progesterone) on Cycle Day 19–21.</p></div>` +
-    `<div class="day-label">Day 1: Cycle Day 3 (Fasting)</div>${doctorList(FEMALE_D1)}` +
-    `<div class="day-label">Day 2: Cycle Day 19–21 (Fasting)</div>${doctorList(FEMALE_D2)}` +
-    `<div class="print-row"><button class="btn btn-secondary btn-sm" onclick="printPanel('Female')">Print / Save PDF</button></div>`;
-
-  // ── Navigation ────────────────────────────────────────────
-  function navigate(pageId) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-    const page = document.getElementById('page-' + pageId);
-    if (page) {
-      page.classList.add('active');
-      document.getElementById('main').scrollTop = 0;
-    }
-    document.querySelectorAll('[data-page="' + pageId + '"]').forEach(b => b.classList.add('active'));
-  }
-
-  document.querySelectorAll('[data-page]').forEach(el => {
-    el.addEventListener('click', () => {
-      navigate(el.dataset.page);
-      dropdownNav.classList.remove('open');
-      hamburgerBtn.classList.remove('open');
-      hamburgerBtn.setAttribute('aria-expanded', 'false');
+  navigateForwardRect(route, rect, color) {
+    const diag = Math.hypot(window.innerWidth, window.innerHeight) * 2.3;
+    this.clearNavTimers();
+    this.setState({
+      overlayActive: true, overlayColor: color,
+      overlayX: rect.left + rect.width / 2, overlayY: rect.top + rect.height / 2,
+      overlaySize: Math.max(rect.width, rect.height, 20), overlayOpacity: 1,
     });
-  });
-
-  // ── Hamburger dropdown nav ─────────────────────────────────
-  const hamburgerBtn = document.getElementById('hamburgerBtn');
-  const dropdownNav = document.getElementById('dropdownNav');
-  hamburgerBtn.addEventListener('click', () => {
-    const open = dropdownNav.classList.toggle('open');
-    hamburgerBtn.classList.toggle('open', open);
-    hamburgerBtn.setAttribute('aria-expanded', open);
-  });
-  document.addEventListener('click', e => {
-    if (dropdownNav.classList.contains('open') && !dropdownNav.contains(e.target) && !hamburgerBtn.contains(e.target)) {
-      dropdownNav.classList.remove('open');
-      hamburgerBtn.classList.remove('open');
-      hamburgerBtn.setAttribute('aria-expanded', 'false');
-    }
-  });
-
-  // ── Labs read more ────────────────────────────────────────
-  const labsMoreBtn = document.getElementById('labsMoreBtn');
-  const labsMore = document.getElementById('labsMore');
-  labsMoreBtn.addEventListener('click', () => {
-    const open = labsMore.classList.toggle('open');
-    labsMoreBtn.textContent = open ? 'Show less ▴' : 'Read more ▾';
-  });
-
-  // ── Lab accordions ────────────────────────────────────────
-  document.querySelectorAll('.accordion-head').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const id = btn.dataset.acc;
-      const body = document.getElementById('body-' + id);
-      const isOpen = body.classList.contains('open');
-      document.querySelectorAll('.accordion-body').forEach(b => b.classList.remove('open'));
-      document.querySelectorAll('.accordion-head').forEach(b => b.classList.remove('open'));
-      if (!isOpen) {
-        body.classList.add('open');
-        btn.classList.add('open');
-      }
-    });
-  });
-
-  // ── View toggle ───────────────────────────────────────────
-  document.querySelectorAll('.toggle-opt').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const {target, view} = btn.dataset;
-      btn.closest('.toggle-group').querySelectorAll('.toggle-opt').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById(target + '-full').style.display = view === 'full' ? '' : 'none';
-      document.getElementById(target + '-doctor').style.display = view === 'doctor' ? '' : 'none';
-    });
-  });
-
-  // ── Lab Interpreter ───────────────────────────────────────
-  const SITE_PASSWORD = 'markhyman';
-  const interpGate = document.getElementById('interpGate');
-  const interpForm = document.getElementById('interpForm');
-  const pwInput = document.getElementById('pwInput');
-  const pwError = document.getElementById('pwError');
-  const unlockBtn = document.getElementById('unlockBtn');
-
-  function tryUnlock() {
-    if (pwInput.value === SITE_PASSWORD) {
-      interpGate.style.display = 'none';
-      interpForm.classList.add('show');
-      pwError.classList.remove('show');
-    } else {
-      pwError.classList.add('show');
-      pwInput.value = '';
-      pwInput.focus();
-    }
+    requestAnimationFrame(() => this.setState({ overlaySize: diag }));
+    this._navT1 = setTimeout(() => {
+      this.setState({ route });
+      history.pushState({ route }, '');
+      this._navT2 = setTimeout(() => {
+        this.setState({ overlayOpacity: 0 });
+        this._navT3 = setTimeout(() => this.setState({ overlayActive: false }), 240);
+      }, 60);
+    }, 380);
+    this._navFailsafe = setTimeout(() => this.setState({ overlayActive: false, overlayOpacity: 0 }), 1600);
   }
-  unlockBtn.addEventListener('click', tryUnlock);
-  pwInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
 
-  const labFile = document.getElementById('labFile');
-  const uploadName = document.getElementById('uploadName');
-  const interpretBtn = document.getElementById('interpretBtn');
-  const uploadZone = document.getElementById('uploadZone');
+  navigate = (route, e) => {
+    if (e && e.preventDefault) e.preventDefault();
+    if (route === this.state.route) return;
+    if (this.state.suppModalIdx != null) this.setState({ suppModalIdx: null });
+    if (route === 'home') this.navigateBackHome();
+    else this.navigateForwardRect(route, e.currentTarget.getBoundingClientRect(), Component.ROUTE_COLOR[route]);
+  };
 
-  labFile.addEventListener('change', () => {
-    if (labFile.files[0]) {
-      uploadName.textContent = '✓ ' + labFile.files[0].name;
-      uploadName.classList.add('show');
-      interpretBtn.disabled = false;
-    }
-  });
-  uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('drag'); });
-  uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag'));
-  uploadZone.addEventListener('drop', e => {
-    e.preventDefault(); uploadZone.classList.remove('drag');
-    const f = e.dataTransfer.files[0];
-    if (f && (f.type === 'application/pdf' || f.type.startsWith('image/'))) {
-      labFile.files = e.dataTransfer.files;
-      uploadName.textContent = '✓ ' + f.name;
-      uploadName.classList.add('show');
-      interpretBtn.disabled = false;
-    }
-  });
-
-  // Downscale + re-encode photos client-side. Claude's vision API caps out
-  // around 1568px on the long edge anyway, and this keeps big iPhone camera
-  // roll photos (several MB, sometimes HEIC) from blowing past the request
-  // size/time budget that was causing uploads to hang.
-  function resizeImage(file, maxDim = 1568, quality = 0.92) {
-    return new Promise((resolve, reject) => {
-      const url = URL.createObjectURL(file);
-      const img = new Image();
-      img.onload = () => {
-        let { width, height } = img;
-        if (width > maxDim || height > maxDim) {
-          if (width > height) { height = Math.round(height * maxDim / width); width = maxDim; }
-          else { width = Math.round(width * maxDim / height); height = maxDim; }
+  navigateBackHome = () => {
+    const prevRoute = this.state.route;
+    const color = Component.ROUTE_COLOR[prevRoute] || Component.ROUTE_COLOR.labs;
+    const diag = Math.hypot(window.innerWidth, window.innerHeight) * 2.3;
+    this.clearNavTimers();
+    this.setState({
+      overlayActive: true, overlayColor: color,
+      overlayX: window.innerWidth / 2, overlayY: window.innerHeight / 2,
+      overlaySize: diag, overlayOpacity: 1,
+    });
+    this._navT1 = setTimeout(() => {
+      this.setState({ route: 'home' });
+      try {
+        if (!history.state || history.state.route !== 'home') history.pushState({ route: 'home' }, '');
+      } catch (err) {}
+      this._navT2 = setTimeout(() => {
+        const refMap = { labs: this.labsRingRef, supplements: this.suppRingRef, products: this.prodRingRef };
+        const ref = refMap[prevRoute];
+        let target = { x: window.innerWidth / 2, y: window.innerHeight / 2, size: 40 };
+        if (ref && ref.current) {
+          const r = ref.current.getBoundingClientRect();
+          if (r.width > 0) target = { x: r.left + r.width / 2, y: r.top + r.height / 2, size: Math.max(r.width, r.height) };
         }
-        const canvas = document.createElement('canvas');
-        canvas.width = width; canvas.height = height;
-        const ctx = canvas.getContext('2d');
-        // Fill white first — JPEG has no alpha channel, so any transparency in a
-        // screenshot (e.g. a PNG) would otherwise flatten to black and wreck legibility.
-        ctx.fillStyle = '#fff';
-        ctx.fillRect(0, 0, width, height);
-        ctx.drawImage(img, 0, 0, width, height);
-        URL.revokeObjectURL(url);
-        canvas.toBlob(blob => {
-          if (!blob) return reject(new Error('Could not process that photo. Try a different one.'));
-          const reader = new FileReader();
-          reader.onload = e => resolve(e.target.result.split(',')[1]);
-          reader.onerror = () => reject(new Error('Could not read that photo.'));
-          reader.readAsDataURL(blob);
-        }, 'image/jpeg', quality);
-      };
-      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Could not load that photo. Try a different one.')); };
-      img.src = url;
-    });
-  }
+        this.setState({ overlayX: target.x, overlayY: target.y, overlaySize: target.size });
+        this._navT3 = setTimeout(() => {
+          this.setState({ overlayOpacity: 0 });
+          setTimeout(() => this.setState({ overlayActive: false }), 240);
+        }, 380);
+      }, 60);
+    }, 30);
+    this._navFailsafe = setTimeout(() => this.setState({ overlayActive: false, overlayOpacity: 0 }), 1600);
+  };
 
-  function fileToBase64(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = e => resolve(e.target.result.split(',')[1]);
-      reader.onerror = () => reject(new Error('Could not read that file.'));
-      reader.readAsDataURL(file);
-    });
-  }
+  goHome = (e) => this.navigate('home', e);
+  goLabs = (e) => this.navigate('labs', e);
+  goSupplements = (e) => this.navigate('supplements', e);
+  goProducts = (e) => this.navigate('products', e);
 
-  const interpLoading = document.getElementById('interpLoading');
-  const interpResults = document.getElementById('interpResults');
-  const resultsList = document.getElementById('resultsList');
-  const urgentBlock = document.getElementById('urgentBlock');
-  const resultsFooter = document.getElementById('resultsFooter');
-  const resetBtn = document.getElementById('resetBtn');
+  toggleLabsIntro = () => this.setState(s => ({ labsIntroOpen: !s.labsIntroOpen }));
+  toggleMalePanel = () => this.setState(s => ({ labsOpenPanel: s.labsOpenPanel === 'male' ? null : 'male' }));
+  toggleFemalePanel = () => this.setState(s => ({ labsOpenPanel: s.labsOpenPanel === 'female' ? null : 'female' }));
+  setMaleFull = () => this.setState({ maleView: 'full' });
+  setMaleDoctor = () => this.setState({ maleView: 'doctor' });
+  setFemaleFull = () => this.setState({ femaleView: 'full' });
+  setFemaleDoctor = () => this.setState({ femaleView: 'doctor' });
+  toggleLabRow = (panel, num) => {
+    const key = panel + ':' + num;
+    this.setState(s => ({ openLabRow: { ...s.openLabRow, [key]: !s.openLabRow[key] } }));
+  };
+  printPanel = () => window.print();
 
-  interpretBtn.addEventListener('click', async () => {
-    const file = labFile.files[0];
+  openSupp = (idx) => this.setState({ suppModalIdx: idx });
+  closeSupp = () => this.setState({ suppModalIdx: null });
+  closeSuppOnBackdrop = (e) => { if (e.target === e.currentTarget) this.closeSupp(); };
+
+  toggleProd = (slug) => this.setState(s => ({ prodOpen: { ...s.prodOpen, [slug]: !s.prodOpen[slug] } }));
+  toggleBuy = (key) => this.setState(s => ({ buyOpen: { ...s.buyOpen, [key]: !s.buyOpen[key] } }));
+
+  toggleInterp = () => this.setState(s => ({ interpOpen: !s.interpOpen }));
+  onPwChange = (e) => this.setState({ pw: e.target.value });
+  tryUnlock = () => {
+    if (this.state.pw === SITE_PASSWORD) this.setState({ interpUnlocked: true, pwError: false });
+    else this.setState({ pwError: true, pw: '' });
+  };
+  onFileChange = (e) => {
+    const f = e.target.files && e.target.files[0];
+    if (f) this.setState({ interpFile: f, interpError: null });
+  };
+  fileToBase64 = (file) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => resolve(e.target.result.split(',')[1]);
+    reader.onerror = () => reject(new Error('Could not read that file.'));
+    reader.readAsDataURL(file);
+  });
+  submitInterpret = async () => {
+    const file = this.state.interpFile;
     if (!file) return;
-
-    interpForm.classList.remove('show');
-    interpLoading.classList.add('show');
-
+    this.setState({ interpStep: 'loading', interpError: null });
     try {
-      let base64, mediaType;
-      if (file.type === 'application/pdf') {
-        if (file.size > 20 * 1024 * 1024) throw new Error('That PDF is too large (max 20MB). Try a smaller file or a photo instead.');
-        base64 = await fileToBase64(file);
-        mediaType = 'application/pdf';
-      } else if (file.type.startsWith('image/')) {
-        base64 = await resizeImage(file);
-        mediaType = 'image/jpeg';
-      } else {
-        throw new Error('Unsupported file type. Please upload a PDF or a photo (JPG, PNG, HEIC).');
-      }
-
+      const base64 = await this.fileToBase64(file);
+      const mediaType = file.type || 'application/pdf';
       const res = await fetch('/api/interpret', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ fileBase64: base64, mediaType })
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fileBase64: base64, mediaType }),
       });
-      if (!res.ok) {
-        const errBody = await res.json().catch(() => ({}));
-        throw new Error(errBody.error ? errBody.error + (errBody.detail ? ': ' + String(errBody.detail).slice(0, 200) : '') : 'Request failed: ' + res.status);
-      }
+      if (!res.ok) throw new Error('Request failed: ' + res.status);
       const result = await res.json();
-      if (!result.markers || result.markers.length === 0) {
-        throw new Error("Couldn't read any lab values from that file. Try a clearer photo (good lighting, in focus, not cropped) or the original PDF.");
-      }
-      renderResults(result);
+      if (!result.markers || result.markers.length === 0) throw new Error("Couldn't read any lab values from that file.");
+      this.setState({ interpStep: 'results', interpMarkersRaw: result.markers, interpUrgentFlags: result.urgentFlags || [] });
     } catch (err) {
-      interpLoading.classList.remove('show');
-      interpForm.classList.add('show');
-      alert('Something went wrong. Please try again.\n\nError: ' + err.message);
+      this.setState({ interpStep: 'form', interpError: 'Something went wrong: ' + err.message });
     }
-  });
-
-  function renderResults(result) {
-    interpLoading.classList.remove('show');
-    if (result.urgentFlags?.length > 0) {
-      urgentBlock.innerHTML = `<div class="urgent-block"><h4>Urgent: Review with your doctor promptly</h4><ul>${result.urgentFlags.map(f=>`<li>${esc(f)}</li>`).join('')}</ul></div>`;
-    }
-    resultsList.innerHTML = result.markers.map((m,i) => {
-      const sc = m.status === 'optimal' ? 'green' : m.status === 'borderline' ? 'yellow' : 'red';
-      const sl = m.status === 'optimal' ? 'Optimal' : m.status === 'borderline' ? 'Borderline' : 'Flagged';
-      return `<div class="result-card" data-status="${sc}" data-name="${esc(m.name)}" data-value="${esc(m.value)}" data-functional="${esc(m.functionalRange)}" data-standard="${esc(m.standardRange)}" data-markerstatus="${esc(m.status)}">
-        <div class="result-card-head" onclick="toggleCard(this.parentElement)">
-          <div class="status-dot ${sc}"></div>
-          <div class="result-name">${esc(m.name)}</div>
-          <div class="result-val ${sc}">${esc(m.value)}</div>
-          <div class="result-range">${esc(m.functionalRange)}</div>
-          <span class="status-badge ${sc}">${sl}</span>
-        </div>
-        <div class="result-card-body">
-          <p style="font-size:12px;color:var(--text-muted);margin-bottom:6px;">Standard lab range: ${esc(m.standardRange)}</p>
-          <div class="explanation-slot" data-loaded="false"><p class="explanation-text" style="color:var(--text-muted);font-style:italic;">Click to load explanation…</p></div>
-        </div>
-      </div>`;
-    }).join('');
-
-    if (result.panelCompleteness?.missing?.length > 0) {
-      const pc = result.panelCompleteness;
-      resultsFooter.style.display = 'block';
-      resultsFooter.innerHTML = `<strong>Your panel covered ${pc.tested} of ${pc.recommended} recommended markers.</strong>Consider asking your doctor to add: ${pc.missing.map(esc).join(', ')}.`;
-    }
-    interpResults.classList.add('show');
-  }
-
-  async function toggleCard(card) {
-    const wasOpen = card.classList.contains('open');
-    card.classList.toggle('open');
-    if (!wasOpen) {
-      const slot = card.querySelector('.explanation-slot');
-      if (slot?.dataset.loaded === 'false') {
-        slot.dataset.loaded = 'loading';
-        slot.querySelector('.explanation-text').textContent = 'Loading…';
-        try {
-          const res = await fetch('/api/explain', {
-            method:'POST', headers:{'Content-Type':'application/json'},
-            body: JSON.stringify({name:card.dataset.name,value:card.dataset.value,functionalRange:card.dataset.functional,standardRange:card.dataset.standard,status:card.dataset.markerstatus})
-          });
-          const data = await res.json();
-          const el = slot.querySelector('.explanation-text');
-          el.style.cssText = 'color:var(--text-secondary);font-style:normal;';
-          el.textContent = data.explanation;
-          slot.dataset.loaded = 'true';
-        } catch(e) {
-          slot.querySelector('.explanation-text').textContent = 'Could not load explanation.';
-          slot.dataset.loaded = 'false';
-        }
+  };
+  resetInterp = () => this.setState({ interpStep: 'form', interpFile: null, interpMarkersRaw: null, interpUrgentFlags: [], openResult: {}, explanations: {} });
+  toggleResult = async (idx) => {
+    const wasOpen = !!this.state.openResult[idx];
+    this.setState(s => ({ openResult: { ...s.openResult, [idx]: !wasOpen } }));
+    if (!wasOpen && !this.state.explanations[idx]) {
+      const m = this.state.interpMarkersRaw[idx];
+      this.setState(s => ({ explanations: { ...s.explanations, [idx]: 'Loading…' } }));
+      try {
+        const res = await fetch('/api/explain', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: m.name, value: m.value, functionalRange: m.functionalRange, standardRange: m.standardRange, status: m.status }),
+        });
+        const data = await res.json();
+        this.setState(s => ({ explanations: { ...s.explanations, [idx]: data.explanation } }));
+      } catch (e) {
+        this.setState(s => ({ explanations: { ...s.explanations, [idx]: 'Could not load explanation.' } }));
       }
     }
+  };
+
+  buildRows(raw, panel) {
+    return raw.map(r => {
+      if (r.isDay) return r;
+      return { ...r, isOpen: !!this.state.openLabRow[panel + ':' + r.num], toggle: () => this.toggleLabRow(panel, r.num), freqLabel: r.freq };
+    });
   }
 
-  resetBtn.addEventListener('click', () => {
-    interpResults.classList.remove('show');
-    resultsList.innerHTML = '';
-    urgentBlock.innerHTML = '';
-    resultsFooter.style.display = 'none';
-    labFile.value = '';
-    uploadName.classList.remove('show');
-    interpretBtn.disabled = true;
-    interpForm.classList.add('show');
-  });
+  renderVals() {
+    const route = this.state.route;
+    const accent = 'var(--color-accent-700)';
+    const muted = 'var(--color-text)';
 
-  function printPanel(panel) {
-    const prev = document.title;
-    document.title = 'PocketNick Labs (' + panel + ')';
-    window.print();
-    document.title = prev;
-  }
+    const supplements = SUPPLEMENTS.map((s, i) => ({
+      ...s,
+      tagClass: s.badgeClass === 'affiliate' ? 'tag tag-accent' : 'tag tag-neutral',
+      noTopPickLink: !!s.topPick && !s.topPickLink,
+      openModal: () => this.openSupp(i),
+    }));
+    const selectedSupp = this.state.suppModalIdx != null ? supplements[this.state.suppModalIdx] : {};
 
-  function esc(str) {
-    if (!str) return '';
-    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    const products = PRODUCTS.map(cat => ({
+      ...cat,
+      items: cat.items.map(item => ({
+        ...item,
+        isOpen: !!this.state.prodOpen[item.slug],
+        toggle: () => this.toggleProd(item.slug),
+        tagClass: item.affiliate ? 'tag tag-accent' : 'tag tag-neutral',
+        tagLabel: item.affiliate ? 'Affiliate' : 'No affiliate',
+      })),
+    }));
+
+    const buy = BUY.map(b => ({
+      ...b,
+      isOpen: !!this.state.buyOpen[b.key],
+      toggle: () => this.toggleBuy(b.key),
+      toggleLabel: this.state.buyOpen[b.key] ? 'Less' : 'Details',
+      cta: !!b.ctaLabel,
+    }));
+
+    const interpMarkers = (this.state.interpMarkersRaw || []).map((m, i) => {
+      const sc = m.status === 'optimal' ? OPT_COLOR : m.status === 'borderline' ? BORD_COLOR : RED_COLOR;
+      return { ...m, dotColor: sc, isOpen: !!this.state.openResult[i], toggle: () => this.toggleResult(i), explanation: this.state.explanations[i] || '' };
+    });
+
+    return {
+      isHome: route === 'home',
+      isLabs: route === 'labs',
+      isSupplements: route === 'supplements',
+      isProducts: route === 'products',
+      goHome: this.goHome, goLabs: this.goLabs, goSupplements: this.goSupplements, goProducts: this.goProducts,
+      suppRingRef: this.suppRingRef, prodRingRef: this.prodRingRef, labsRingRef: this.labsRingRef,
+      onHubMouseMove: this.onHubMouseMove, onHubMouseLeave: this.onHubMouseLeave,
+      overlayActive: this.state.overlayActive,
+      overlayColor: this.state.overlayColor,
+      overlayOpacity: this.state.overlayOpacity,
+      overlayLeftPx: (this.state.overlayX || 0) + 'px',
+      overlayTopPx: (this.state.overlayY || 0) + 'px',
+      overlaySizePx: (this.state.overlaySize || 0) + 'px',
+      labsLinkColor: route === 'labs' ? 'var(--color-labs-700)' : muted,
+      suppLinkColor: route === 'supplements' ? 'var(--color-accent-2-700)' : muted,
+      prodLinkColor: route === 'products' ? 'var(--color-accent-700)' : muted,
+
+      labsIntroOpen: this.state.labsIntroOpen,
+      labsIntroToggleLabel: this.state.labsIntroOpen ? 'Show less ▴' : 'Read more ▾',
+      toggleLabsIntro: this.toggleLabsIntro,
+
+      maleOpen: this.state.labsOpenPanel === 'male',
+      femaleOpen: this.state.labsOpenPanel === 'female',
+      maleToggleLabel: this.state.labsOpenPanel === 'male' ? 'Hide' : 'View',
+      femaleToggleLabel: this.state.labsOpenPanel === 'female' ? 'Hide' : 'View',
+      toggleMalePanel: this.toggleMalePanel, toggleFemalePanel: this.toggleFemalePanel,
+
+      maleViewFull: this.state.maleView === 'full', maleViewDoctor: this.state.maleView === 'doctor',
+      femaleViewFull: this.state.femaleView === 'full', femaleViewDoctor: this.state.femaleView === 'doctor',
+      setMaleFull: this.setMaleFull, setMaleDoctor: this.setMaleDoctor,
+      setFemaleFull: this.setFemaleFull, setFemaleDoctor: this.setFemaleDoctor,
+
+      maleRows: this.buildRows(MALE_ROWS_RAW, 'male'),
+      femaleRows: this.buildRows(FEMALE_ROWS_RAW, 'female'),
+      printPanel: this.printPanel,
+
+      interpOpen: this.state.interpOpen,
+      interpToggleLabel: this.state.interpOpen ? 'Hide' : 'Open',
+      toggleInterp: this.toggleInterp,
+      interpLocked: !this.state.interpUnlocked,
+      interpUnlocked: this.state.interpUnlocked,
+      pw: this.state.pw, pwError: this.state.pwError,
+      onPwChange: this.onPwChange, tryUnlock: this.tryUnlock,
+      interpShowForm: this.state.interpStep === 'form',
+      interpShowLoading: this.state.interpStep === 'loading',
+      interpShowResults: this.state.interpStep === 'results',
+      interpFileName: this.state.interpFile ? this.state.interpFile.name : null,
+      interpretDisabled: !this.state.interpFile,
+      onFileChange: this.onFileChange, submitInterpret: this.submitInterpret, resetInterp: this.resetInterp,
+      interpError: this.state.interpError,
+      interpUrgent: this.state.interpUrgentFlags.length > 0,
+      interpUrgentList: this.state.interpUrgentFlags,
+      interpMarkers,
+
+      supplements, suppModalOpen: this.state.suppModalIdx != null, selectedSupp,
+      closeSupp: this.closeSupp, closeSuppOnBackdrop: this.closeSuppOnBackdrop,
+
+      products, buy,
+    };
   }
-  </script>
+}
+</script>
 </body>
 </html>
