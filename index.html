@@ -19,6 +19,13 @@
       --color-labs-300: oklch(90% 0.06 35);
       --color-labs-600: oklch(50% 0.16 32);
       --color-labs-700: oklch(40% 0.15 31);
+      --hub-size: min(380px, 80vw, 50vh);
+    }
+    /* Nav has no built-in mobile handling — wrap instead of overlapping the logo on narrow screens. */
+    .nav { flex-wrap: wrap; row-gap: var(--space-2); }
+    @media (max-width: 480px) {
+      /* Home hub is tiny and the page mostly empty on tall narrow phones — let it take up more room. */
+      :root { --hub-size: min(380px, 92vw, 62vh); }
     }
   </style>
 </helmet>
@@ -46,7 +53,7 @@
       <span style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--color-accent-700);margin-top:var(--space-8);margin-bottom:var(--space-4);">A personal health resource</span>
 
       <div style="flex:1;display:flex;align-items:center;justify-content:center;width:100%;min-height:0;padding:var(--space-4) 0;">
-        <div style="position:relative;width:min(380px,80vw,50vh);aspect-ratio:1;" onMouseMove="{{ onHubMouseMove }}" onMouseLeave="{{ onHubMouseLeave }}">
+        <div style="position:relative;width:var(--hub-size);aspect-ratio:1;" onMouseMove="{{ onHubMouseMove }}" onMouseLeave="{{ onHubMouseLeave }}">
           <svg viewBox="-15 -15 230 230" style="position:absolute;inset:0;width:100%;height:100%;overflow:visible;">
             <g ref="{{ suppRingRef }}" style="transform-origin:100px 100px;transition:transform 0.2s cubic-bezier(0.33,1,0.68,1);">
               <circle cx="100" cy="100" r="95" fill="none" stroke="var(--color-accent-2-600)" stroke-width="1"></circle>
@@ -223,7 +230,7 @@
               <div style="background:var(--color-neutral-100);border-radius:var(--radius-md);padding:var(--space-4);max-width:380px;">
                 <p style="font-size:13px;margin-bottom:var(--space-3);opacity:0.8;">This feature uses AI and has a usage cost. It's available to people I've shared the access code with directly.</p>
                 <div style="display:flex;gap:8px;margin-bottom:6px;">
-                  <input class="input" type="password" placeholder="Enter access code" value="{{ pw }}" onChange="{{ onPwChange }}">
+                  <input class="input" type="password" placeholder="Enter access code" value="{{ pw }}" onChange="{{ onPwChange }}" onKeyDown="{{ onPwKeyDown }}">
                   <button class="btn btn-primary" onClick="{{ tryUnlock }}">Unlock</button>
                 </div>
                 <sc-if value="{{ pwError }}"><p style="font-size:12px;color:oklch(45% 0.13 25);">Incorrect code. Ask Nick.</p></sc-if>
@@ -340,7 +347,7 @@
                 <sc-if value="{{ item.isOpen }}">
                   <div style="padding:0 var(--space-4) var(--space-4);">
                     <p style="font-size:13px;opacity:0.8;margin:0 0 8px;">{{ item.desc }}</p>
-                    <sc-if value="{{ item.affiliate }}"><a class="btn btn-secondary" href="{{ item.href }}" target="_blank">View · {{ item.note }}</a></sc-if>
+                    <sc-if value="{{ item.hasLink }}"><a class="btn btn-secondary" href="{{ item.href }}" target="_blank">{{ item.ctaLabel }}</a></sc-if>
                   </div>
                 </sc-if>
               </div>
@@ -556,12 +563,18 @@ class Component extends DCLogic {
     if (super.componentDidMount) super.componentDidMount();
     if (!history.state) history.replaceState({ route: 'home' }, '');
     window.addEventListener('popstate', this.onPopState);
+    document.addEventListener('keydown', this.onKeyDown);
   }
   componentWillUnmount() {
     window.removeEventListener('popstate', this.onPopState);
+    document.removeEventListener('keydown', this.onKeyDown);
     this.clearNavTimers();
     if (super.componentWillUnmount) super.componentWillUnmount();
   }
+
+  onKeyDown = (e) => {
+    if (e.key === 'Escape' && this.state.suppModalIdx != null) this.closeSupp();
+  };
 
   onPopState = (e) => {
     const target = (e.state && e.state.route) || 'home';
@@ -665,6 +678,7 @@ class Component extends DCLogic {
 
   toggleInterp = () => this.setState(s => ({ interpOpen: !s.interpOpen }));
   onPwChange = (e) => this.setState({ pw: e.target.value });
+  onPwKeyDown = (e) => { if (e.key === 'Enter') this.tryUnlock(); };
   tryUnlock = () => {
     if (this.state.pw === SITE_PASSWORD) this.setState({ interpUnlocked: true, pwError: false });
     else this.setState({ pwError: true, pw: '' });
@@ -746,6 +760,10 @@ class Component extends DCLogic {
         toggle: () => this.toggleProd(item.slug),
         tagClass: item.affiliate ? 'tag tag-accent' : 'tag tag-neutral',
         tagLabel: item.affiliate ? 'Affiliate' : 'No affiliate',
+        // Show the link whenever there's a real URL or a note worth displaying,
+        // not just when it happens to be an affiliate link.
+        hasLink: !!item.note || (!!item.href && item.href !== '#'),
+        ctaLabel: item.note ? ('View · ' + item.note) : 'View',
       })),
     }));
 
@@ -805,7 +823,7 @@ class Component extends DCLogic {
       interpLocked: !this.state.interpUnlocked,
       interpUnlocked: this.state.interpUnlocked,
       pw: this.state.pw, pwError: this.state.pwError,
-      onPwChange: this.onPwChange, tryUnlock: this.tryUnlock,
+      onPwChange: this.onPwChange, onPwKeyDown: this.onPwKeyDown, tryUnlock: this.tryUnlock,
       interpShowForm: this.state.interpStep === 'form',
       interpShowLoading: this.state.interpStep === 'loading',
       interpShowResults: this.state.interpStep === 'results',
